@@ -19,316 +19,316 @@
 html,body{height:100%;overflow-x:hidden;}
 body{font-family:var(--font);color:var(--ink);}
 
-/* ============ INTRO SCREEN ============ */
-#intro{
-  position:fixed;inset:0;z-index:100;
-  background:linear-gradient(160deg,#0A1628 0%,#0D2A1A 40%,#133A22 100%);
-  display:flex;flex-direction:column;align-items:center;
-  overflow-y:auto;padding-bottom:40px;
-}
+/* ====== INTRO ====== */
+#intro{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#0A1628 0%,#0D2A1A 40%,#133A22 100%);display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding-bottom:40px;}
 .intro-stars{position:absolute;inset:0;pointer-events:none;}
 .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,2s) ease-in-out infinite;}
 @keyframes twinkle{0%,100%{opacity:.2;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
-
-.intro-earth{font-size:90px;margin-top:52px;animation:earthPulse 3s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(30,180,80,.5));}
-@keyframes earthPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
-
-.intro-title{font-size:30px;font-weight:700;color:#fff;margin-top:16px;text-align:center;line-height:1.2;}
-.intro-sub{font-size:15px;font-weight:500;color:rgba(255,255,255,.65);margin-top:6px;text-align:center;padding:0 30px;}
-
-.facts{display:flex;flex-direction:column;gap:10px;margin:24px 20px 0;width:calc(100% - 40px);max-width:400px;}
-.fact{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;animation:factIn .5s ease both;}
+.intro-earth{font-size:86px;margin-top:44px;animation:earthPulse 3s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(30,180,80,.5));}
+@keyframes earthPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+.intro-title{font-size:28px;font-weight:700;color:#fff;margin-top:14px;text-align:center;line-height:1.2;}
+.intro-sub{font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-top:6px;text-align:center;padding:0 28px;}
+.facts{display:flex;flex-direction:column;gap:9px;margin:20px 20px 0;width:calc(100% - 40px);max-width:400px;}
+.fact{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;animation:factIn .5s ease both;}
 @keyframes factIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
-.fact:nth-child(1){animation-delay:.1s;} .fact:nth-child(2){animation-delay:.25s;} .fact:nth-child(3){animation-delay:.4s;}
-.fact-emoji{font-size:28px;flex-shrink:0;}
-.fact-text{color:#fff;}
-.fact-big{font-size:17px;font-weight:700;line-height:1.1;}
-.fact-small{font-size:12.5px;font-weight:500;opacity:.7;margin-top:2px;}
-
-.intro-divider{width:60px;height:3px;background:rgba(255,255,255,.2);border-radius:4px;margin:22px auto 0;}
-
-.intro-cta{font-size:17px;font-weight:700;color:#fff;margin-top:20px;text-align:center;}
-.intro-how{display:flex;gap:8px;margin:12px 20px 0;width:calc(100% - 40px);max-width:400px;}
-.how-item{flex:1;background:rgba(255,255,255,.08);border-radius:14px;padding:12px 8px;text-align:center;}
-.how-emoji{font-size:22px;}
-.how-label{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.8);margin-top:4px;line-height:1.3;}
-
-.intro-form{width:calc(100% - 40px);max-width:400px;margin:24px 20px 0;}
-.intro-form label{display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;}
-.intro-form input{width:100%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:14px;
-  padding:14px;font-family:var(--font);font-size:16px;color:#fff;outline:none;}
-.intro-form input::placeholder{color:rgba(255,255,255,.4);}
+.fact:nth-child(1){animation-delay:.1s;}.fact:nth-child(2){animation-delay:.25s;}.fact:nth-child(3){animation-delay:.4s;}
+.fact-emoji{font-size:26px;flex-shrink:0;}.fact-text{color:#fff;}
+.fact-big{font-size:16px;font-weight:700;line-height:1.1;}.fact-small{font-size:12px;font-weight:500;opacity:.7;margin-top:2px;}
+.intro-divider{width:50px;height:3px;background:rgba(255,255,255,.2);border-radius:4px;margin:18px auto 0;}
+.intro-cta{font-size:16px;font-weight:700;color:#fff;margin-top:16px;text-align:center;}
+.intro-how{display:flex;gap:7px;margin:10px 20px 0;width:calc(100% - 40px);max-width:400px;}
+.how-item{flex:1;background:rgba(255,255,255,.08);border-radius:12px;padding:11px 6px;text-align:center;}
+.how-emoji{font-size:20px;}.how-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.8);margin-top:3px;line-height:1.3;}
+.intro-form{width:calc(100% - 40px);max-width:400px;margin:20px 20px 0;}
+.intro-form label{display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:7px;}
+.intro-form input{width:100%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:12px;padding:13px;font-family:var(--font);font-size:16px;color:#fff;outline:none;}
+.intro-form input::placeholder{color:rgba(255,255,255,.35);}
 .intro-form input:focus{border-color:var(--good);}
-.intro-err{color:#FF8A80;font-size:13px;font-weight:600;margin-top:6px;min-height:18px;}
-
-.intro-join{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:14px;padding:15px;
-  font-family:var(--font);font-weight:700;font-size:17px;cursor:pointer;margin-top:12px;
-  transition:opacity .2s,transform .1s;}
-.intro-join:active{transform:scale(.98);}
+.intro-err{color:#FF8A80;font-size:12.5px;font-weight:600;margin-top:5px;min-height:18px;}
+.intro-join{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;margin-top:10px;transition:opacity .2s;}
 .intro-join:disabled{opacity:.6;cursor:not-allowed;}
-
-.load-bar-wrap{width:100%;background:rgba(255,255,255,.12);border-radius:8px;height:8px;margin-top:14px;overflow:hidden;display:none;}
+.load-bar-wrap{width:100%;background:rgba(255,255,255,.12);border-radius:8px;height:7px;margin-top:12px;overflow:hidden;display:none;}
 .load-bar-fill{height:100%;background:var(--good);border-radius:8px;width:0%;transition:width 1.5s cubic-bezier(.1,.8,.3,1);}
-.load-label{text-align:center;font-size:13px;font-weight:600;color:rgba(255,255,255,.65);margin-top:8px;display:none;}
+.load-label{text-align:center;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.6);margin-top:7px;display:none;}
+.returning-btn{width:100%;background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:11px;font-family:var(--font);font-weight:600;font-size:14px;color:rgba(255,255,255,.65);cursor:pointer;margin-top:10px;}
 
-/* ============ MAIN APP ============ */
-#app{
-  display:none;
-  background:linear-gradient(180deg,#BDE3FF 0%,#D4EFFF 32%,#EAF7E6 100%);
-  min-height:100vh;padding-bottom:32px;
-}
-.wrap{max-width:520px;margin:0 auto;padding:0 18px;}
-header{text-align:center;padding:20px 0 4px;}
-header h1{font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;}
-header .sub{font-size:13px;font-weight:500;opacity:.7;margin-top:2px;}
-.tabs{display:flex;gap:5px;background:rgba(255,255,255,.65);border-radius:16px;padding:5px;margin:14px 0 4px;}
-.tab{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:12px;
-  padding:9px 2px;border-radius:12px;cursor:pointer;color:var(--ink);opacity:.6;}
+/* ====== MAIN APP ====== */
+#app{display:none;background:linear-gradient(180deg,#BDE3FF 0%,#D4EFFF 30%,#EAF7E6 100%);min-height:100vh;padding-bottom:32px;}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px;}
+header{text-align:center;padding:16px 0 4px;}
+header h1{font-size:26px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;}
+header .sub{font-size:12px;font-weight:500;opacity:.65;margin-top:1px;}
+
+/* 5-tab nav */
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.65);border-radius:14px;padding:4px;margin:12px 0 4px;}
+.tab{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:11px;padding:8px 1px;border-radius:10px;cursor:pointer;color:var(--ink);opacity:.55;}
 .tab.active{background:#fff;opacity:1;box-shadow:var(--shadow);}
 .view{display:none;}.view.active{display:block;}
 
-/* Ecosystem tree box */
-.stage{position:relative;border-radius:28px;box-shadow:var(--shadow);margin-top:12px;overflow:hidden;height:280px;}
+/* Ecosystem */
+.eco-wrap{margin-top:12px;}
+.eco-svg-box{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);height:300px;}
 svg#tree{display:block;width:100%;height:100%;}
+.eco-info{background:var(--card);border-radius:0 0 20px 20px;margin-top:-8px;padding:10px 14px 12px;box-shadow:var(--shadow);position:relative;z-index:1;}
+.eco-stage-name{font-size:16px;font-weight:700;color:var(--ink);}
+.eco-stage-msg{font-size:12px;font-weight:500;opacity:.65;margin-top:1px;}
+.eco-progress-wrap{margin-top:8px;}
+.eco-progress-label{font-size:11px;font-weight:600;opacity:.6;margin-bottom:4px;display:flex;justify-content:space-between;}
+.eco-progress-bar{height:7px;background:#E8F0E8;border-radius:6px;overflow:hidden;}
+.eco-progress-fill{height:100%;background:var(--leaf);border-radius:6px;transition:width .6s ease;}
+
+/* Score row (simplified) */
+.score-row{display:flex;gap:8px;margin-top:10px;}
+.score-card{flex:1;background:var(--card);border-radius:16px;padding:10px 6px;text-align:center;box-shadow:var(--shadow);}
+.score-card .num{font-size:20px;font-weight:700;line-height:1;}
+.score-card .lbl{font-size:10px;font-weight:500;opacity:.6;margin-top:3px;text-transform:uppercase;letter-spacing:.3px;}
+.score-card.total .num{color:var(--leaf-dark);}
+.score-card .sub-num{font-size:10px;font-weight:600;margin-top:2px;opacity:.6;}
+.forest-badge{display:inline-flex;align-items:center;gap:4px;background:#EAF7E6;border-radius:10px;padding:4px 10px;font-size:13px;font-weight:700;color:var(--leaf-dark);margin-top:8px;}
+
+/* Activities */
+.act-toggle{display:flex;gap:5px;background:rgba(255,255,255,.7);border-radius:12px;padding:4px;margin:14px 0 10px;}
+.act-seg{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:13px;padding:9px 4px;border-radius:9px;cursor:pointer;color:var(--ink);opacity:.6;}
+.act-seg.active{opacity:1;box-shadow:var(--shadow);}
+.act-seg.good-seg.active{background:#E8F9EE;color:var(--leaf-dark);}
+.act-seg.bad-seg.active{background:#FFF0EE;color:var(--bad);}
+.act-panel{display:none;}.act-panel.active{display:block;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.act{border:2px solid transparent;cursor:pointer;text-align:left;background:var(--card);border-radius:14px;padding:10px;box-shadow:var(--shadow);font-family:var(--font);display:flex;flex-direction:column;gap:3px;transition:transform .08s ease;}
+.act:active{transform:scale(.95);}
+.act .emoji{font-size:21px;}.act .name{font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);}
+.act .pts{font-size:11px;font-weight:700;}.act .co2{font-size:10px;opacity:.5;font-weight:500;}
+.act.good{border-color:rgba(47,191,98,.22);}.act.good .pts{color:var(--good);}
+.act.bad{border-color:rgba(255,107,87,.22);}.act.bad .pts{color:var(--bad);}
+
+/* Log */
+.sec-title{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;margin:16px 4px 9px;}
+.log-item{display:flex;align-items:center;gap:9px;background:var(--card);border-radius:13px;padding:8px 11px;margin-bottom:7px;box-shadow:0 3px 10px rgba(23,58,44,.07);animation:slidein .3s ease;}
+@keyframes slidein{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
+.log-item .li-emoji{font-size:17px;}.log-item .li-name{flex:1;font-size:12.5px;font-weight:500;}
+.log-item .li-pts{font-size:12.5px;font-weight:700;}
+.li-pts.good{color:var(--good);}.li-pts.bad{color:var(--bad);}
+.empty{text-align:center;font-size:13px;opacity:.5;font-weight:500;background:var(--card);border-radius:13px;padding:14px;box-shadow:var(--shadow);}
+
+/* Calendar */
+.cal{background:var(--card);border-radius:18px;padding:13px;box-shadow:var(--shadow);}
+.cal-head{font-weight:600;margin-bottom:9px;font-size:14px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.dow{text-align:center;font-size:9.5px;font-weight:600;opacity:.5;padding-bottom:2px;}
+.day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;background:#F2F6F3;border:2px solid transparent;}
+.day.pos{background:#DDF4E4;}.day.neg{background:#FFE3DE;}.day.today{border-color:var(--leaf);}
+.day .dot{font-size:8.5px;font-weight:700;margin-top:1px;}
+.day .dot.pos{color:var(--good);}.day .dot.neg{color:var(--bad);}
+.day.empty-cell{background:transparent;}
+
+/* User comments (replacing AI reflection) */
+.user-note-wrap{background:linear-gradient(180deg,#FFFDF5,#fff);border-radius:18px;padding:14px;box-shadow:var(--shadow);border:2px solid #FFEFC2;}
+.user-note-wrap textarea{width:100%;border:none;background:transparent;font-family:var(--font);font-size:13.5px;color:var(--ink);resize:none;min-height:80px;outline:none;line-height:1.55;}
+.user-note-wrap textarea::placeholder{color:rgba(23,58,44,.35);}
+.note-saved{font-size:11px;font-weight:600;color:var(--good);opacity:0;transition:opacity .3s;margin-top:4px;}
+.note-saved.show{opacity:1;}
+
+.controls{display:flex;gap:9px;margin-top:14px;}
+.btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:13px;padding:12px;border-radius:14px;box-shadow:var(--shadow);}
+.btn.info{background:var(--leaf);color:#fff;}.btn:active{transform:scale(.97);}
+
+/* Learn */
+.card{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);margin-top:10px;}
+.card h3{font-size:14px;font-weight:700;margin-bottom:7px;}
+.card p{font-size:12.5px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:7px;}
+.convo{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid #EEF4EF;}
+.convo:last-child{border-bottom:none;}
+.convo .ce{font-size:19px;width:24px;text-align:center;}.convo .ct{flex:1;font-size:12px;font-weight:500;}
+.convo .cv{font-size:12px;font-weight:700;color:var(--leaf-dark);}
+.pill{display:inline-block;background:#EAF7E6;color:var(--leaf-dark);font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:10px;margin:3px 3px 0 0;}
+.vbox{background:#FFF6E5;border-radius:12px;padding:11px 13px;font-size:12.5px;font-weight:600;color:#9A6A00;margin-top:5px;}
+
+/* Home tab */
+.home-greeting{font-size:20px;font-weight:700;margin:14px 4px 4px;}
+.home-sub{font-size:13px;opacity:.65;font-weight:500;margin:0 4px 14px;}
+.challenge-card{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);margin-bottom:10px;}
+.challenge-card h3{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.challenge-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EEF4EF;}
+.challenge-item:last-child{border-bottom:none;}
+.ch-check{width:26px;height:26px;border-radius:50%;border:2px solid #D0E8D0;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s;}
+.ch-check.done{background:var(--good);border-color:var(--good);color:#fff;}
+.ch-emoji{font-size:20px;flex-shrink:0;}
+.ch-info{flex:1;}
+.ch-name{font-size:13px;font-weight:600;}.ch-pts{font-size:11.5px;font-weight:600;color:var(--good);}
+.ch-bonus{background:#FFF6E5;border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:600;color:#9A6A00;margin-top:8px;text-align:center;}
+
+.home-lb{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);}
+.home-lb h3{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.home-lb .live-dot{font-size:11px;font-weight:600;color:var(--good);opacity:.8;}
+.hlb-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #EEF4EF;}
+.hlb-row:last-child{border-bottom:none;}
+.hlb-rank{font-size:15px;font-weight:700;width:26px;text-align:center;}
+.hlb-name{flex:1;font-size:13px;font-weight:600;}
+.hlb-pts{font-size:13px;font-weight:700;}
+.hlb-pts.pos{color:var(--leaf-dark);}.hlb-pts.neg{color:var(--bad);}
+.hlb-row.me{background:#F3FBEF;border-radius:10px;padding:7px 8px;margin:0 -8px;}
+
+/* Feed */
+.feed-card{background:var(--card);border-radius:18px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;animation:slidein .4s ease;}
+.feed-photo{width:100%;max-height:240px;object-fit:cover;display:block;}
+.feed-no-photo{height:60px;background:linear-gradient(135deg,#E8F6FF,#F3FBEF);display:flex;align-items:center;justify-content:center;font-size:30px;}
+.feed-body{padding:11px 13px;}
+.feed-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.feed-avatar{width:30px;height:30px;border-radius:50%;background:var(--leaf);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.feed-user{font-size:13px;font-weight:700;}.feed-time{font-size:10.5px;opacity:.45;margin-left:auto;}
+.feed-act{display:flex;align-items:center;gap:7px;margin-bottom:9px;}
+.feed-act .fa-emoji{font-size:17px;}.feed-act .fa-name{font-size:12.5px;font-weight:500;flex:1;}
+.feed-act .fa-pts{font-size:12.5px;font-weight:700;}
+.fa-pts.good{color:var(--good);}.fa-pts.bad{color:var(--bad);}
+.comment-btn{border:none;background:#F2F6F3;border-radius:9px;padding:6px 11px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;color:var(--ink);opacity:.75;}
+.comment-section{margin-top:9px;display:none;border-top:1px solid #EEF4EF;padding-top:9px;}
+.comment-section.open{display:block;}
+.comment-item{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid #F0F5F1;}
+.comment-item:last-of-type{border-bottom:none;}
+.ci-avatar{width:22px;height:22px;border-radius:50%;background:#D4EFE0;color:var(--leaf-dark);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.ci-user{font-size:11.5px;font-weight:700;}.ci-text{font-size:12px;font-weight:500;opacity:.85;margin-top:1px;}
+.ci-body{flex:1;}
+.ci-empty{font-size:12px;opacity:.45;font-weight:500;padding:3px 0;}
+.comment-input-row{display:flex;gap:6px;margin-top:9px;}
+.comment-input-row input{flex:1;border:2px solid #E3EFE6;border-radius:9px;padding:8px;font-family:var(--font);font-size:12.5px;color:var(--ink);}
+.comment-input-row input:focus{outline:none;border-color:var(--leaf);}
+.comment-input-row button{background:var(--leaf);color:#fff;border:none;border-radius:9px;padding:0 13px;font-family:var(--font);font-weight:700;font-size:13px;cursor:pointer;}
+
+/* Leaderboard */
+.lb-row{display:flex;align-items:center;gap:11px;background:var(--card);border-radius:13px;padding:10px 13px;margin-bottom:7px;box-shadow:0 3px 10px rgba(23,58,44,.07);}
+.lb-rank{font-size:15px;font-weight:700;width:26px;text-align:center;}
+.lb-name{flex:1;font-size:13.5px;font-weight:600;}
+.lb-pts{font-size:13.5px;font-weight:700;}
+.lb-pts.pos{color:var(--leaf-dark);}.lb-pts.neg{color:var(--bad);}
+.lb-row.me{border:2px solid var(--leaf);background:#F3FBEF;}
+.hint{font-size:12px;opacity:.6;font-weight:500;margin:6px 0;}
+
+/* Photo sheet */
+.sheet-bg{position:fixed;inset:0;background:rgba(23,58,44,.5);display:none;align-items:flex-end;justify-content:center;z-index:60;}
+.sheet-bg.show{display:flex;}
+.sheet{background:#fff;border-radius:22px 22px 0 0;padding:20px 20px 34px;width:100%;max-width:520px;}
+.sheet h3{font-size:16px;font-weight:700;margin-bottom:4px;}.sheet p{font-size:12.5px;opacity:.65;font-weight:500;margin-bottom:13px;}
+.sheet-btns{display:flex;gap:9px;}
+.sheet-btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:14px;padding:12px;border-radius:14px;}
+.sheet-btn.primary{background:var(--leaf);color:#fff;}.sheet-btn.secondary{background:#F2F6F3;color:var(--ink);}
+.preview-wrap{position:relative;margin-bottom:12px;display:none;}
+.preview-wrap img{width:100%;border-radius:12px;max-height:180px;object-fit:cover;}
+.preview-wrap .re-snap{position:absolute;top:7px;right:7px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:9px;padding:5px 9px;font-family:var(--font);font-weight:600;font-size:11.5px;cursor:pointer;}
+
+/* Modals */
+.modal-bg{position:fixed;inset:0;background:rgba(23,58,44,.45);display:none;align-items:center;justify-content:center;padding:22px;z-index:50;}
+.modal-bg.show{display:flex;}
+.modal{background:#fff;border-radius:22px;padding:22px;max-width:360px;width:100%;box-shadow:var(--shadow);}
+.modal h2{font-size:17px;font-weight:700;margin-bottom:9px;}
+.modal p{font-size:13px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:9px;}
+.modal .qbox{background:#F3FBEF;border-radius:12px;padding:11px 13px;font-size:12.5px;font-weight:600;color:var(--leaf-dark);margin:5px 0 12px;}
+.modal .close{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:12px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;}
+.warn-modal{background:#fff;border-radius:22px;padding:22px;max-width:360px;width:100%;box-shadow:var(--shadow);border-top:5px solid var(--bad);}
+.warn-modal h2{font-size:17px;font-weight:700;margin-bottom:9px;color:var(--bad);}
+.warn-modal .wmsg{background:#FFF0EE;border-radius:12px;padding:13px;font-size:13.5px;font-weight:600;color:#C0392B;margin-bottom:14px;line-height:1.5;}
+.warn-modal .close{width:100%;background:var(--bad);color:#fff;border:none;border-radius:12px;padding:12px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;}
+.float{position:fixed;font-size:21px;font-weight:700;pointer-events:none;z-index:40;animation:floatUp .9s ease-out forwards;}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.6);}20%{opacity:1;}100%{opacity:0;transform:translateY(-65px) scale(1.1);}}
+.fade-out{animation:fadeOut .5s ease forwards;}
+@keyframes fadeOut{to{opacity:0;}}
 
 /* Ecosystem animations */
 @keyframes cloudDrift{from{transform:translateX(-90px);}to{transform:translateX(320px);}}
 @keyframes birdFly{0%{transform:translate(280px,-5px);}100%{transform:translate(-60px,10px);}}
 @keyframes birdFly2{0%{transform:translate(260px,0);}100%{transform:translate(-60px,-8px);}}
-@keyframes butterfly{0%,100%{transform:rotate(-20deg) scaleX(1);}50%{transform:rotate(20deg) scaleX(.6);}}
-@keyframes butterflyDrift{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-@keyframes hop{0%,100%{transform:translateY(0);}30%,70%{transform:translateY(-7px);}}
-@keyframes grassSway{0%,100%{transform:rotate(-4deg);transform-origin:bottom center;}50%{transform:rotate(4deg);transform-origin:bottom center;}}
-@keyframes leafFall{0%{transform:translate(0,0) rotate(0deg);opacity:1;}100%{transform:translate(20px,40px) rotate(120deg);opacity:0;}}
-@keyframes sparkle{0%,100%{opacity:0;r:2px;}50%{opacity:1;r:4px;}}
-@keyframes sunRay{0%,100%{opacity:.4;}50%{opacity:.8;}}
-@keyframes earthIntro{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
-
-.stage-label{position:absolute;bottom:36px;left:0;right:0;text-align:center;font-weight:600;font-size:16px;color:var(--ink);pointer-events:none;}
-.stage-msg{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;font-weight:500;opacity:.8;color:var(--ink);pointer-events:none;}
-
-/* Score row */
-.score-row{display:flex;gap:8px;margin-top:12px;}
-.score-card{flex:1;background:var(--card);border-radius:18px;padding:11px 6px;text-align:center;box-shadow:var(--shadow);}
-.score-card .num{font-size:20px;font-weight:700;line-height:1;}
-.score-card .lbl{font-size:10px;font-weight:500;opacity:.6;margin-top:4px;text-transform:uppercase;letter-spacing:.4px;}
-.score-card.total .num{color:var(--leaf-dark);}
-.score-card .sub-num{font-size:10.5px;font-weight:600;margin-top:2px;opacity:.65;}
-
-/* Activities */
-.act-toggle{display:flex;gap:6px;background:rgba(255,255,255,.7);border-radius:14px;padding:4px;margin:16px 0 12px;}
-.act-seg{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:13.5px;
-  padding:10px 4px;border-radius:11px;cursor:pointer;color:var(--ink);opacity:.6;}
-.act-seg.active{opacity:1;box-shadow:var(--shadow);}
-.act-seg.good-seg.active{background:#E8F9EE;color:var(--leaf-dark);}
-.act-seg.bad-seg.active{background:#FFF0EE;color:var(--bad);}
-.act-panel{display:none;}.act-panel.active{display:block;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.act{border:2px solid transparent;cursor:pointer;text-align:left;background:var(--card);border-radius:16px;
-  padding:11px;box-shadow:var(--shadow);font-family:var(--font);display:flex;flex-direction:column;gap:4px;transition:transform .08s ease;}
-.act:active{transform:scale(.95);}
-.act .emoji{font-size:22px;}.act .name{font-size:12px;font-weight:600;line-height:1.2;color:var(--ink);}
-.act .pts{font-size:11.5px;font-weight:700;}.act .co2{font-size:10.5px;opacity:.5;font-weight:500;}
-.act.good{border-color:rgba(47,191,98,.25);}.act.good .pts{color:var(--good);}
-.act.bad{border-color:rgba(255,107,87,.25);}.act.bad .pts{color:var(--bad);}
-
-/* Log */
-.sec-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin:18px 4px 10px;}
-.log-item{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:14px;padding:9px 12px;
-  margin-bottom:8px;box-shadow:0 4px 12px rgba(23,58,44,.07);animation:slidein .35s ease;}
-@keyframes slidein{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
-.log-item .li-emoji{font-size:18px;}.log-item .li-name{flex:1;font-size:13px;font-weight:500;}
-.log-item .li-pts{font-size:13px;font-weight:700;}
-.li-pts.good{color:var(--good);}.li-pts.bad{color:var(--bad);}
-.empty{text-align:center;font-size:13px;opacity:.55;font-weight:500;background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
-
-/* Calendar */
-.cal{background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--shadow);}
-.cal-head{font-weight:600;margin-bottom:10px;font-size:14px;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.dow{text-align:center;font-size:10px;font-weight:600;opacity:.5;padding-bottom:2px;}
-.day{aspect-ratio:1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:11px;font-weight:600;background:#F2F6F3;border:2px solid transparent;}
-.day.pos{background:#DDF4E4;}.day.neg{background:#FFE3DE;}.day.today{border-color:var(--leaf);}
-.day .dot{font-size:9px;font-weight:700;margin-top:1px;}
-.day .dot.pos{color:var(--good);}.day .dot.neg{color:var(--bad);}
-.day.empty-cell{background:transparent;}
-
-/* Reflection */
-.reflect{background:linear-gradient(180deg,#FFFDF5,#fff);border-radius:20px;padding:15px;
-  box-shadow:var(--shadow);border:2px solid #FFEFC2;}
-.reflect .rtxt{font-size:13.5px;line-height:1.6;font-weight:500;}
-.reflect .rbtn{margin-top:10px;background:#fff;border:2px solid #E3EFE6;color:var(--ink);
-  font-family:var(--font);font-weight:600;font-size:13px;padding:8px 14px;border-radius:12px;cursor:pointer;}
-.controls{display:flex;gap:10px;margin-top:16px;}
-.btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:13.5px;padding:12px;border-radius:16px;box-shadow:var(--shadow);}
-.btn.info{background:var(--leaf);color:#fff;}.btn:active{transform:scale(.97);}
-
-/* Learn */
-.card{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-top:12px;}
-.card h3{font-size:15px;font-weight:700;margin-bottom:8px;}
-.card p{font-size:13px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:8px;}
-.convo{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #EEF4EF;}
-.convo:last-child{border-bottom:none;}
-.convo .ce{font-size:20px;width:26px;text-align:center;}.convo .ct{flex:1;font-size:12.5px;font-weight:500;}
-.convo .cv{font-size:12.5px;font-weight:700;color:var(--leaf-dark);}
-.pill{display:inline-block;background:#EAF7E6;color:var(--leaf-dark);font-size:12px;font-weight:600;padding:6px 10px;border-radius:12px;margin:3px 3px 0 0;}
-.vbox{background:#FFF6E5;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;color:#9A6A00;margin-top:6px;}
-
-/* Feed */
-.feed-card{background:var(--card);border-radius:20px;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;animation:slidein .4s ease;}
-.feed-photo{width:100%;max-height:260px;object-fit:cover;display:block;}
-.feed-no-photo{height:64px;background:linear-gradient(135deg,#E8F6FF,#F3FBEF);display:flex;align-items:center;justify-content:center;font-size:32px;}
-.feed-body{padding:12px 14px;}
-.feed-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.feed-avatar{width:32px;height:32px;border-radius:50%;background:var(--leaf);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
-.feed-user{font-size:13.5px;font-weight:700;}.feed-time{font-size:11px;opacity:.5;margin-left:auto;}
-.feed-act{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.feed-act .fa-emoji{font-size:18px;}.feed-act .fa-name{font-size:13px;font-weight:500;flex:1;}
-.feed-act .fa-pts{font-size:13px;font-weight:700;}
-.fa-pts.good{color:var(--good);}.fa-pts.bad{color:var(--bad);}
-.comment-btn{border:none;background:#F2F6F3;border-radius:10px;padding:7px 12px;font-family:var(--font);font-weight:600;font-size:12.5px;cursor:pointer;color:var(--ink);opacity:.8;}
-.comment-section{margin-top:10px;display:none;border-top:1px solid #EEF4EF;padding-top:10px;}
-.comment-section.open{display:block;}
-.comment-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #F0F5F1;}
-.comment-item:last-of-type{border-bottom:none;}
-.ci-avatar{width:24px;height:24px;border-radius:50%;background:#D4EFE0;color:var(--leaf-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
-.ci-user{font-size:12px;font-weight:700;}.ci-text{font-size:12.5px;font-weight:500;opacity:.85;margin-top:1px;}
-.ci-body{flex:1;}
-.ci-empty{font-size:12.5px;opacity:.5;font-weight:500;padding:4px 0;}
-.comment-input-row{display:flex;gap:7px;margin-top:10px;}
-.comment-input-row input{flex:1;border:2px solid #E3EFE6;border-radius:10px;padding:9px;font-family:var(--font);font-size:13px;color:var(--ink);}
-.comment-input-row input:focus{outline:none;border-color:var(--leaf);}
-.comment-input-row button{background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:0 14px;font-family:var(--font);font-weight:700;font-size:13px;cursor:pointer;}
-
-/* Leaderboard */
-.lb-row{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:11px 14px;margin-bottom:8px;box-shadow:0 4px 12px rgba(23,58,44,.07);}
-.lb-rank{font-size:16px;font-weight:700;width:28px;text-align:center;}
-.lb-name{flex:1;font-size:14px;font-weight:600;}
-.lb-pts{font-size:14px;font-weight:700;}
-.lb-pts.pos{color:var(--leaf-dark);}.lb-pts.neg{color:var(--bad);}
-.lb-row.me{border:2px solid var(--leaf);background:#F3FBEF;}
-.hint{font-size:12.5px;opacity:.6;font-weight:500;margin-top:8px;margin-bottom:4px;}
-
-/* Photo sheet */
-.sheet-bg{position:fixed;inset:0;background:rgba(23,58,44,.5);display:none;align-items:flex-end;justify-content:center;z-index:60;}
-.sheet-bg.show{display:flex;}
-.sheet{background:#fff;border-radius:24px 24px 0 0;padding:22px 22px 36px;width:100%;max-width:520px;}
-.sheet h3{font-size:17px;font-weight:700;margin-bottom:5px;}.sheet p{font-size:13px;opacity:.7;font-weight:500;margin-bottom:14px;}
-.sheet-btns{display:flex;gap:10px;}
-.sheet-btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:14px;padding:13px;border-radius:16px;}
-.sheet-btn.primary{background:var(--leaf);color:#fff;}.sheet-btn.secondary{background:#F2F6F3;color:var(--ink);}
-.preview-wrap{position:relative;margin-bottom:14px;display:none;}
-.preview-wrap img{width:100%;border-radius:14px;max-height:200px;object-fit:cover;}
-.preview-wrap .re-snap{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:10px;padding:6px 10px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;}
-
-/* Modals */
-.modal-bg{position:fixed;inset:0;background:rgba(23,58,44,.45);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;}
-.modal-bg.show{display:flex;}
-.modal{background:#fff;border-radius:24px;padding:24px;max-width:380px;width:100%;box-shadow:var(--shadow);}
-.modal h2{font-size:18px;font-weight:700;margin-bottom:10px;}
-.modal p{font-size:13.5px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:10px;}
-.modal .qbox{background:#F3FBEF;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--leaf-dark);margin:6px 0 14px;}
-.modal .close{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:14px;padding:12px;font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
-.warn-modal{background:#fff;border-radius:24px;padding:24px;max-width:380px;width:100%;box-shadow:var(--shadow);border-top:6px solid var(--bad);}
-.warn-modal h2{font-size:18px;font-weight:700;margin-bottom:10px;color:var(--bad);}
-.warn-modal .wmsg{background:#FFF0EE;border-radius:14px;padding:14px;font-size:14px;font-weight:600;color:#C0392B;margin-bottom:16px;line-height:1.5;}
-.warn-modal .close{width:100%;background:var(--bad);color:#fff;border:none;border-radius:14px;padding:12px;font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
-.float{position:fixed;font-size:22px;font-weight:700;pointer-events:none;z-index:40;animation:floatUp 1s ease-out forwards;}
-@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.6);}20%{opacity:1;}100%{opacity:0;transform:translateY(-70px) scale(1.1);}}
-
-/* Intro fade out */
-.fade-out{animation:fadeOut .6s ease forwards;}
-@keyframes fadeOut{to{opacity:0;}}
+@keyframes butterfly{0%,100%{transform:rotate(-20deg) scaleX(1);}50%{transform:rotate(20deg) scaleX(.55);}}
+@keyframes butterflyDrift{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+@keyframes hop{0%,100%{transform:translateY(0);}35%,65%{transform:translateY(-7px);}}
+@keyframes grassSway{0%,100%{transform-origin:bottom center;transform:rotate(-4deg);}50%{transform-origin:bottom center;transform:rotate(4deg);}}
+@keyframes sparkle{0%,100%{opacity:0;}50%{opacity:1;}}
+@keyframes sunPulse{0%,100%{opacity:.25;}50%{opacity:.5;}}
+@keyframes sway{0%,100%{transform:rotate(-1.5deg);}50%{transform:rotate(1.5deg);}}
+@keyframes swimLeft{0%{transform:translateX(0)scaleX(1);}49%{transform:translateX(-18px)scaleX(1);}50%{transform:translateX(-18px)scaleX(-1);}100%{transform:translateX(0)scaleX(-1);}}
+@keyframes beeDrift{0%{transform:translate(0,0);}25%{transform:translate(8px,-6px);}50%{transform:translate(16px,2px);}75%{transform:translate(6px,8px);}100%{transform:translate(0,0);}}
+@keyframes raindrop{from{transform:translateY(-10px);opacity:1;}to{transform:translateY(16px);opacity:0;}}
 </style>
 </head>
 <body>
 
-<!-- ===== INTRO SCREEN ===== -->
+<!-- ====== INTRO ====== -->
 <div id="intro">
   <div class="intro-stars" id="introStars"></div>
-
   <div class="intro-earth">🌍</div>
   <div class="intro-title">Earth is in trouble.<br>You can help.</div>
-  <div class="intro-sub">Every small action counts. Start tracking yours.</div>
-
+  <div class="intro-sub">Track your daily habits. Grow a virtual forest.</div>
   <div class="facts">
-    <div class="fact">
-      <span class="fact-emoji">🌡️</span>
-      <div class="fact-text">
-        <div class="fact-big">+1.1°C hotter</div>
-        <div class="fact-small">Earth's temperature since 1850 — causing floods, fires & stronger typhoons</div>
-      </div>
-    </div>
-    <div class="fact">
-      <span class="fact-emoji">🏭</span>
-      <div class="fact-text">
-        <div class="fact-big">37 billion tonnes</div>
-        <div class="fact-small">of CO₂ pumped into the air every single year by humans</div>
-      </div>
-    </div>
-    <div class="fact">
-      <span class="fact-emoji">🌳</span>
-      <div class="fact-text">
-        <div class="fact-big">15 billion trees</div>
-        <div class="fact-small">cut down every year — one tree absorbs ~20 kg of CO₂ annually</div>
-      </div>
-    </div>
+    <div class="fact"><span class="fact-emoji">🌡️</span><div class="fact-text"><div class="fact-big">+1.1°C hotter</div><div class="fact-small">Since 1850 — causing stronger typhoons, floods & fires</div></div></div>
+    <div class="fact"><span class="fact-emoji">🏭</span><div class="fact-text"><div class="fact-big">37 billion tonnes</div><div class="fact-small">of CO₂ pumped into the air every year by humans</div></div></div>
+    <div class="fact"><span class="fact-emoji">🌳</span><div class="fact-text"><div class="fact-big">15 billion trees</div><div class="fact-small">cut down every year — one tree absorbs ~20 kg CO₂/year</div></div></div>
   </div>
-
   <div class="intro-divider"></div>
-
   <div class="intro-cta">What will YOU do about it?</div>
   <div class="intro-how">
-    <div class="how-item"><div class="how-emoji">📋</div><div class="how-label">Track daily actions</div></div>
-    <div class="how-item"><div class="how-emoji">🌳</div><div class="how-label">Grow a virtual forest</div></div>
+    <div class="how-item"><div class="how-emoji">🎯</div><div class="how-label">Daily challenges</div></div>
+    <div class="how-item"><div class="how-emoji">🌳</div><div class="how-label">Grow a forest</div></div>
     <div class="how-item"><div class="how-emoji">🏆</div><div class="how-label">Beat the class</div></div>
   </div>
-
   <div class="intro-form">
-    <label for="introName">Pick your username to start 👇</label>
-    <input id="introName" maxlength="16" placeholder="e.g. GreenHero, EcoKid…"
-      onkeydown="if(event.key==='Enter')registerUser()"/>
+    <label id="introLabel" for="introName">Pick your username to start 👇</label>
+    <input id="introName" maxlength="16" placeholder="e.g. GreenHero, EcoKid…" onkeydown="if(event.key==='Enter')registerUser()"/>
     <div class="intro-err" id="introErr"></div>
     <button class="intro-join" id="joinBtn" onclick="registerUser()">🌱 Join Earth Token</button>
-    <div class="load-bar-wrap" id="loadBarWrap">
-      <div class="load-bar-fill" id="loadBarFill"></div>
-    </div>
+    <div class="load-bar-wrap" id="loadBarWrap"><div class="load-bar-fill" id="loadBarFill"></div></div>
     <div class="load-label" id="loadLabel">Setting up your tree… 🌱</div>
+    <button class="returning-btn" id="returningToggle" onclick="toggleReturning()">Already have a username? Sign in here</button>
   </div>
 </div>
 
-<!-- ===== MAIN APP ===== -->
+<!-- ====== MAIN APP ====== -->
 <div id="app">
 <div class="wrap">
   <header>
     <h1>🌍 Earth Token</h1>
-    <div class="sub" id="appSub">Do good for the Earth. Grow your forest.</div>
+    <div class="sub" id="appSub">Loading…</div>
   </header>
   <div class="tabs">
-    <button class="tab active" onclick="showView('track',this)">🌱 Track</button>
+    <button class="tab active" onclick="showView('home',this)">🏠 Home</button>
+    <button class="tab" onclick="showView('track',this)">🌱 Track</button>
     <button class="tab" onclick="showView('learn',this)">📖 Learn</button>
     <button class="tab" onclick="showView('feed',this)">📸 Feed</button>
     <button class="tab" onclick="showView('top',this)">🏆 Top</button>
   </div>
 
+  <!-- HOME -->
+  <div class="view active" id="view-home">
+    <div class="home-greeting" id="homeGreeting">Good day! 👋</div>
+    <div class="home-sub" id="homeSub">Here are today's challenges for the class:</div>
+    <div class="challenge-card">
+      <h3>🎯 Today's Challenges</h3>
+      <div id="challengeList"></div>
+      <div class="ch-bonus" id="bonusMsg" style="display:none">🎉 All 3 done! +100 bonus points!</div>
+    </div>
+    <div class="home-lb">
+      <h3>🏆 Class ranking <span class="live-dot">🟢 Live</span></h3>
+      <div id="homeLbBody"><div style="font-size:13px;opacity:.5">Loading…</div></div>
+    </div>
+  </div>
+
   <!-- TRACK -->
-  <div class="view active" id="view-track">
-    <div class="stage" id="stageWrap">
-      <svg id="tree" viewBox="0 0 300 280" preserveAspectRatio="xMidYMax meet"></svg>
-      <div class="stage-label" id="stageLabel">Seed</div>
-      <div class="stage-msg" id="stageMsg">Plant a seed of good actions!</div>
+  <div class="view" id="view-track">
+    <div class="eco-wrap">
+      <div class="eco-svg-box"><svg id="tree" viewBox="0 0 300 300" preserveAspectRatio="xMidYMax meet"></svg></div>
+      <div class="eco-info">
+        <div class="eco-stage-name" id="stageLabel">Seed</div>
+        <div class="eco-stage-msg" id="stageMsg">Plant a seed of good actions!</div>
+        <div class="eco-progress-wrap">
+          <div class="eco-progress-label"><span id="progressText">Progress to Sprout</span><span id="progressPts"></span></div>
+          <div class="eco-progress-bar"><div class="eco-progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
     </div>
 
+    <div style="text-align:center;margin-top:8px;" id="forestBadgeWrap"></div>
+
     <div class="score-row">
-      <div class="score-card total">
-        <div class="num" id="totalScore">0</div>
-        <div class="sub-num" id="co2Display">0 g CO₂</div>
-        <div class="lbl">Today</div>
-      </div>
+      <div class="score-card total"><div class="num" id="totalScore">0</div><div class="sub-num" id="co2Display">0 g CO₂</div><div class="lbl">Today</div></div>
       <div class="score-card"><div class="num" id="actCount">0</div><div class="lbl">Actions</div></div>
-      <div class="score-card"><div class="num" id="treeFrac">0.00</div><div class="lbl">🌲 of tree</div></div>
-      <div class="score-card"><div class="num" id="forestCount">0</div><div class="lbl">Extra 🌲</div></div>
+      <div class="score-card"><div class="num" id="lifetimePts">0</div><div class="lbl">Lifetime</div></div>
     </div>
 
     <div class="act-toggle">
@@ -344,10 +344,10 @@ svg#tree{display:block;width:100%;height:100%;}
     <div class="sec-title">📅 My month</div>
     <div class="cal"><div class="cal-head"><span id="calTitle"></span></div><div class="cal-grid" id="calGrid"></div></div>
 
-    <div class="sec-title">✍️ My reflection</div>
-    <div class="reflect">
-      <div class="rtxt" id="reflectText">Tap some actions, and I'll write your reflection here! 🌱</div>
-      <button class="rbtn" onclick="newReflection()">↻ New reflection</button>
+    <div class="sec-title">💬 Comments</div>
+    <div class="user-note-wrap">
+      <textarea id="userNote" placeholder="Write your thoughts here… What did you do well today? What will you try tomorrow?"></textarea>
+      <div class="note-saved" id="noteSaved">Saved ✓</div>
     </div>
     <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
   </div>
@@ -355,39 +355,37 @@ svg#tree{display:block;width:100%;height:100%;}
   <!-- LEARN -->
   <div class="view" id="view-learn">
     <div class="card"><h3>🌍 What is a carbon footprint?</h3>
-      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we add to the air — from car rides, electricity, the food we eat, and things we buy.</p>
-      <p>More CO₂ traps more heat, making Hong Kong summers even hotter. Smaller footprint = cooler, happier planet!</p></div>
+      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air — from car rides, electricity, the food we eat, and things we buy.</p>
+      <p>More CO₂ traps more heat, making Hong Kong summers hotter. Smaller footprint = better for the planet!</p></div>
     <div class="card"><h3>📏 How we measure it</h3>
       <p>CO₂ is measured in <b>grams (g)</b> and <b>kilograms (kg)</b>.</p>
       <span class="pill">1,000 g = 1 kg</span><span class="pill">1,000 kg = 1 tonne</span>
-      <p style="margin-top:10px">One tree soaks up about <b>20 kg of CO₂ a year</b> — that's why your tree grows with good actions!</p></div>
+      <p style="margin-top:9px">One tree soaks up about <b>20 kg CO₂ a year</b> — that's why your tree grows with good actions!</p></div>
     <div class="card"><h3>⚖️ Quick comparisons</h3>
       <div class="convo"><span class="ce">🚗</span><span class="ct">Car or taxi ride</span><span class="cv">~150 g per km</span></div>
-      <div class="convo"><span class="ce">🚇</span><span class="ct">MTR (shared by many)</span><span class="cv">much less each</span></div>
+      <div class="convo"><span class="ce">🚇</span><span class="ct">MTR (shared)</span><span class="cv">much less each</span></div>
       <div class="convo"><span class="ce">🚲</span><span class="ct">Bike or walking</span><span class="cv">~0 g</span></div>
       <div class="convo"><span class="ce">✈️</span><span class="ct">Short plane flight</span><span class="cv">100s of kg!</span></div>
       <div class="convo"><span class="ce">🍖</span><span class="ct">Big meat meal</span><span class="cv">~3 kg CO₂</span></div>
-      <div class="convo"><span class="ce">🥗</span><span class="ct">Veggie meal</span><span class="cv">under 1 kg</span></div>
-      <div class="convo"><span class="ce">🧋</span><span class="ct">Takeaway drink cup</span><span class="cv">~80 g</span></div></div>
+      <div class="convo"><span class="ce">🥗</span><span class="ct">Veggie meal</span><span class="cv">under 1 kg</span></div></div>
     <div class="card"><h3>✅ Small actions that help</h3>
       <span class="pill">🚶 Walk nearby</span><span class="pill">🚇 Take the MTR</span>
-      <span class="pill">🥗 Eat more veggies</span><span class="pill">🍱 No food waste</span>
+      <span class="pill">🥗 More veggies</span><span class="pill">🍱 No food waste</span>
       <span class="pill">♻️ Sort recycling</span><span class="pill">💡 Switch off lights</span>
-      <span class="pill">💧 Save water</span><span class="pill">👜 Reusable bag</span>
-      <span class="pill">🌳 Water a plant</span><span class="pill">👕 Wear clothes again</span></div>
+      <span class="pill">💧 Save water</span><span class="pill">🌳 Water a plant</span></div>
     <div class="card"><h3>🔎 Be a number detective</h3>
-      <p>Every number in this app is a <b>rough estimate</b>. Real scientists always check where numbers come from.</p>
-      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare with the app. Do the numbers match?</div></div>
+      <p>Every number in this app is a <b>rough estimate</b>.</p>
+      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare with the app. Who's right?</div></div>
   </div>
 
   <!-- FEED -->
   <div class="view" id="view-feed">
-    <div style="margin-top:12px;" id="feedBody"><div class="empty">Loading… 🌱</div></div>
+    <div style="margin-top:10px;" id="feedBody"><div class="empty">Loading… 🌱</div></div>
   </div>
 
   <!-- TOP -->
   <div class="view" id="view-top">
-    <div class="card" style="margin-top:12px;"><h3>🏆 Class leaderboard</h3><div id="lbBody"><p>Loading…</p></div></div>
+    <div class="card" style="margin-top:10px;"><h3>🏆 Full leaderboard</h3><div id="lbBody"><p>Loading…</p></div></div>
   </div>
 </div>
 </div>
@@ -395,8 +393,7 @@ svg#tree{display:block;width:100%;height:100%;}
 <!-- Photo sheet -->
 <div class="sheet-bg" id="sheetBg">
   <div class="sheet">
-    <h3 id="sheetTitle">Add a photo?</h3>
-    <p>Show the class what you did!</p>
+    <h3 id="sheetTitle">Add a photo?</h3><p>Show the class what you did!</p>
     <div class="preview-wrap" id="previewWrap"><img id="previewImg" src="" alt=""/><button class="re-snap" onclick="triggerCamera()">↺ Retake</button></div>
     <div class="sheet-btns">
       <button class="sheet-btn secondary" onclick="skipPhoto()">Skip</button>
@@ -410,7 +407,7 @@ svg#tree{display:block;width:100%;height:100%;}
   <div class="modal">
     <h2>🔎 Check the numbers!</h2>
     <p>These Earth Points are <b>rough estimates</b>. Real carbon numbers depend on many things.</p>
-    <div class="qbox">Detective question: Where did these numbers come from? Are they fair? How could we check?</div>
+    <div class="qbox">Where did these numbers come from? Are they fair? How could we check?</div>
     <button class="close" onclick="closeInfo()">Got it</button>
   </div>
 </div>
@@ -418,8 +415,8 @@ svg#tree{display:block;width:100%;height:100%;}
 <div class="modal-bg" id="warnBg">
   <div class="warn-modal">
     <h2>⚠️ Message from your teacher</h2>
-    <div class="wmsg" id="warnMsg"></div>
-    <p style="font-size:12.5px;opacity:.6;margin-bottom:14px;">Please read this carefully before continuing.</p>
+    <div class="wmsg" id="warnMsg">Loading…</div>
+    <p style="font-size:12px;opacity:.6;margin-bottom:13px;">Please read carefully before continuing.</p>
     <button class="close" onclick="dismissWarning()">I understand</button>
   </div>
 </div>
@@ -436,36 +433,33 @@ try{
   const app=initializeApp(CFG),db=getFirestore(app);
   window.DB={
     async claimName(n){const r=doc(db,"scores",n.toLowerCase()),s=await getDoc(r);if(s.exists())return false;await setDoc(r,{name:n,points:0,updated:Date.now()});return true;},
+    async nameExists(n){const s=await getDoc(doc(db,"scores",n.toLowerCase()));return s.exists()?s.data().name:null;},
     async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
-    subscribeScores(cb){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(20)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
     async postFeed(item){return await addDoc(collection(db,"feed"),item);},
     subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
-    /* Comments: only filter by postId (no orderBy) to avoid needing composite index — sort client-side */
     async getComments(postId){
       const q=query(collection(db,"feedComments"),where("postId","==",postId),limit(30));
       const s=await getDocs(q);
-      const docs=s.docs.map(d=>d.data());
-      return docs.sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+      return s.docs.map(d=>d.data()).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
     },
     async addComment(obj){await addDoc(collection(db,"feedComments"),obj);},
-    async checkWarning(u){const q=query(collection(db,"warnings"),where("username","==",u.toLowerCase()),where("read","==",false),limit(1));const s=await getDocs(q);if(s.empty)return null;const d=s.docs[0];return{id:d.id,...d.data()};},
+    /* WARNING: single where clause only — no composite index needed */
+    async checkWarning(u){
+      const q=query(collection(db,"warnings"),where("username","==",u.toLowerCase()),limit(10));
+      const s=await getDocs(q);
+      const unread=s.docs.map(d=>({id:d.id,...d.data()})).find(w=>w.read!==true);
+      return unread||null;
+    },
     async markWarningRead(id){await setDoc(doc(db,"warnings",id),{read:true},{merge:true});}
   };window.DB_READY=true;
-}catch(e){console.error(e);}
+}catch(e){console.error("Firebase error:",e);}
 if(window.onDBReady)window.onDBReady();
 </script>
 
 <script>
-/* ---- Stars in intro ---- */
-(function(){
-  const wrap=document.getElementById("introStars");
-  for(let i=0;i<60;i++){
-    const s=document.createElement("div");s.className="star";
-    const size=Math.random()*3+1;
-    s.style.cssText=`width:${size}px;height:${size}px;top:${Math.random()*70}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s`;
-    wrap.appendChild(s);
-  }
-})();
+/* ---- Stars ---- */
+(function(){const w=document.getElementById("introStars");for(let i=0;i<55;i++){const s=document.createElement("div");s.className="star";const sz=Math.random()*3+1;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*75}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s`;w.appendChild(s);}})();
 
 /* ---- Storage ---- */
 const mem={};
@@ -474,7 +468,7 @@ const Store={
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}
 };
 
-/* ---- Activities ---- */
+/* ---- Data ---- */
 const GOOD=[
   {emoji:"🚶",name:"Walked to school or nearby",pts:150,co2:"~150g saved"},
   {emoji:"🚲",name:"Rode a bike",pts:120,co2:"~120g saved"},
@@ -513,82 +507,89 @@ const STAGES=[
 ];
 
 function todayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
-let state=Store.get("et:"+todayKey())||{score:0,actions:[],reflection:""};
+let state=Store.get("et:"+todayKey())||{score:0,actions:[],bonusGiven:false};
 function saveState(){Store.set("et:"+todayKey(),state);}
 function getAllTime(){return Store.get("et:alltime")||0;}
 function addAllTime(n){Store.set("et:alltime",Math.max(0,getAllTime()+n));}
 function myName(){return Store.get("et:username");}
 
-/* ---- Intro registration ---- */
+/* ---- Intro: new vs returning ---- */
+let returningMode=false;
+function toggleReturning(){
+  returningMode=!returningMode;
+  const lbl=document.getElementById("introLabel");
+  const btn=document.getElementById("joinBtn");
+  const tog=document.getElementById("returningToggle");
+  if(returningMode){
+    lbl.textContent="Enter your existing username 👇";
+    btn.textContent="🔑 Sign in";
+    tog.textContent="New player? Create a username";
+    document.getElementById("introName").placeholder="Your username…";
+  } else {
+    lbl.textContent="Pick your username to start 👇";
+    btn.textContent="🌱 Join Earth Token";
+    tog.textContent="Already have a username? Sign in here";
+    document.getElementById("introName").placeholder="e.g. GreenHero, EcoKid…";
+  }
+  document.getElementById("introErr").textContent="";
+}
+window.toggleReturning=toggleReturning;
+
 async function registerUser(){
   const raw=(document.getElementById("introName").value||"").trim();
   const err=document.getElementById("introErr");
   if(raw.length<2){err.textContent="Please pick a name with at least 2 letters.";return;}
   if(raw.length>16){err.textContent="Name must be 16 characters or less.";return;}
-  const name=raw;
   err.textContent="";
-
   const btn=document.getElementById("joinBtn");
   const barWrap=document.getElementById("loadBarWrap");
   const barFill=document.getElementById("loadBarFill");
   const label=document.getElementById("loadLabel");
-
-  // Disable + show loading
   btn.disabled=true;
-  btn.textContent="Setting things up…";
-  barWrap.style.display="block";
-  label.style.display="block";
-  // animate bar to 70% to show progress
+  barWrap.style.display="block";label.style.display="block";
   setTimeout(()=>{barFill.style.width="70%";},50);
-
-  if(!window.DB){
-    // no firebase yet — wait a moment
-    await new Promise(r=>setTimeout(r,1200));
-  }
-  if(!window.DB){
-    err.textContent="Couldn't connect to the internet. Check your wifi.";
-    btn.disabled=false;btn.textContent="🌱 Join Earth Token";
-    barWrap.style.display="none";label.style.display="none";
-    return;
-  }
-
+  if(!window.DB){await new Promise(r=>setTimeout(r,1500));}
+  if(!window.DB){err.textContent="Couldn't connect. Check your wifi.";btn.disabled=false;barWrap.style.display="none";label.style.display="none";return;}
   try{
-    const ok=await window.DB.claimName(name);
-    if(!ok){
-      barFill.style.width="0%";
-      setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);
-      btn.disabled=false;btn.textContent="🌱 Join Earth Token";
-      err.textContent="😬 That name is already taken — try a different one!";
-      return;
+    if(returningMode){
+      // Just verify the name exists
+      const realName=await window.DB.nameExists(raw);
+      if(!realName){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Name not found. Check your spelling.";return;}
+      Store.set("et:username",realName);
+      barFill.style.width="100%";label.textContent="Welcome back! 👋";
+      await new Promise(r=>setTimeout(r,600));
+      launchApp();
+    } else {
+      const ok=await window.DB.claimName(raw);
+      if(!ok){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="😬 That name is taken — try a different one!";return;}
+      Store.set("et:username",raw);
+      await window.DB.pushScore(raw,getAllTime());
+      barFill.style.width="100%";label.textContent="You're in! 🌱";
+      await new Promise(r=>setTimeout(r,700));
+      launchApp();
     }
-    Store.set("et:username",name);
-    await window.DB.pushScore(name,getAllTime());
-
-    // Fill to 100%
-    barFill.style.width="100%";
-    label.textContent="You're in! 🌱";
-    await new Promise(r=>setTimeout(r,700));
-
-    // Transition to app
-    launchApp();
-  }catch(e){
-    err.textContent="Something went wrong. Check your internet and try again.";
-    btn.disabled=false;btn.textContent="🌱 Join Earth Token";
-    barWrap.style.display="none";label.style.display="none";
-  }
+  }catch(e){err.textContent="Something went wrong. Check your internet.";btn.disabled=false;barWrap.style.display="none";label.style.display="none";}
 }
 window.registerUser=registerUser;
 
 function launchApp(){
-  const intro=document.getElementById("intro");
-  intro.classList.add("fade-out");
-  setTimeout(()=>{intro.style.display="none";document.getElementById("app").style.display="block";checkForWarning();render();},600);
+  document.getElementById("intro").classList.add("fade-out");
+  setTimeout(()=>{document.getElementById("intro").style.display="none";document.getElementById("app").style.display="block";initApp();},500);
+}
+function initApp(){
+  document.getElementById("appSub").textContent=`Hi ${myName()}! Do good for the Earth.`;
+  document.getElementById("homeGreeting").textContent=`Hi ${myName()}! 👋`;
+  render();renderChallenges();
+  if(window.DB){checkForWarning();startHomeLb();}
+  const note=Store.get("et:note:"+todayKey())||"";
+  document.getElementById("userNote").value=note;
 }
 
 // Skip intro if already registered
 if(myName()){
   document.getElementById("intro").style.display="none";
   document.getElementById("app").style.display="block";
+  setTimeout(initApp,100);
 }
 
 /* ---- Buttons ---- */
@@ -609,14 +610,44 @@ function switchSeg(seg,btn){
 }
 window.switchSeg=switchSeg;
 
+/* ---- Daily challenges ---- */
+function getDailyChallenges(){
+  const now=new Date();
+  let s=now.getFullYear()*10000+(now.getMonth()+1)*100+now.getDate();
+  function r(){s=Math.imul(48271,s)|0;return(s&0x7fffffff)/0x7fffffff;}
+  const picked=new Set(),ch=[];
+  while(ch.length<3){const i=Math.floor(r()*GOOD.length);if(!picked.has(i)){picked.add(i);ch.push(GOOD[i]);}}
+  return ch;
+}
+function isChallengeComplete(ch){return state.actions.some(a=>a.name===ch.name);}
+
+function renderChallenges(){
+  const chs=getDailyChallenges();
+  const allDone=chs.every(ch=>isChallengeComplete(ch));
+  // Give bonus once
+  if(allDone&&!state.bonusGiven){
+    state.score+=100;state.bonusGiven=true;addAllTime(100);saveState();pushScore();
+  }
+  const list=document.getElementById("challengeList");
+  list.innerHTML=chs.map(ch=>{
+    const done=isChallengeComplete(ch);
+    return `<div class="challenge-item">
+      <div class="ch-check ${done?"done":""}">${done?"✓":""}</div>
+      <span class="ch-emoji">${ch.emoji}</span>
+      <div class="ch-info"><div class="ch-name">${ch.name}</div><div class="ch-pts">+${ch.pts} pts</div></div>
+    </div>`;
+  }).join("");
+  document.getElementById("bonusMsg").style.display=allDone?"block":"none";
+}
+
 /* ---- Log action ---- */
 let pendingAction=null,pendingPhotoData=null;
 function logAction(a,ev){
   const ps=currentStage(),pf=forestCount();
   state.score+=a.pts;state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
-  state.reflection=generateReflection();addAllTime(a.pts);saveState();render();
+  addAllTime(a.pts);saveState();render();renderChallenges();
   if(ev)floatReward(a,ev);pushScore();
-  if(currentStage()>ps||forestCount()>pf){ drawEcosystem(currentStage()); }
+  if(currentStage()>ps||forestCount()>pf)drawEcosystem(currentStage());
   if(myName()){
     pendingAction=a;pendingPhotoData=null;
     document.getElementById("sheetTitle").textContent=`${a.emoji} ${a.name}`;
@@ -648,44 +679,22 @@ function onPhotoChosen(ev){
   };reader.readAsDataURL(file);ev.target.value="";
 }
 window.onPhotoChosen=onPhotoChosen;
-async function postWithPhoto(){
-  closeSheet();
-  if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}}
-  pendingAction=null;pendingPhotoData=null;
-}
-async function skipPhoto(){
-  closeSheet();
-  if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:null,timestamp:Date.now()});}catch(e){}}
-  pendingAction=null;pendingPhotoData=null;
-}
+async function postWithPhoto(){closeSheet();if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}}pendingAction=null;pendingPhotoData=null;}
+async function skipPhoto(){closeSheet();if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:null,timestamp:Date.now()});}catch(e){}}pendingAction=null;pendingPhotoData=null;}
 function closeSheet(){document.getElementById("sheetBg").classList.remove("show");document.getElementById("snapBtn").onclick=triggerCamera;}
 document.getElementById("sheetBg").addEventListener("click",function(e){if(e.target===this)skipPhoto();});
 
-function floatReward(a,ev){
-  const f=document.createElement("div");f.className="float";
-  f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";
-  f.style.left=(ev.clientX-18)+"px";f.style.top=(ev.clientY-30)+"px";
-  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
-}
+function floatReward(a,ev){const f=document.createElement("div");f.className="float";f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";f.style.left=(ev.clientX-18)+"px";f.style.top=(ev.clientY-30)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),950);}
 function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(state.score>=st.min)s=i;});return s;}
 function forestCount(){return Math.max(0,Math.min(6,Math.floor((state.score-1000)/200)));}
 
-/* ---- Reflection ---- */
-function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function generateReflection(){
-  if(!state.actions.length)return"Tap some actions, and I'll write your reflection here! 🌱";
-  const good=state.actions.filter(a=>a.pts>0),bad=state.actions.filter(a=>a.pts<0);let p=[];
-  if(state.score<=0)p.push(pick(["Tough day for the Earth — but every hero has off days.","Today was bumpy, and that's okay!"]));
-  else if(state.score<150)p.push(pick(["Nice start! You made some Earth-friendly choices today.","Good effort — you helped the planet a little!"]));
-  else if(state.score<600)p.push(pick(["Great job — you really helped the planet today!","You were kind to the Earth. Well done! 🌍"]));
-  else p.push(pick(["Wow, what an Earth hero you were today! 🌟","Amazing day for the planet — be really proud!"]));
-  if(good.length){const best=good.reduce((m,a)=>a.pts>m.pts?a:m,good[0]);p.push(`Your best move was "${best.name.toLowerCase()}" (+${best.pts} pts).`);}
-  if(bad.length){const swaps={"car":"try the MTR or walk","flight":"consider a video call","meat":"a veggie meal saves a lot","threw":"finishing food helps","ac":"try a fan instead","shower":"aim for under 5 minutes","devices":"unplug chargers overnight","plastic":"bring your own bag","lights":"always switch off"};const b=bad[0].name.toLowerCase();let tip=null;for(const k in swaps){if(b.includes(k)){tip=swaps[k];break;}}p.push(pick(["Tomorrow, ","Next time, "])+(tip||"try one more green swap")+".");}
-  if(forestCount()>0)p.push(`You grew ${forestCount()} extra tree${forestCount()>1?"s":""} in your forest! 🌲`);
-  p.push(pick(["Keep it up! 💚","See you tomorrow, Earth hero!","Small actions, big difference."]));
-  return p.join(" ");
-}
-function newReflection(){state.reflection=generateReflection();saveState();document.getElementById("reflectText").textContent=state.reflection;}
+/* ---- User note (replacing AI reflection) ---- */
+let noteTimer;
+document.getElementById("userNote").addEventListener("input",function(){
+  const val=this.value;Store.set("et:note:"+todayKey(),val);
+  clearTimeout(noteTimer);const saved=document.getElementById("noteSaved");saved.classList.add("show");
+  noteTimer=setTimeout(()=>saved.classList.remove("show"),1500);
+});
 
 /* ---- Modals ---- */
 function openInfo(){document.getElementById("modalBg").classList.add("show");}
@@ -693,7 +702,14 @@ function closeInfo(){document.getElementById("modalBg").classList.remove("show")
 document.getElementById("modalBg").addEventListener("click",function(e){if(e.target===this)closeInfo();});
 async function checkForWarning(){
   if(!window.DB||!myName())return;
-  try{const w=await window.DB.checkWarning(myName());if(w){document.getElementById("warnMsg").textContent=w.message;document.getElementById("warnBg").classList.add("show");window._pendingWarnId=w.id;}}catch(e){}
+  try{
+    const w=await window.DB.checkWarning(myName());
+    if(w){
+      document.getElementById("warnMsg").textContent=w.message;
+      document.getElementById("warnBg").classList.add("show");
+      window._pendingWarnId=w.id;
+    }
+  }catch(e){console.error("Warning check error:",e);}
 }
 async function dismissWarning(){
   document.getElementById("warnBg").classList.remove("show");
@@ -702,308 +718,205 @@ async function dismissWarning(){
 window.dismissWarning=dismissWarning;
 
 /* ---- Tabs ---- */
-let lbUnsub=null,feedUnsub=null;
+let lbUnsub=null,feedUnsub=null,homeLbUnsub=null;
 function showView(v,btn){
-  if(v!=="top"&&lbUnsub){lbUnsub();lbUnsub=null;}
+  if(v!=="top"&&v!=="home"&&lbUnsub){lbUnsub();lbUnsub=null;}
   if(v!=="feed"&&feedUnsub){feedUnsub();feedUnsub=null;}
   document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
   document.getElementById("view-"+v).classList.add("active");
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
-  if(v==="feed")renderFeed();
   if(v==="top")renderLeaderboard();
+  if(v==="feed")renderFeed();
+  if(v==="home")renderChallenges();
 }
 
-/* ---- Render track ---- */
+/* ---- Render ---- */
 function render(){
   const pts=state.score;
   document.getElementById("totalScore").textContent=pts;
   document.getElementById("co2Display").textContent=(pts>0?"+":"")+pts+" g CO₂";
   document.getElementById("actCount").textContent=state.actions.length;
-  document.getElementById("treeFrac").textContent=(Math.max(0,pts)/20000).toFixed(2);
-  document.getElementById("forestCount").textContent=forestCount();
+  document.getElementById("lifetimePts").textContent=getAllTime();
   const st=currentStage();
-  document.getElementById("stageLabel").textContent=STAGES[st].name+(forestCount()>0?" 🌲×"+forestCount():"");
+  const fc=forestCount();
+  // Stage label & msg (outside SVG now — easy to read)
+  const stageName=STAGES[st].name;
+  document.getElementById("stageLabel").textContent=stageName;
   document.getElementById("stageMsg").textContent=pts<0?"Oh no, your tree is sad. Add good actions! 🥺":STAGES[st].msg;
+  // Progress bar
+  const nextIdx=Math.min(st+1,STAGES.length-1);
+  const curMin=STAGES[st].min<0?0:STAGES[st].min;
+  const nextMin=STAGES[nextIdx].min;
+  if(st===STAGES.length-1){
+    document.getElementById("progressText").textContent="🏆 Max stage reached!";
+    document.getElementById("progressPts").textContent="";
+    document.getElementById("progressFill").style.width="100%";
+  } else {
+    const pct=Math.min(100,Math.max(0,((pts-curMin)/(nextMin-curMin))*100));
+    const ptsLeft=Math.max(0,nextMin-pts);
+    document.getElementById("progressText").textContent=`To ${STAGES[nextIdx].name}`;
+    document.getElementById("progressPts").textContent=ptsLeft+" pts to go";
+    document.getElementById("progressFill").style.width=pct+"%";
+  }
+  // Forest badge
+  const totalTrees=1+fc;
+  const badge=document.getElementById("forestBadgeWrap");
+  badge.innerHTML=`<span class="forest-badge">🌲 Your forest: ${totalTrees} tree${totalTrees>1?"s":""}</span>`;
   drawEcosystem(st);
+  // Log
   const log=document.getElementById("log");
   log.innerHTML=state.actions.length
     ?state.actions.map(a=>`<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}</span><span class="li-pts ${a.pts>0?"good":"bad"}">${a.pts>0?"+":""}${a.pts}</span></div>`).join("")
     :'<div class="empty">No actions yet. Tap a button above!</div>';
-  document.getElementById("reflectText").textContent=state.reflection||"Tap some actions, and I'll write your reflection here! 🌱";
   drawCalendar();
 }
 
-/* ============ ECOSYSTEM SVG ============ */
-function rnd(min,max){return min+Math.random()*(max-min);}
+/* ---- Ecosystem SVG ---- */
 function drawEcosystem(stage){
   const svg=document.getElementById("tree");
-  const W=300,H=280,groundY=210;
-
-  /* Sky gradient colours by stage */
-  const skies=[
-    ["#8BB8E0","#C5DFF5"],   // 0 overcast grey-blue
-    ["#7ABDE8","#C8E6F5"],   // 1 morning blue
-    ["#5BAEE0","#AADAF5"],   // 2 clear blue
-    ["#3D95D4","#90C9EF"],   // 3 bright blue
-    ["#2680C8","#7BC0EF"],   // 4 vivid blue
-    ["#1A6CBD","#5AAEE8"],   // 5 deep rich sky
-  ];
-  const [skyTop,skyBot]=skies[stage]||skies[0];
-
+  const W=300,H=300,groundY=220;
+  const skies=[["#8BB8E0","#C5DFF5"],["#7ABDE8","#C8E6F5"],["#5BAEE0","#AADAF5"],["#3D95D4","#90C9EF"],["#2680C8","#7BC0EF"],["#1A6CBD","#5AAEE8"]];
+  const[skyTop,skyBot]=skies[stage]||skies[0];
   let s=`<defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${skyTop}"/>
-      <stop offset="100%" stop-color="${skyBot}"/>
-    </linearGradient>
-    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#5A8A2E"/>
-      <stop offset="100%" stop-color="#3D6020"/>
-    </linearGradient>
-    <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7C5230"/>
-      <stop offset="100%" stop-color="#5A3A1A"/>
-    </linearGradient>
-    <linearGradient id="water" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#6BBFE0"/>
-      <stop offset="100%" stop-color="#4AAAD0"/>
-    </linearGradient>
-    <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFE87A"/>
-      <stop offset="100%" stop-color="#FFB830"/>
-    </radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${skyTop}"/><stop offset="100%" stop-color="${skyBot}"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5A8A2E"/><stop offset="100%" stop-color="#3D6020"/></linearGradient>
+    <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7C5230"/><stop offset="100%" stop-color="#5A3A1A"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#6BBFE0"/><stop offset="100%" stop-color="#4AAAD0"/></linearGradient>
+    <radialGradient id="sunGrad"><stop offset="0%" stop-color="#FFE87A"/><stop offset="100%" stop-color="#FFB830"/></radialGradient>
   </defs>`;
-
-  // Sky background
   s+=`<rect width="${W}" height="${H}" fill="url(#sky)"/>`;
-
-  // Sun (always present)
-  const sunX=260,sunY=40,sunR=stage>=3?28:24;
-  s+=`<circle cx="${sunX}" cy="${sunY}" r="${sunR+10}" fill="rgba(255,220,80,.2)" style="animation:sunRay 3s ease-in-out infinite"/>`;
-  s+=`<circle cx="${sunX}" cy="${sunY}" r="${sunR+5}" fill="rgba(255,200,60,.15)" style="animation:sunRay 3s ease-in-out infinite;animation-delay:.5s"/>`;
-  s+=`<circle cx="${sunX}" cy="${sunY}" r="${sunR}" fill="url(#sunGrad)"/>`;
-
+  // Sun
+  const sR=stage>=3?26:22;
+  s+=`<circle cx="258" cy="42" r="${sR+10}" fill="rgba(255,220,80,.18)" style="animation:sunPulse 3s ease-in-out infinite"/>`;
+  s+=`<circle cx="258" cy="42" r="${sR}" fill="url(#sunGrad)"/>`;
   // Clouds
-  const cloudCount=[0,1,1,2,2,3][stage];
-  const cloudDefs=[
-    {x:-80,y:30,dur:"18s",delay:"0s"},{x:-60,y:55,dur:"24s",delay:"6s"},{x:-70,y:20,dur:"20s",delay:"12s"}
-  ];
-  for(let i=0;i<cloudCount;i++){
-    const c=cloudDefs[i],cx=c.x,cy=c.y;
-    s+=`<g style="animation:cloudDrift ${c.dur} linear ${c.delay} infinite">
-      <ellipse cx="${cx+30}" cy="${cy}" rx="28" ry="14" fill="rgba(255,255,255,.85)"/>
-      <ellipse cx="${cx+12}" cy="${cy+4}" rx="18" ry="12" fill="rgba(255,255,255,.85)"/>
-      <ellipse cx="${cx+48}" cy="${cy+4}" rx="22" ry="12" fill="rgba(255,255,255,.85)"/>
-    </g>`;
-  }
-
-  // Birds flying (stage >= 2)
-  const birdCount=[0,0,1,1,2,3][stage];
-  const birdAnims=["birdFly","birdFly2","birdFly"];
-  const birdDelays=["0s","4s","9s"];
-  const birdY=[60,45,70];
-  const birdDurs=["12s","16s","10s"];
-  for(let i=0;i<birdCount;i++){
-    const by=birdY[i]||60;
-    s+=`<g style="animation:${birdAnims[i]} ${birdDurs[i]} linear ${birdDelays[i]} infinite">
-      <path d="M${-30+i*5} ${by} q5-4 10 0 q5 4 10 0" stroke="#2C3E50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-    </g>`;
-  }
-
-  // Background hills (stage >= 2)
-  if(stage>=2){
-    s+=`<ellipse cx="60" cy="${groundY-10}" rx="70" ry="30" fill="#6AAD30" opacity=".4"/>`;
-    s+=`<ellipse cx="250" cy="${groundY-5}" rx="65" ry="25" fill="#5A9E28" opacity=".4"/>`;
-  }
-
+  const nClouds=[0,1,1,2,2,3][stage];
+  [{x:-80,y:28,d:"18s",dl:"0s"},{x:-60,y:52,d:"23s",dl:"7s"},{x:-70,y:18,d:"19s",dl:"13s"}].slice(0,nClouds).forEach(c=>{
+    s+=`<g style="animation:cloudDrift ${c.d} linear ${c.dl} infinite"><ellipse cx="${c.x+30}" cy="${c.y}" rx="26" ry="12" fill="rgba(255,255,255,.88)"/><ellipse cx="${c.x+10}" cy="${c.y+4}" rx="17" ry="11" fill="rgba(255,255,255,.88)"/><ellipse cx="${c.x+48}" cy="${c.y+4}" rx="20" ry="11" fill="rgba(255,255,255,.88)"/></g>`;
+  });
+  // Birds
+  const nBirds=[0,0,1,1,2,3][stage];
+  [{an:"birdFly",d:"12s",dl:"0s",y:58},{an:"birdFly2",d:"16s",dl:"5s",y:44},{an:"birdFly",d:"10s",dl:"10s",y:68}].slice(0,nBirds).forEach(b=>{
+    s+=`<g style="animation:${b.an} ${b.d} linear ${b.dl} infinite"><path d="M-30 ${b.y} q5-4 10 0 q5 4 10 0" stroke="#2C3E50" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>`;
+  });
+  // Hills
+  if(stage>=2){s+=`<ellipse cx="58" cy="${groundY-8}" rx="68" ry="28" fill="#6AAD30" opacity=".38"/>`;s+=`<ellipse cx="248" cy="${groundY-4}" rx="62" ry="24" fill="#5A9E28" opacity=".38"/>`;}
   // Ground
   s+=`<rect x="0" y="${groundY}" width="${W}" height="${H-groundY}" fill="url(#ground)"/>`;
-  s+=`<rect x="0" y="${groundY+18}" width="${W}" height="${H-groundY-18}" fill="url(#soil)"/>`;
-
-  // Stream (stage >= 4)
+  s+=`<rect x="0" y="${groundY+20}" width="${W}" height="${H-groundY-20}" fill="url(#soil)"/>`;
+  // Stream (stage 4+)
   if(stage>=4){
-    s+=`<path d="M0 ${groundY+8} q30-4 60 0 q30 4 60 0 q30-4 60 0 q30 4 60 0 q30-4 60 0" stroke="url(#water)" stroke-width="7" fill="none" opacity=".7"/>`;
-    s+=`<path d="M0 ${groundY+8} q30-4 60 0 q30 4 60 0 q30-4 60 0 q30 4 60 0 q30-4 60 0" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none"/>`;
+    s+=`<path d="M0 ${groundY+9} q28-4 58 0 q28 4 58 0 q28-4 58 0 q28 4 58 0 q28-4 68 0" stroke="url(#water)" stroke-width="6" fill="none" opacity=".75"/>`;
+    s+=`<path d="M0 ${groundY+9} q28-4 58 0 q28 4 58 0 q28-4 58 0 q28 4 58 0 q28-4 68 0" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none"/>`;
+    // Fish in stream (stage 4+)
+    s+=`<g style="animation:swimLeft 6s ease-in-out 2s infinite"><ellipse cx="70" cy="${groundY+9}" rx="8" ry="4" fill="#FF9A00" opacity=".8"/><path d="M62 ${groundY+9} l-6 -3 l0 6 z" fill="#FF9A00" opacity=".8"/></g>`;
   }
+  // Grass
+  const grassX=[22,50,80,100,200,230,260,280,35,70,115,195,245,275,15];
+  grassX.slice(0,[0,4,7,9,11,13,15][stage]).forEach((gx,i)=>{
+    s+=`<g style="animation:grassSway 2s ease-in-out ${(i*.28).toFixed(1)}s infinite"><path d="M${gx} ${groundY} q-3-7 0-13" stroke="#4A8E20" stroke-width="2.3" fill="none" stroke-linecap="round"/><path d="M${gx+4} ${groundY} q3-5 1-11" stroke="#5AAE28" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
+  });
+  // Flowers
+  const flowerData=[[42,groundY-2,"#FF8FAB"],[88,groundY-1,"#FFD060"],[222,groundY-2,"#FF8FAB"],[262,groundY-1,"#A78BFA"],[28,groundY-1,"#FF6B8A"],[275,groundY-2,"#FFD060"],[112,groundY-2,"#FF9EC4"],[242,groundY-1,"#7DD87D"]];
+  flowerData.slice(0,[0,0,2,4,6,8][stage]).forEach(([fx,fy,fc])=>{
+    s+=`<circle cx="${fx}" cy="${fy-5}" r="3.5" fill="${fc}"/><circle cx="${fx-3.5}" cy="${fy-3}" r="2.5" fill="${fc}" opacity=".8"/><circle cx="${fx+3.5}" cy="${fy-3}" r="2.5" fill="${fc}" opacity=".8"/><circle cx="${fx}" cy="${fy-8.5}" r="2.5" fill="${fc}" opacity=".8"/><circle cx="${fx}" cy="${fy-5}" r="2" fill="#FFF176"/><line x1="${fx}" y1="${fy}" x2="${fx}" y2="${fy-3.5}" stroke="#5AAE28" stroke-width="1.3"/>`;
+  });
+  // Bee (stage 3+)
+  if(stage>=3){s+=`<g style="animation:beeDrift 5s ease-in-out 1s infinite"><ellipse cx="200" cy="${groundY-60}" rx="5" ry="4" fill="#FFD600"/><line x1="195" y1="${groundY-61}" x2="205" y2="${groundY-61}" stroke="#333" stroke-width=".8"/><ellipse cx="199" cy="${groundY-63}" rx="4" ry="2.5" fill="rgba(255,255,255,.7)"/><ellipse cx="203" cy="${groundY-63}" rx="4" ry="2.5" fill="rgba(255,255,255,.7)"/></g>`;}
 
-  // Grass tufts
-  const grassCount=[0,3,6,9,12,15][stage];
-  const grassSpots=[20,50,80,220,250,270,30,100,180,240,10,70,130,200,260];
-  for(let i=0;i<Math.min(grassCount,grassSpots.length);i++){
-    const gx=grassSpots[i];
-    const delay=`${(i*0.3).toFixed(1)}s`;
-    s+=`<g style="animation:grassSway 2s ease-in-out ${delay} infinite;transform-origin:${gx}px ${groundY}px">
-      <path d="M${gx} ${groundY} q-3-8 0-14" stroke="#4A8E20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M${gx+4} ${groundY} q3-6 1-12" stroke="#5AAE28" stroke-width="2" fill="none" stroke-linecap="round"/>
-    </g>`;
-  }
-
-  // Flowers (stage >= 2)
-  const flowerData=[[40,groundY-2,"#FF8FAB"],[85,groundY-1,"#FFD060"],[220,groundY-2,"#FF8FAB"],[260,groundY-1,"#A78BFA"],[30,groundY-1,"#FF6B8A"],[270,groundY-2,"#FFD060"],[110,groundY-2,"#FF9EC4"],[240,groundY-1,"#7DD87D"]];
-  const flowerCount=[0,0,2,4,6,8][stage];
-  for(let i=0;i<flowerCount;i++){
-    const[fx,fy,fc]=flowerData[i];
-    s+=`<circle cx="${fx}" cy="${fy-6}" r="4" fill="${fc}"/>`;
-    s+=`<circle cx="${fx-4}" cy="${fy-4}" r="3" fill="${fc}" opacity=".8"/>`;
-    s+=`<circle cx="${fx+4}" cy="${fy-4}" r="3" fill="${fc}" opacity=".8"/>`;
-    s+=`<circle cx="${fx}" cy="${fy-10}" r="3" fill="${fc}" opacity=".8"/>`;
-    s+=`<circle cx="${fx}" cy="${fy-6}" r="2.5" fill="#FFF176"/>`;
-    s+=`<line x1="${fx}" y1="${fy}" x2="${fx}" y2="${fy-4}" stroke="#5AAE28" stroke-width="1.5"/>`;
-  }
-
-  // Main tree
-  const tx=150,ty=groundY; // tree base x,y
+  // Main tree by stage
+  const tx=150,ty=groundY;
   if(stage===0){
-    // Seed + raindrop
-    s+=`<ellipse cx="${tx}" cy="${ty-6}" rx="9" ry="12" fill="#6B4226"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-6}" rx="7" ry="10" fill="#8B5E3C"/>`;
-    s+=`<path d="M${tx} ${ty-16} q3-6 8-8" stroke="#3FA34D" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-    s+=`<ellipse cx="${tx+5}" cy="${ty-22}" rx="4" ry="5" fill="#4CB85C" transform="rotate(-20,${tx+5},${ty-22})"/>`;
-    // raindrop
-    s+=`<path d="M${tx-30} 40 L${tx-28} 55" stroke="#6BBFE0" stroke-width="2" stroke-linecap="round" style="animation:raindrop 2s ease-in infinite"/>`;
-    s+=`<path d="M${tx+20} 20 L${tx+22} 38" stroke="#6BBFE0" stroke-width="2" stroke-linecap="round" style="animation:raindrop 2s ease-in .7s infinite"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-6}" rx="8" ry="11" fill="#8B5E3C"/>`;
+    s+=`<path d="M${tx} ${ty-16} q3-6 8-8" stroke="#3FA34D" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    s+=`<ellipse cx="${tx+5}" cy="${ty-22}" rx="3.5" ry="5" fill="#4CB85C" transform="rotate(-20,${tx+5},${ty-22})"/>`;
+    s+=`<path d="M${tx-32} 40 L${tx-30} 55" stroke="#6BBFE0" stroke-width="1.8" stroke-linecap="round" style="animation:raindrop 2s ease-in infinite"/>`;
+    s+=`<path d="M${tx+22} 20 L${tx+24} 38" stroke="#6BBFE0" stroke-width="1.8" stroke-linecap="round" style="animation:raindrop 2s ease-in .8s infinite"/>`;
   } else if(stage===1){
-    s+=`<rect x="${tx-4}" y="${ty-42}" width="8" height="44" rx="4" fill="#8B5E3C"/>`;
-    // two leaves
-    s+=`<path d="M${tx} ${ty-38} q-22-8-28-28 q24 4 28 24" fill="#3FA34D" style="animation:grassSway 4s ease-in-out infinite;transform-origin:${tx}px ${ty-38}px"/>`;
-    s+=`<path d="M${tx} ${ty-30} q22-10 28-30 q-24 4-28 26" fill="#4CB85C" style="animation:grassSway 4s ease-in-out 1s infinite;transform-origin:${tx}px ${ty-30}px"/>`;
-    // ladybug
-    s+=`<circle cx="${tx+12}" cy="${ty-34}" r="5" fill="#E74C3C"/>`;
-    s+=`<circle cx="${tx+12}" cy="${ty-34}" r="5" fill="none" stroke="#2C3E50" stroke-width=".8"/>`;
-    s+=`<circle cx="${tx+10}" cy="${ty-36}" r="1.5" fill="#2C3E50"/>`;
-    s+=`<circle cx="${tx+14}" cy="${ty-36}" r="1.5" fill="#2C3E50"/>`;
-    s+=`<line x1="${tx+12}" y1="${ty-39}" x2="${tx+12}" y2="${ty-29}" stroke="#2C3E50" stroke-width=".8"/>`;
+    s+=`<rect x="${tx-4}" y="${ty-44}" width="7" height="44" rx="3.5" fill="#8B5E3C"/>`;
+    s+=`<path d="M${tx} ${ty-40} q-20-7-26-26 q22 4 26 22" fill="#3FA34D"/>`;
+    s+=`<path d="M${tx} ${ty-32} q20-9 26-28 q-22 4-26 24" fill="#4CB85C"/>`;
+    // Ladybug
+    s+=`<circle cx="${tx+14}" cy="${ty-36}" r="4.5" fill="#E74C3C"/><circle cx="${tx+14}" cy="${ty-36}" r="4.5" fill="none" stroke="#2C3E50" stroke-width=".7"/><circle cx="${tx+12}" cy="${ty-38}" r="1.3" fill="#2C3E50"/><circle cx="${tx+16}" cy="${ty-38}" r="1.3" fill="#2C3E50"/><line x1="${tx+14}" y1="${ty-40.5}" x2="${tx+14}" y2="${ty-31.5}" stroke="#2C3E50" stroke-width=".7"/>`;
   } else if(stage===2){
-    s+=`<rect x="${tx-6}" y="${ty-90}" width="12" height="92" rx="5" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-98}" rx="36" ry="32" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-24}" cy="${ty-80}" rx="22" ry="20" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+24}" cy="${ty-80}" rx="22" ry="20" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-120}" rx="24" ry="20" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    // butterfly on tree
-    s+=`<g style="animation:butterflyDrift 3s ease-in-out infinite;transform-origin:${tx+40}px ${ty-70}px">
-      <path d="M${tx+40} ${ty-70} q-10-8-8-18 q8 2 8 18" fill="#F8BBD0" opacity=".9" style="animation:butterfly 1.5s ease-in-out infinite"/>
-      <path d="M${tx+40} ${ty-70} q10-8 8-18 q-8 2-8 18" fill="#F8BBD0" opacity=".9" style="animation:butterfly 1.5s ease-in-out infinite"/>
-      <circle cx="${tx+40}" cy="${ty-70}" r="1.5" fill="#7B1FA2"/>
-    </g>`;
+    s+=`<rect x="${tx-6}" y="${ty-100}" width="11" height="100" rx="5" fill="#8B5E3C"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-108}" rx="34" ry="30" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-22}" cy="${ty-90}" rx="22" ry="20" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+22}" cy="${ty-90}" rx="22" ry="20" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-130}" rx="22" ry="18" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    // Butterfly
+    const bx=tx+42,by_=ty-80;
+    s+=`<g style="animation:butterflyDrift 3s ease-in-out infinite"><path d="M${bx} ${by_} q-9-7-7-16 q7 2 7 16" fill="#F8BBD0" style="animation:butterfly 1.5s ease-in-out infinite"/><path d="M${bx} ${by_} q9-7 7-16 q-7 2-7 16" fill="#F8BBD0" style="animation:butterfly 1.5s ease-in-out infinite"/><circle cx="${bx}" cy="${by_}" r="1.3" fill="#7B1FA2"/></g>`;
+    // Hedgehog
+    s+=`<g style="animation:hop 5s ease-in-out 2s infinite;transform-origin:${tx-55}px ${ty}px"><ellipse cx="${tx-55}" cy="${ty-7}" rx="9" ry="6" fill="#8D6E63"/><circle cx="${tx-55}" cy="${ty-13}" r="5.5" fill="#A1887F"/><path d="M${tx-62} ${ty-15} q-3-5 0-9" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M${tx-57} ${ty-17} q0-6 2-10" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M${tx-52} ${ty-16} q3-5 1-9" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="${tx-52}" cy="${ty-14}" r="1.3" fill="#333"/></g>`;
   } else if(stage===3){
-    s+=`<rect x="${tx-8}" y="${ty-130}" width="16" height="132" rx="6" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-140}" rx="50" ry="44" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-30}" cy="${ty-118}" rx="34" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+30}" cy="${ty-118}" rx="34" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-166}" rx="32" ry="26" fill="#4CB85C" style="animation:sway 5s ease-in-out .2s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    // bird nest on branch
-    s+=`<ellipse cx="${tx-52}" cy="${ty-118}" rx="9" ry="5" fill="#8B6914"/>`;
-    s+=`<ellipse cx="${tx-52}" cy="${ty-121}" rx="7" ry="4" fill="#6B4C10"/>`;
-    s+=`<circle cx="${tx-54}" cy="${ty-122}" r="3" fill="#FFF176"/>`;
-    s+=`<circle cx="${tx-50}" cy="${ty-122}" r="3" fill="#AED581"/>`;
-    // squirrel at base
-    s+=`<g style="animation:hop 3s ease-in-out 1s infinite;transform-origin:${tx-55}px ${ty}px">
-      <ellipse cx="${tx-55}" cy="${ty-10}" rx="7" ry="6" fill="#B5651D"/>
-      <circle cx="${tx-55}" cy="${ty-16}" r="5" fill="#C67B2D"/>
-      <path d="M${tx-52} ${ty-20} q6-12 4-20 q-6 8-6 20" fill="#B5651D"/>
-      <circle cx="${tx-53}" cy="${ty-17}" r="1.5" fill="#333"/>
-    </g>`;
+    s+=`<rect x="${tx-8}" y="${ty-140}" width="15" height="140" rx="6" fill="#8B5E3C"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-150}" rx="48" ry="44" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-30}" cy="${ty-128}" rx="32" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+30}" cy="${ty-128}" rx="32" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-178}" rx="30" ry="24" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    // Nest
+    s+=`<ellipse cx="${tx-52}" cy="${ty-128}" rx="8" ry="5" fill="#8B6914"/><ellipse cx="${tx-52}" cy="${ty-131}" rx="6.5" ry="4" fill="#6B4C10"/><circle cx="${tx-54}" cy="${ty-132}" r="2.5" fill="#FFF176"/><circle cx="${tx-50}" cy="${ty-132}" r="2.5" fill="#AED581"/>`;
+    // Squirrel
+    s+=`<g style="animation:hop 3.5s ease-in-out 1s infinite;transform-origin:${tx-58}px ${ty}px"><ellipse cx="${tx-58}" cy="${ty-10}" rx="7" ry="6" fill="#B5651D"/><circle cx="${tx-58}" cy="${ty-16}" r="5" fill="#C67B2D"/><path d="M${tx-55} ${ty-20} q6-12 3-20 q-6 8-5 20" fill="#B5651D"/><circle cx="${tx-56}" cy="${ty-17}" r="1.3" fill="#333"/></g>`;
     // 2 butterflies
-    for(let bi=0;bi<2;bi++){
-      const bx=tx+(bi===0?45:-50),by_=ty-100-bi*20,delay_=`${bi*1.5}s`;
-      s+=`<g style="animation:butterflyDrift 3.5s ease-in-out ${delay_} infinite">
-        <path d="M${bx} ${by_} q-9-7-7-16 q7 2 7 16" fill="${bi===0?"#FFCC80":"#CE93D8"}" style="animation:butterfly 1.2s ease-in-out ${delay_} infinite"/>
-        <path d="M${bx} ${by_} q9-7 7-16 q-7 2-7 16" fill="${bi===0?"#FFCC80":"#CE93D8"}" style="animation:butterfly 1.2s ease-in-out ${delay_} infinite"/>
-        <circle cx="${bx}" cy="${by_}" r="1.5" fill="#555"/>
-      </g>`;
-    }
+    [[tx+48,ty-110,"#FFCC80","0s"],[tx-54,ty-130,"#CE93D8","1.8s"]].forEach(([bx,by_,col,dl])=>{
+      s+=`<g style="animation:butterflyDrift 3.5s ease-in-out ${dl} infinite"><path d="M${bx} ${by_} q-9-7-7-16 q7 2 7 16" fill="${col}" style="animation:butterfly 1.2s ease-in-out ${dl} infinite"/><path d="M${bx} ${by_} q9-7 7-16 q-7 2-7 16" fill="${col}" style="animation:butterfly 1.2s ease-in-out ${dl} infinite"/><circle cx="${bx}" cy="${by_}" r="1.3" fill="#555"/></g>`;
+    });
+    // Frog near ground
+    s+=`<g style="animation:hop 4s ease-in-out 0.5s infinite;transform-origin:${tx+58}px ${ty}px"><ellipse cx="${tx+58}" cy="${ty-7}" rx="7" ry="5" fill="#66BB6A"/><circle cx="${tx+58}" cy="${ty-12}" r="5" fill="#81C784"/><circle cx="${tx+55}" cy="${ty-15}" r="3" fill="#A5D6A7"/><circle cx="${tx+61}" cy="${ty-15}" r="3" fill="#A5D6A7"/><circle cx="${tx+54}" cy="${ty-15.5}" r="1.2" fill="#222"/><circle cx="${tx+62}" cy="${ty-15.5}" r="1.2" fill="#222"/></g>`;
   } else if(stage===4){
-    s+=`<rect x="${tx-10}" y="${ty-160}" width="20" height="162" rx="8" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-170}" rx="60" ry="54" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-38}" cy="${ty-145}" rx="40" ry="36" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+38}" cy="${ty-145}" rx="40" ry="36" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-200}" rx="40" ry="34" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-18}" cy="${ty-180}" rx="26" ry="22" fill="#5BC96B" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    // rabbit
-    s+=`<g style="animation:hop 2s ease-in-out infinite;transform-origin:${tx+60}px ${ty}px">
-      <ellipse cx="${tx+60}" cy="${ty-10}" rx="8" ry="6" fill="#F5F5DC"/>
-      <circle cx="${tx+60}" cy="${ty-17}" r="6" fill="#F5F5DC"/>
-      <path d="M${tx+57} ${ty-22} q-2-10 0-18" stroke="#F5F5DC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M${tx+63} ${ty-22} q2-10 0-18" stroke="#F5F5DC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <circle cx="${tx+58}" cy="${ty-18}" r="1.5" fill="#FF8A9A"/>
-    </g>`;
+    s+=`<rect x="${tx-10}" y="${ty-172}" width="20" height="172" rx="8" fill="#8B5E3C"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-182}" rx="58" ry="52" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-36}" cy="${ty-156}" rx="38" ry="34" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+36}" cy="${ty-156}" rx="38" ry="34" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-214}" rx="38" ry="32" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-16}" cy="${ty-192}" rx="24" ry="22" fill="#5BC96B" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    // Rabbit
+    s+=`<g style="animation:hop 2.2s ease-in-out infinite;transform-origin:${tx+62}px ${ty}px"><ellipse cx="${tx+62}" cy="${ty-10}" rx="7.5" ry="5.5" fill="#F5F5DC"/><circle cx="${tx+62}" cy="${ty-17}" r="5.5" fill="#F5F5DC"/><path d="M${tx+59} ${ty-22} q-2-9 0-17" stroke="#F5F5DC" stroke-width="2.3" fill="none" stroke-linecap="round"/><path d="M${tx+65} ${ty-22} q2-9 0-17" stroke="#F5F5DC" stroke-width="2.3" fill="none" stroke-linecap="round"/><circle cx="${tx+60}" cy="${ty-18}" r="1.3" fill="#FF8A9A"/></g>`;
     // 2 butterflies
-    for(let bi=0;bi<2;bi++){
-      const bx=tx+(bi===0?50:-55),by_=ty-120-bi*25,delay_=`${bi*2}s`;
-      const col=bi===0?"#80DEEA":"#FFAB91";
-      s+=`<g style="animation:butterflyDrift 4s ease-in-out ${delay_} infinite">
-        <path d="M${bx} ${by_} q-10-8-8-18 q8 2 8 18" fill="${col}" style="animation:butterfly 1.3s ease-in-out ${delay_} infinite"/>
-        <path d="M${bx} ${by_} q10-8 8-18 q-8 2-8 18" fill="${col}" style="animation:butterfly 1.3s ease-in-out ${delay_} infinite"/>
-        <circle cx="${bx}" cy="${by_}" r="1.5" fill="#444"/>
-      </g>`;
-    }
+    [[tx+52,ty-130,"#80DEEA","0s"],[tx-56,ty-155,"#FFAB91","2s"]].forEach(([bx,by_,col,dl])=>{
+      s+=`<g style="animation:butterflyDrift 4s ease-in-out ${dl} infinite"><path d="M${bx} ${by_} q-10-8-8-18 q8 2 8 18" fill="${col}" style="animation:butterfly 1.3s ease-in-out ${dl} infinite"/><path d="M${bx} ${by_} q10-8 8-18 q-8 2-8 18" fill="${col}" style="animation:butterfly 1.3s ease-in-out ${dl} infinite"/><circle cx="${bx}" cy="${by_}" r="1.3" fill="#444"/></g>`;
+    });
+    // Frog near stream
+    s+=`<g style="animation:hop 3.5s ease-in-out 1s infinite;transform-origin:30px ${groundY}px"><ellipse cx="30" cy="${groundY-6}" rx="6" ry="4" fill="#66BB6A"/><circle cx="30" cy="${groundY-10}" r="4.5" fill="#81C784"/><circle cx="27.5" cy="${groundY-13}" r="2.5" fill="#A5D6A7"/><circle cx="32.5" cy="${groundY-13}" r="2.5" fill="#A5D6A7"/><circle cx="27" cy="${groundY-13.5}" r="1" fill="#222"/><circle cx="33" cy="${groundY-13.5}" r="1" fill="#222"/></g>`;
   } else {
-    // Stage 5 — Mighty Tree Ecosystem
-    s+=`<rect x="${tx-14}" y="${ty-188}" width="28" height="190" rx="10" fill="#7B4E2D"/>`;
-    // Rich canopy layers
-    s+=`<ellipse cx="${tx}" cy="${ty-196}" rx="68" ry="62" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-44}" cy="${ty-168}" rx="46" ry="42" fill="#3FA34D" style="animation:sway 5s ease-in-out .4s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+44}" cy="${ty-168}" rx="46" ry="42" fill="#3FA34D" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-232}" rx="44" ry="38" fill="#4CB85C" style="animation:sway 5s ease-in-out .2s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-20}" cy="${ty-210}" rx="28" ry="26" fill="#5BC96B" style="animation:sway 5s ease-in-out .6s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+22}" cy="${ty-210}" rx="24" ry="22" fill="#5BC96B" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    // Stage 5: Mighty Tree full ecosystem
+    s+=`<rect x="${tx-13}" y="${ty-200}" width="26" height="200" rx="10" fill="#7B4E2D"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-210}" rx="66" ry="60" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-42}" cy="${ty-180}" rx="44" ry="40" fill="#3FA34D" style="animation:sway 5s ease-in-out .4s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+42}" cy="${ty-180}" rx="44" ry="40" fill="#3FA34D" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-248}" rx="42" ry="36" fill="#4CB85C" style="animation:sway 5s ease-in-out .2s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-18}" cy="${ty-224}" rx="26" ry="24" fill="#5BC96B" style="animation:sway 5s ease-in-out .6s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+20}" cy="${ty-222}" rx="22" ry="20" fill="#5BC96B" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
     // Fruits
-    [[tx-20,ty-180],[tx+18,ty-165],[tx-10,ty-200],[tx+30,ty-190],[tx-32,ty-155],[tx+8,ty-220]].forEach(([fx,fy])=>{
-      s+=`<circle cx="${fx}" cy="${fy}" r="5.5" fill="#E53935"/>`;
-      s+=`<path d="M${fx} ${fy-5.5} q2-3 4-2" stroke="#4CAF50" stroke-width="1.2" fill="none"/>`;
+    [[tx-20,ty-194],[tx+18,ty-178],[tx-10,ty-215],[tx+28,ty-202],[tx-30,ty-168],[tx+8,ty-234]].forEach(([fx,fy])=>{
+      s+=`<circle cx="${fx}" cy="${fy}" r="5" fill="#E53935"/><path d="M${fx} ${fy-5} q2-3 4-2" stroke="#4CAF50" stroke-width="1.1" fill="none"/>`;
     });
     // 3 butterflies
-    const bColors=["#F48FB1","#80DEEA","#FFCC80"];
-    for(let bi=0;bi<3;bi++){
-      const bx=tx+(bi===0?58:bi===1?-62:10),by_=ty-140-bi*28,delay_=`${bi*1.8}s`;
-      s+=`<g style="animation:butterflyDrift 3.8s ease-in-out ${delay_} infinite">
-        <path d="M${bx} ${by_} q-10-8-8-18 q8 2 8 18" fill="${bColors[bi]}" style="animation:butterfly 1.1s ease-in-out ${delay_} infinite"/>
-        <path d="M${bx} ${by_} q10-8 8-18 q-8 2-8 18" fill="${bColors[bi]}" style="animation:butterfly 1.1s ease-in-out ${delay_} infinite"/>
-        <circle cx="${bx}" cy="${by_}" r="1.5" fill="#333"/>
-      </g>`;
-    }
-    // Deer silhouette at far left
-    s+=`<g style="animation:hop 6s ease-in-out 2s infinite;transform-origin:25px ${ty}px" opacity=".85">
-      <ellipse cx="22" cy="${ty-14}" rx="12" ry="7" fill="#8D6E63"/>
-      <rect x="18" y="${ty-20}" width="5" height="10" rx="2" fill="#8D6E63"/>
-      <ellipse cx="22" cy="${ty-23}" rx="6" ry="5" fill="#8D6E63"/>
-      <path d="M21 ${ty-27} q-1-6 0-10" stroke="#8D6E63" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <path d="M23 ${ty-27} q1-6 0-10" stroke="#8D6E63" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <path d="M21 ${ty-37} q-3-3-2-6" stroke="#8D6E63" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <path d="M21 ${ty-37} q1-4 3-5" stroke="#8D6E63" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    </g>`;
-    // Fireflies / sparkles
-    const sparklePos=[[60,ty-80],[80,ty-120],[230,ty-90],[210,ty-140],[170,ty-60]];
-    sparklePos.forEach(([sx,sy],i)=>{
-      s+=`<circle cx="${sx}" cy="${sy}" r="3" fill="#FFE57F" style="animation:sparkle 2s ease-in-out ${i*0.6}s infinite"/>`;
+    [[tx+60,ty-155,"#F48FB1","0s"],[tx-64,ty-178,"#80DEEA","1.8s"],[tx+10,ty-140,"#FFCC80","3.5s"]].forEach(([bx,by_,col,dl])=>{
+      s+=`<g style="animation:butterflyDrift 3.8s ease-in-out ${dl} infinite"><path d="M${bx} ${by_} q-10-8-8-18 q8 2 8 18" fill="${col}" style="animation:butterfly 1.1s ease-in-out ${dl} infinite"/><path d="M${bx} ${by_} q10-8 8-18 q-8 2-8 18" fill="${col}" style="animation:butterfly 1.1s ease-in-out ${dl} infinite"/><circle cx="${bx}" cy="${by_}" r="1.3" fill="#333"/></g>`;
+    });
+    // Deer
+    s+=`<g style="animation:hop 7s ease-in-out 2s infinite;transform-origin:24px ${ty}px" opacity=".88"><ellipse cx="24" cy="${ty-14}" rx="11" ry="7" fill="#8D6E63"/><rect x="20" y="${ty-21}" width="4.5" height="9" rx="2" fill="#8D6E63"/><ellipse cx="24" cy="${ty-24}" rx="5.5" ry="5" fill="#8D6E63"/><path d="M23 ${ty-28} q-1-6 0-10" stroke="#8D6E63" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M25 ${ty-28} q1-6 0-10" stroke="#8D6E63" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M23 ${ty-38} q-3-3-2-6" stroke="#8D6E63" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M23 ${ty-38} q1-4 3-5" stroke="#8D6E63" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;
+    // Fox on right
+    s+=`<g style="animation:hop 9s ease-in-out 4s infinite;transform-origin:275px ${ty}px" opacity=".85"><ellipse cx="275" cy="${ty-10}" rx="10" ry="6" fill="#E65100"/><circle cx="275" cy="${ty-17}" r="6" fill="#EF6C00"/><path d="M268 ${ty-21} q-5-4-4-8 q5 2 6 8 z" fill="#EF6C00"/><path d="M282 ${ty-21} q5-4 4-8 q-5 2-6 8 z" fill="#EF6C00"/><circle cx="273" cy="${ty-18.5}" r="1.3" fill="#212121"/><circle cx="277" cy="${ty-18.5}" r="1.3" fill="#212121"/><ellipse cx="275" cy="${ty-15}" rx="3" ry="2" fill="#FFF8E1"/></g>`;
+    // Frog near stream
+    s+=`<g style="animation:hop 4s ease-in-out 1s infinite;transform-origin:60px ${ty}px"><ellipse cx="60" cy="${ty-6}" rx="6" ry="4" fill="#66BB6A"/><circle cx="60" cy="${ty-10}" r="4.5" fill="#81C784"/><circle cx="57.5" cy="${ty-13}" r="2.5" fill="#A5D6A7"/><circle cx="62.5" cy="${ty-13}" r="2.5" fill="#A5D6A7"/><circle cx="57" cy="${ty-13.5}" r="1" fill="#222"/><circle cx="63" cy="${ty-13.5}" r="1" fill="#222"/></g>`;
+    // Fireflies
+    [[64,ty-88],[82,ty-125],[228,ty-95],[212,ty-148],[168,ty-68]].forEach(([sx,sy],i)=>{
+      s+=`<circle cx="${sx}" cy="${sy}" r="3" fill="#FFE57F" style="animation:sparkle 2s ease-in-out ${i*0.65}s infinite"/>`;
     });
   }
 
-  // Forest floor trees (extra trees earned)
-  const fc=forestCount();
-  const forestSpots=[[30,groundY],[270,groundY],[55,groundY],[245,groundY],[10,groundY],[290,groundY]];
-  for(let i=0;i<fc;i++){
-    const[fx,fy]=forestSpots[i];
-    s+=`<rect x="${fx-3}" y="${fy-22}" width="5" height="22" rx="2" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${fx}" cy="${fy-26}" rx="11" ry="10" fill="#3FA34D"/>`;
-    s+=`<ellipse cx="${fx-7}" cy="${fy-20}" rx="7" ry="7" fill="#4CB85C"/>`;
-    s+=`<ellipse cx="${fx+7}" cy="${fy-20}" rx="7" ry="7" fill="#4CB85C"/>`;
-  }
+  // Forest floor extra trees
+  [[32,groundY],[268,groundY],[58,groundY],[242,groundY],[12,groundY],[288,groundY]].slice(0,forestCount()).forEach(([fx,fy])=>{
+    s+=`<rect x="${fx-3}" y="${fy-22}" width="4.5" height="22" rx="2" fill="#8B5E3C"/><ellipse cx="${fx}" cy="${fy-26}" rx="10" ry="9" fill="#3FA34D"/><ellipse cx="${fx-6}" cy="${fy-20}" rx="6" ry="6" fill="#4CB85C"/><ellipse cx="${fx+6}" cy="${fy-20}" rx="6" ry="6" fill="#4CB85C"/>`;
+  });
 
   svg.innerHTML=s;
-}
-
-// CSS for sway inside SVG (referenced by drawEcosystem)
-if(!document.getElementById("ecoStyle")){
-  const style=document.createElement("style");
-  style.id="ecoStyle";
-  style.textContent=`
-    @keyframes sway{0%,100%{transform:rotate(-1.5deg);}50%{transform:rotate(1.5deg);}}
-    @keyframes raindrop{from{transform:translateY(-10px);opacity:1;}to{transform:translateY(15px);opacity:0;}}
-    @keyframes sparkle{0%,100%{opacity:0;}50%{opacity:1;}}
-  `;
-  document.head.appendChild(style);
 }
 
 function drawCalendar(){
@@ -1024,7 +937,22 @@ function drawCalendar(){
 
 async function pushScore(){if(window.DB&&myName()){try{await window.DB.pushScore(myName(),getAllTime());}catch(e){}}}
 
-/* ---- Leaderboard ---- */
+/* ---- Home leaderboard ---- */
+function startHomeLb(){
+  if(!window.DB)return;
+  homeLbUnsub=window.DB.subscribeScores(rows=>{
+    const body=document.getElementById("homeLbBody");
+    if(!rows.length){body.innerHTML='<div style="font-size:13px;opacity:.5">No players yet.</div>';return;}
+    body.innerHTML=rows.slice(0,5).map((r,i)=>{
+      const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
+      const me=myName()&&r.name.toLowerCase()===myName().toLowerCase()?" me":"";
+      const ptsCls=r.points<0?"neg":"pos",sign=r.points>0?"+":"";
+      return `<div class="hlb-row${me}"><span class="hlb-rank">${medal}</span><span class="hlb-name">${r.name}</span><span class="hlb-pts ${ptsCls}">${sign}${r.points}</span></div>`;
+    }).join("");
+  },5);
+}
+
+/* ---- Full leaderboard ---- */
 function renderLeaderboard(){
   const body=document.getElementById("lbBody");
   if(!window.DB){body.innerHTML="<p>Connecting…</p>";setTimeout(renderLeaderboard,800);return;}
@@ -1033,12 +961,12 @@ function renderLeaderboard(){
     let html="";
     rows.forEach((r,i)=>{
       const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
-      const me=r.name.toLowerCase()===myName().toLowerCase()?" me":"";
+      const me=myName()&&r.name.toLowerCase()===myName().toLowerCase()?" me":"";
       const ptsCls=r.points<0?"neg":"pos",sign=r.points>0?"+":"";
       html+=`<div class="lb-row${me}"><span class="lb-rank">${medal}</span><span class="lb-name">${r.name}</span><span class="lb-pts ${ptsCls}">${sign}${r.points} pts</span></div>`;
     });
     if(!html)html="<p>No scores yet.</p>";
-    body.innerHTML=`<p class="hint">🟢 Live · You: <b>${myName()}</b> · ${getAllTime()} lifetime pts</p>`+html;
+    body.innerHTML=`<p class="hint">🟢 Live · You: <b>${myName()||"?"}</b> · ${getAllTime()} lifetime pts</p>`+html;
   });
 }
 
@@ -1055,68 +983,25 @@ function renderFeed(){
       const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
       const initial=(item.username||"?")[0].toUpperCase();
       const photoHtml=item.photo?`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`:`<div class="feed-no-photo">${item.emoji}</div>`;
-      return `<div class="feed-card">
-        ${photoHtml}
-        <div class="feed-body">
-          <div class="feed-top">
-            <div class="feed-avatar">${initial}</div>
-            <span class="feed-user">${item.username||"Someone"}</span>
-            <span class="feed-time">${timeAgo(item.timestamp)}</span>
-          </div>
-          <div class="feed-act">
-            <span class="fa-emoji">${item.emoji}</span>
-            <span class="fa-name">${item.activityName}</span>
-            <span class="fa-pts ${ptsCls}">${sign}${item.pts}</span>
-          </div>
-          <button class="comment-btn" onclick="toggleComments('${item.id}',this)">💬 Comments</button>
-          <div class="comment-section" id="cs-${item.id}">
-            <div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div>
-            <div class="comment-input-row">
-              <input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/>
-              <button onclick="postComment('${item.id}')">Send</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
+      return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div><button class="comment-btn" onclick="toggleComments('${item.id}')">💬 Comments</button><div class="comment-section" id="cs-${item.id}"><div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div><div class="comment-input-row"><input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/><button onclick="postComment('${item.id}')">Send</button></div></div></div></div>`;
     }).join("");
   });
 }
-
-function toggleComments(postId){
-  const section=document.getElementById("cs-"+postId);
-  const isOpen=section.classList.contains("open");
-  section.classList.toggle("open");
-  if(!isOpen)loadComments(postId);
-}
+function toggleComments(postId){const s=document.getElementById("cs-"+postId);const open=s.classList.toggle("open");if(open)loadComments(postId);}
 async function loadComments(postId){
-  const list=document.getElementById("cl-"+postId);
-  if(!list||!window.DB)return;
-  try{
-    const comments=await window.DB.getComments(postId);
-    if(!comments.length){list.innerHTML='<div class="ci-empty">No comments yet — be the first!</div>';return;}
-    list.innerHTML=comments.map(c=>`<div class="comment-item">
-      <div class="ci-avatar">${(c.username||"?")[0].toUpperCase()}</div>
-      <div class="ci-body"><div class="ci-user">${c.username||"?"}</div><div class="ci-text">${c.text}</div></div>
-    </div>`).join("");
-  }catch(e){list.innerHTML='<div class="ci-empty">Couldn\'t load comments.</div>';console.error(e);}
+  const list=document.getElementById("cl-"+postId);if(!list||!window.DB)return;
+  try{const c=await window.DB.getComments(postId);if(!c.length){list.innerHTML='<div class="ci-empty">No comments yet — be the first!</div>';return;}list.innerHTML=c.map(x=>`<div class="comment-item"><div class="ci-avatar">${(x.username||"?")[0].toUpperCase()}</div><div class="ci-body"><div class="ci-user">${x.username||"?"}</div><div class="ci-text">${x.text}</div></div></div>`).join("");}catch(e){list.innerHTML='<div class="ci-empty">Could not load.</div>';console.error(e);}
 }
 async function postComment(postId){
-  const input=document.getElementById("ci-"+postId);
-  const text=(input.value||"").trim();
-  if(!text||!window.DB)return;
+  const input=document.getElementById("ci-"+postId);const text=(input.value||"").trim();if(!text||!window.DB)return;
   input.value="";input.disabled=true;
-  try{
-    await window.DB.addComment({postId,username:myName()||"?",text,timestamp:Date.now()});
-    await loadComments(postId);
-  }catch(e){console.error(e);}
+  try{await window.DB.addComment({postId,username:myName()||"?",text,timestamp:Date.now()});await loadComments(postId);}catch(e){console.error(e);}
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
 
-window.onDBReady=function(){
-  if(myName())checkForWarning();
-};
-if(myName()){render();if(window.DB_READY)checkForWarning();}
+window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}};
+if(window.DB_READY&&myName()){checkForWarning();startHomeLb();}
 </script>
 </body>
 </html>
