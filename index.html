@@ -242,7 +242,7 @@
 <!-- ============ FIREBASE (paste your keys below to turn on the leaderboard) ============ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs }
+  import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs, onSnapshot }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ↓↓↓ PASTE YOUR FIREBASE CONFIG HERE ↓↓↓
@@ -274,6 +274,12 @@
         async push(name, points){
           await setDoc(doc(db,"scores",name.toLowerCase()),
             {name, points, updated:Date.now()}, {merge:true});
+        },
+        subscribe(callback){
+          const q = query(collection(db,"scores"), orderBy("points","desc"), limit(20));
+          return onSnapshot(q, snap => {
+            callback(snap.docs.map(d=>d.data()));
+          });
         },
         async top(){
           const q = query(collection(db,"scores"), orderBy("points","desc"), limit(20));
@@ -375,10 +381,7 @@ function clearToday(){ state={score:0,actions:[],reflection:""}; saveState(); re
 function openInfo(){document.getElementById("modalBg").classList.add("show");}
 function closeInfo(){document.getElementById("modalBg").classList.remove("show");}
 document.getElementById("modalBg").addEventListener("click",function(e){if(e.target===this)closeInfo();});
-function showView(v,btn){document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
-  document.getElementById("view-"+v).classList.add("active");
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});}
+/* showView defined in leaderboard section */
 
 function render(){
   document.getElementById("totalScore").textContent=state.score;
@@ -445,7 +448,8 @@ async function claimName(){
     Store.set("et:username",name); await window.LB.push(name,getAllTime()); renderLeaderboard();
   }catch(e){ alert("Couldn't connect. Check your internet."); }
 }
-async function renderLeaderboard(){
+let lbUnsub = null;
+function renderLeaderboard(){
   const body=document.getElementById("lbBody");
   if(window.LB_STATUS==="setup"||(!window.LB && window.LB_STATUS!=="ready")){
     body.innerHTML=`<p>The leaderboard turns on once your teacher adds the Firebase keys to the app's code.</p>
@@ -457,19 +461,30 @@ async function renderLeaderboard(){
       <div class="nameform"><input id="nameInput" maxlength="16" placeholder="Your username"/><button onclick="claimName()">Join</button></div>
       <p class="hint">Your lifetime points: ${getAllTime()}</p>`; return;
   }
+  // unsubscribe any old listener before starting a new one
+  if(lbUnsub){ lbUnsub(); lbUnsub=null; }
   body.innerHTML="<p>Loading scores…</p>";
   try{
-    const rows=await window.LB.top();
-    let html="";
-    rows.forEach((r,i)=>{
-      const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
-      const me=r.name.toLowerCase()===myName().toLowerCase()?" me":"";
-      html+=`<div class="lb-row${me}"><span class="lb-rank">${medal}</span><span class="lb-name">${r.name}</span><span class="lb-pts">${r.points}</span></div>`;
+    lbUnsub = window.LB.subscribe(rows=>{
+      let html="";
+      rows.forEach((r,i)=>{
+        const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
+        const me=r.name.toLowerCase()===myName().toLowerCase()?" me":"";
+        html+=`<div class="lb-row${me}"><span class="lb-rank">${medal}</span><span class="lb-name">${r.name}</span><span class="lb-pts">${r.points} pts</span></div>`;
+      });
+      if(!html) html="<p>No scores yet — be the first!</p>";
+      body.innerHTML=`<p class="hint">🟢 Live · You are "<b>${myName()}</b>" · ${getAllTime()} pts</p>`+html;
     });
-    if(!html) html="<p>No scores yet — be the first!</p>";
-    body.innerHTML=`<p class="hint">You are "<b>${myName()}</b>" · ${getAllTime()} lifetime points</p>`+html+
-      `<button class="rbtn" style="margin-top:6px" onclick="renderLeaderboard()">↻ Refresh</button>`;
   }catch(e){ body.innerHTML="<p>Couldn't load scores. Check your internet.</p>"; }
+}
+// stop listener when leaving the leaderboard tab
+function showView(v,btn){
+  if(v!=="top" && lbUnsub){ lbUnsub(); lbUnsub=null; }
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.getElementById("view-"+v).classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(v==="top") renderLeaderboard();
 }
 window.claimName=claimName; window.renderLeaderboard=renderLeaderboard;
 window.onLBReady=function(){ const v=document.getElementById("view-top"); if(v && v.classList.contains("active")) renderLeaderboard(); };
