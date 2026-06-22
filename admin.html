@@ -6,61 +6,92 @@
 <title>Earth Token — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--leaf:#3FA34D;--bad:#FF6B57;--ink:#173A2C;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,.1);--font:'Fredoka',sans-serif;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100vh;padding-bottom:40px;}
-  .topbar{background:var(--ink);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:12px;}
-  .topbar h1{font-size:20px;font-weight:700;}
-  .topbar .badge{background:var(--bad);font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;}
-  .wrap{max-width:700px;margin:0 auto;padding:24px 18px;}
-  /* Login */
-  .login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;gap:16px;}
-  .login h2{font-size:24px;font-weight:700;}
-  .login input{width:280px;border:2px solid #ddd;border-radius:12px;padding:13px;font-family:var(--font);font-size:16px;}
-  .login input:focus{outline:none;border-color:var(--leaf);}
-  .login button{width:280px;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;}
-  .login .err{color:var(--bad);font-size:14px;font-weight:600;}
-  /* Tabs */
-  .tabs{display:flex;gap:8px;margin-bottom:20px;}
-  .tab{border:none;background:var(--card);border-radius:12px;padding:10px 18px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;box-shadow:var(--shadow);opacity:.6;}
-  .tab.active{opacity:1;background:var(--leaf);color:#fff;}
-  .view{display:none;} .view.active{display:block;}
-  /* Cards */
-  .row{background:var(--card);border-radius:16px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
-  .row-main{flex:1;}
-  .row-name{font-size:15px;font-weight:700;}
-  .row-sub{font-size:12.5px;opacity:.6;font-weight:500;margin-top:2px;}
-  .pts-pos{color:var(--leaf);font-weight:700;font-size:14px;}
-  .pts-neg{color:var(--bad);font-weight:700;font-size:14px;}
-  .btn-del{background:#FFF0EE;border:none;border-radius:10px;padding:8px 14px;font-family:var(--font);font-weight:700;font-size:13px;color:var(--bad);cursor:pointer;}
-  .btn-warn{background:#FFF6E5;border:none;border-radius:10px;padding:8px 14px;font-family:var(--font);font-weight:700;font-size:13px;color:#B7820A;cursor:pointer;}
-  .btn-del:active,.btn-warn:active{transform:scale(.97);}
-  /* Feed cards */
-  .fcard{background:var(--card);border-radius:16px;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;}
-  .fcard img{width:100%;max-height:220px;object-fit:cover;display:block;}
-  .fcard-no-photo{height:60px;background:#F3FBEF;display:flex;align-items:center;justify-content:center;font-size:30px;}
-  .fcard-body{padding:12px 14px;display:flex;align-items:center;gap:10px;}
-  .fcard-info{flex:1;}
-  .fcard-user{font-size:14px;font-weight:700;}
-  .fcard-act{font-size:13px;opacity:.7;font-weight:500;}
-  .fcard-time{font-size:12px;opacity:.45;}
-  /* Warn form */
-  .warn-form{background:var(--card);border-radius:16px;padding:18px;box-shadow:var(--shadow);margin-bottom:20px;}
-  .warn-form h3{font-size:16px;font-weight:700;margin-bottom:12px;}
-  .warn-form select,.warn-form textarea{width:100%;border:2px solid #E3EFE6;border-radius:12px;padding:11px;font-family:var(--font);font-size:14px;color:var(--ink);margin-bottom:10px;}
-  .warn-form textarea{min-height:80px;resize:none;}
-  .warn-form select:focus,.warn-form textarea:focus{outline:none;border-color:var(--leaf);}
-  .warn-form button{background:#F5A623;color:#fff;border:none;border-radius:12px;padding:12px 20px;font-family:var(--font);font-weight:700;font-size:14px;cursor:pointer;}
-  /* History */
-  .wrow{background:var(--card);border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--shadow);border-left:4px solid #F5A623;}
-  .wrow.read{border-color:#ccc;opacity:.6;}
-  .wrow-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-  .wrow-user{font-size:14px;font-weight:700;}
-  .wrow-time{font-size:12px;opacity:.5;margin-left:auto;}
-  .wrow-msg{font-size:13.5px;font-weight:500;}
-  .empty{text-align:center;padding:24px;opacity:.5;font-size:14px;}
-  .status{font-size:13px;font-weight:600;padding:8px 12px;border-radius:10px;margin-top:8px;display:inline-block;}
-  .status.ok{background:#DDF4E4;color:#1a6b32;} .status.err{background:#FFE3DE;color:#c0392b;}
+:root{--leaf:#3FA34D;--bad:#FF6B57;--ink:#173A2C;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,.1);--font:'Fredoka',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100vh;padding-bottom:60px;}
+
+.topbar{background:var(--ink);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;}
+.topbar h1{font-size:19px;font-weight:700;flex:1;}
+.topbar .badge{background:var(--bad);font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;}
+
+.wrap{max-width:720px;margin:0 auto;padding:22px 16px;}
+
+/* Login */
+.login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;gap:14px;}
+.login h2{font-size:22px;font-weight:700;}
+.login input{width:280px;border:2px solid #ddd;border-radius:12px;padding:12px;font-family:var(--font);font-size:15px;}
+.login input:focus{outline:none;border-color:var(--leaf);}
+.login button{width:280px;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:13px;font-family:var(--font);font-weight:700;font-size:15px;cursor:pointer;}
+.login .err{color:var(--bad);font-size:13.5px;font-weight:600;}
+
+/* Tabs */
+.tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;}
+.tab{border:none;background:var(--card);border-radius:11px;padding:10px 16px;font-family:var(--font);font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:var(--shadow);opacity:.6;}
+.tab.active{opacity:1;background:var(--leaf);color:#fff;}
+.view{display:none;}.view.active{display:block;}
+
+/* Bulk action bar */
+.bulk-bar{position:sticky;top:55px;z-index:9;background:var(--ink);color:#fff;border-radius:14px;padding:10px 14px;display:none;align-items:center;gap:10px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.bulk-bar.show{display:flex;}
+.bulk-bar .sel-count{flex:1;font-size:14px;font-weight:600;}
+.bulk-del-btn{background:var(--bad);border:none;color:#fff;border-radius:10px;padding:8px 16px;font-family:var(--font);font-weight:700;font-size:13.5px;cursor:pointer;}
+.bulk-del-btn:active{transform:scale(.97);}
+.bulk-clear{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:10px;padding:8px 12px;font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;}
+
+/* Select-all bar */
+.sel-all-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 4px;}
+.sel-all-bar label{font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.sel-all-bar input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--bad);}
+
+/* User rows */
+.row{background:var(--card);border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;transition:background .15s;}
+.row.selected{background:#FFF0EE;outline:2px solid var(--bad);}
+.row-cb{width:18px;height:18px;cursor:pointer;accent-color:var(--bad);flex-shrink:0;}
+.row-main{flex:1;min-width:0;}
+.row-name{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.row-sub{font-size:12px;opacity:.6;font-weight:500;margin-top:1px;}
+.pts-pos{color:var(--leaf);font-weight:700;}
+.pts-neg{color:var(--bad);font-weight:700;}
+.btn-del{background:#FFF0EE;border:none;border-radius:9px;padding:7px 12px;font-family:var(--font);font-weight:700;font-size:12.5px;color:var(--bad);cursor:pointer;white-space:nowrap;}
+.btn-warn{background:#FFF6E5;border:none;border-radius:9px;padding:7px 12px;font-family:var(--font);font-weight:700;font-size:12.5px;color:#B7820A;cursor:pointer;white-space:nowrap;}
+.btn-del:active,.btn-warn:active{transform:scale(.97);}
+
+/* Feed cards */
+.fcard{background:var(--card);border-radius:14px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;transition:outline .1s;}
+.fcard.selected{outline:2px solid var(--bad);}
+.fcard img{width:100%;max-height:200px;object-fit:cover;display:block;}
+.fcard-no-photo{height:54px;background:#F3FBEF;display:flex;align-items:center;justify-content:center;font-size:28px;}
+.fcard-body{padding:10px 13px;display:flex;align-items:center;gap:9px;}
+.fcard-cb{width:18px;height:18px;cursor:pointer;accent-color:var(--bad);flex-shrink:0;}
+.fcard-info{flex:1;min-width:0;}
+.fcard-user{font-size:13.5px;font-weight:700;}
+.fcard-act{font-size:12.5px;opacity:.7;font-weight:500;}
+.fcard-time{font-size:11.5px;opacity:.4;}
+
+/* Warn form */
+.warn-form{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-bottom:18px;}
+.warn-form h3{font-size:15px;font-weight:700;margin-bottom:11px;}
+.warn-form select,.warn-form textarea{width:100%;border:2px solid #E3EFE6;border-radius:11px;padding:10px;font-family:var(--font);font-size:13.5px;color:var(--ink);margin-bottom:9px;}
+.warn-form textarea{min-height:78px;resize:none;}
+.warn-form select:focus,.warn-form textarea:focus{outline:none;border-color:var(--leaf);}
+.warn-form button{background:#F5A623;color:#fff;border:none;border-radius:11px;padding:11px 18px;font-family:var(--font);font-weight:700;font-size:13.5px;cursor:pointer;}
+
+/* Warning history */
+.wrow{background:var(--card);border-radius:13px;padding:11px 13px;margin-bottom:7px;box-shadow:var(--shadow);border-left:4px solid #F5A623;}
+.wrow.read{border-color:#ccc;opacity:.55;}
+.wrow-top{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
+.wrow-user{font-size:13.5px;font-weight:700;}
+.wrow-time{font-size:11.5px;opacity:.45;margin-left:auto;}
+.wrow-msg{font-size:13px;font-weight:500;}
+
+.empty{text-align:center;padding:22px;opacity:.45;font-size:13.5px;}
+.status{font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;margin-top:7px;display:inline-block;}
+.status.ok{background:#DDF4E4;color:#1a6b32;}.status.err{background:#FFE3DE;color:#c0392b;}
+
+/* Section header */
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.sec-head h3{font-size:15px;font-weight:700;flex:1;}
+.sec-head .count-badge{background:#E8F0E8;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700;color:#2E7D32;}
 </style>
 </head>
 <body>
@@ -70,17 +101,17 @@
   <span class="badge">ADMIN</span>
 </div>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div class="wrap" id="loginScreen">
   <div class="login">
     <h2>🔐 Teacher login</h2>
-    <input type="password" id="pwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')checkPassword()"/>
+    <input type="password" id="pwInput" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkPassword()"/>
     <button onclick="checkPassword()">Sign in</button>
-    <span class="err" id="pwErr" style="display:none">Wrong password. Try again.</span>
+    <span class="err" id="pwErr" style="display:none">Wrong password.</span>
   </div>
 </div>
 
-<!-- ADMIN PANEL (hidden until login) -->
+<!-- ADMIN PANEL -->
 <div class="wrap" id="adminPanel" style="display:none">
   <div class="tabs">
     <button class="tab active" onclick="showTab('users',this)">👥 Users</button>
@@ -88,214 +119,299 @@
     <button class="tab" onclick="showTab('warnings',this)">⚠️ Warnings</button>
   </div>
 
+  <!-- USERS TAB -->
   <div class="view active" id="tab-users">
+    <!-- Bulk action bar (appears when items selected) -->
+    <div class="bulk-bar" id="userBulkBar">
+      <span class="sel-count" id="userSelCount">0 selected</span>
+      <button class="bulk-clear" onclick="clearUserSelection()">✕ Clear</button>
+      <button class="bulk-del-btn" onclick="bulkDeleteUsers()">🗑 Delete selected</button>
+    </div>
+    <div class="sel-all-bar">
+      <label><input type="checkbox" id="userSelectAll" onchange="toggleSelectAllUsers(this)"/> Select all</label>
+    </div>
     <div id="usersList"><div class="empty">Loading users…</div></div>
   </div>
 
+  <!-- FEED TAB -->
   <div class="view" id="tab-feed">
+    <div class="bulk-bar" id="feedBulkBar">
+      <span class="sel-count" id="feedSelCount">0 selected</span>
+      <button class="bulk-clear" onclick="clearFeedSelection()">✕ Clear</button>
+      <button class="bulk-del-btn" onclick="bulkDeleteFeed()">🗑 Delete selected</button>
+    </div>
+    <div class="sel-all-bar">
+      <label><input type="checkbox" id="feedSelectAll" onchange="toggleSelectAllFeed(this)"/> Select all</label>
+    </div>
     <div id="feedList"><div class="empty">Loading feed…</div></div>
   </div>
 
+  <!-- WARNINGS TAB -->
   <div class="view" id="tab-warnings">
     <div class="warn-form">
       <h3>⚠️ Send a warning to a student</h3>
       <select id="warnUser"><option value="">— pick a student —</option></select>
-      <textarea id="warnMsg" placeholder="Type your message here. The student will see this as a pop-up the next time they open the app."></textarea>
+      <textarea id="warnMsg" placeholder="Type your message. The student sees this as a pop-up next time they open the app."></textarea>
       <button onclick="sendWarning()">Send warning</button>
       <span class="status" id="warnStatus" style="display:none"></span>
     </div>
-    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">📋 Warning history</h3>
+    <div class="sec-head"><h3>📋 Warning history</h3></div>
     <div id="warnHistory"><div class="empty">No warnings sent yet.</div></div>
   </div>
 </div>
 
 <!-- FIREBASE -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, addDoc, deleteDoc, collection, query, orderBy, limit, onSnapshot, getDocs }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, addDoc, deleteDoc, collection, query, orderBy, limit, onSnapshot, writeBatch }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const FIREBASE_CONFIG = {
-    apiKey: "AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",
-    authDomain: "earth-token-62b31.firebaseapp.com",
-    projectId: "earth-token-62b31",
-    storageBucket: "earth-token-62b31.firebasestorage.app",
-    messagingSenderId: "7396616782",
-    appId: "1:7396616782:web:4b4a49bae4a2009414711f"
-  };
+const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-token-62b31.firebaseapp.com",
+  projectId:"earth-token-62b31",storageBucket:"earth-token-62b31.firebasestorage.app",
+  messagingSenderId:"7396616782",appId:"1:7396616782:web:4b4a49bae4a2009414711f"};
+const app=initializeApp(CFG),db=getFirestore(app);
 
-  const app = initializeApp(FIREBASE_CONFIG);
-  const db  = getFirestore(app);
-
-  window.ADMIN_DB = {
-    subscribeScores(cb){
-      return onSnapshot(query(collection(db,"scores"),orderBy("points","desc")),
-        snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
-    },
-    async deleteUser(id){
-      await deleteDoc(doc(db,"scores",id));
-    },
-    subscribeFeed(cb){
-      return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(60)),
-        snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
-    },
-    async deleteFeedItem(id){ await deleteDoc(doc(db,"feed",id)); },
-    async sendWarning(username,message){
-      await addDoc(collection(db,"warnings"),{username:username.toLowerCase(),message,timestamp:Date.now(),read:false});
-    },
-    subscribeWarnings(cb){
-      return onSnapshot(query(collection(db,"warnings"),orderBy("timestamp","desc"),limit(50)),
-        snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
-    }
-  };
-  if(window.onDBReady) window.onDBReady();
-  window.DB_READY=true;
+window.ADMIN_DB={
+  subscribeScores(cb){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc")),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+  async deleteUser(id){await deleteDoc(doc(db,"scores",id));},
+  async bulkDeleteUsers(ids){
+    // Firestore batch: max 500 per batch
+    const chunks=[];for(let i=0;i<ids.length;i+=499)chunks.push(ids.slice(i,i+499));
+    for(const chunk of chunks){const b=writeBatch(db);chunk.forEach(id=>b.delete(doc(db,"scores",id)));await b.commit();}
+  },
+  subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(80)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+  async deleteFeedItem(id){await deleteDoc(doc(db,"feed",id));},
+  async bulkDeleteFeed(ids){
+    const chunks=[];for(let i=0;i<ids.length;i+=499)chunks.push(ids.slice(i,i+499));
+    for(const chunk of chunks){const b=writeBatch(db);chunk.forEach(id=>b.delete(doc(db,"feed",id)));await b.commit();}
+  },
+  async sendWarning(username,message){await addDoc(collection(db,"warnings"),{username:username.toLowerCase(),message,timestamp:Date.now(),read:false});},
+  subscribeWarnings(cb){return onSnapshot(query(collection(db,"warnings"),orderBy("timestamp","desc"),limit(60)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+};
+if(window.onDBReady)window.onDBReady();
+window.DB_READY=true;
 </script>
 
 <script>
-  // ↓↓↓ SET YOUR ADMIN PASSWORD HERE ↓↓↓
-  const ADMIN_PASSWORD = "EarthToken2026";
-  // ↑↑↑ SET YOUR ADMIN PASSWORD HERE ↑↑↑
+const ADMIN_PASSWORD="EarthToken2026";
 
-  let userNames=[];
-  let unsubUsers=null, unsubFeed=null, unsubWarnings=null;
+let userNames=[];
+let allUserRows=[];   // [{id, name, points}]
+let allFeedRows=[];   // [{id, ...}]
+let selectedUsers=new Set();
+let selectedFeed=new Set();
+let unsubUsers=null,unsubFeed=null,unsubWarnings=null;
 
-  function checkPassword(){
-    const pw=document.getElementById("pwInput").value;
-    if(pw===ADMIN_PASSWORD){
-      document.getElementById("loginScreen").style.display="none";
-      document.getElementById("adminPanel").style.display="block";
-      initAdmin();
-    } else {
-      document.getElementById("pwErr").style.display="block";
-      document.getElementById("pwInput").value="";
-    }
-  }
-  window.checkPassword=checkPassword;
+function checkPassword(){
+  const pw=document.getElementById("pwInput").value;
+  if(pw===ADMIN_PASSWORD){document.getElementById("loginScreen").style.display="none";document.getElementById("adminPanel").style.display="block";initAdmin();}
+  else{document.getElementById("pwErr").style.display="block";document.getElementById("pwInput").value="";}
+}
+window.checkPassword=checkPassword;
 
-  function initAdmin(){
-    if(!window.ADMIN_DB){ setTimeout(initAdmin,500); return; }
-    loadUsers(); loadFeed(); loadWarnings();
-  }
-  window.onDBReady=function(){ if(document.getElementById("adminPanel").style.display!=="none") initAdmin(); };
+function initAdmin(){if(!window.ADMIN_DB){setTimeout(initAdmin,500);return;}loadUsers();loadFeed();loadWarnings();}
+window.onDBReady=function(){if(document.getElementById("adminPanel").style.display!=="none")initAdmin();};
 
-  function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return"just now";if(s<3600)return Math.floor(s/60)+"m ago";if(s<86400)return Math.floor(s/3600)+"h ago";return Math.floor(s/86400)+"d ago";}
+function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return"just now";if(s<3600)return Math.floor(s/60)+"m ago";if(s<86400)return Math.floor(s/3600)+"h ago";return Math.floor(s/86400)+"d ago";}
 
-  function loadUsers(){
-    unsubUsers=window.ADMIN_DB.subscribeScores(rows=>{
-      userNames=rows.map(r=>r.name);
-      updateWarnSelect();
-      const el=document.getElementById("usersList");
-      if(!rows.length){el.innerHTML='<div class="empty">No users yet.</div>';return;}
-      el.innerHTML=rows.map(r=>{
-        const ptsCls=r.points<0?"pts-neg":"pts-pos";
-        const sign=r.points>0?"+":"";
-        return `<div class="row">
-          <div class="row-main">
-            <div class="row-name">${r.name}</div>
-            <div class="row-sub ${ptsCls}">${sign}${r.points} lifetime pts</div>
-          </div>
-          <button class="btn-warn" onclick="openWarnFor('${r.name}')">⚠️ Warn</button>
-          <button class="btn-del" onclick="deleteUser('${r.id}','${r.name}')">🗑 Remove</button>
-        </div>`;
-      }).join("");
-    });
-  }
+/* ===== USERS ===== */
+function loadUsers(){
+  unsubUsers=window.ADMIN_DB.subscribeScores(rows=>{
+    allUserRows=rows;
+    userNames=rows.map(r=>r.name);
+    updateWarnSelect();
+    renderUsers();
+  });
+}
 
-  function loadFeed(){
-    unsubFeed=window.ADMIN_DB.subscribeFeed(items=>{
-      const el=document.getElementById("feedList");
-      if(!items.length){el.innerHTML='<div class="empty">No posts yet.</div>';return;}
-      el.innerHTML=items.map(item=>{
-        const photo=item.photo?`<img src="${item.photo}" alt="photo"/>`:`<div class="fcard-no-photo">${item.emoji}</div>`;
-        const ptsCls=item.pts>0?"pts-pos":"pts-neg", sign=item.pts>0?"+":"";
-        return `<div class="fcard">
-          ${photo}
-          <div class="fcard-body">
-            <div class="fcard-info">
-              <div class="fcard-user">${item.username||"?"} · ${item.emoji} ${item.activityName}</div>
-              <div class="fcard-act ${ptsCls}">${sign}${item.pts} pts</div>
-              <div class="fcard-time">${timeAgo(item.timestamp)}</div>
-            </div>
-            <button class="btn-del" onclick="deleteFeed('${item.id}')">🗑 Remove</button>
-          </div>
-        </div>`;
-      }).join("");
-    });
-  }
+function renderUsers(){
+  const el=document.getElementById("usersList");
+  if(!allUserRows.length){el.innerHTML='<div class="empty">No users yet.</div>';updateUserBulkBar();return;}
+  el.innerHTML=allUserRows.map(r=>{
+    const ptsCls=r.points<0?"pts-neg":"pts-pos",sign=r.points>0?"+":"";
+    const checked=selectedUsers.has(r.id)?"checked":"";
+    return `<div class="row ${selectedUsers.has(r.id)?"selected":""}" id="urow-${r.id}">
+      <input type="checkbox" class="row-cb" ${checked} onchange="toggleUserSel('${r.id}',this)"/>
+      <div class="row-main">
+        <div class="row-name">${r.name}</div>
+        <div class="row-sub ${ptsCls}">${sign}${r.points} lifetime pts</div>
+      </div>
+      <button class="btn-warn" onclick="openWarnFor('${r.name}')">⚠️ Warn</button>
+      <button class="btn-del" onclick="deleteSingleUser('${r.id}','${r.name}')">🗑</button>
+    </div>`;
+  }).join("");
+  updateUserBulkBar();
+  document.getElementById("userSelectAll").checked=selectedUsers.size===allUserRows.length&&allUserRows.length>0;
+}
 
-  function loadWarnings(){
-    unsubWarnings=window.ADMIN_DB.subscribeWarnings(items=>{
-      updateWarnSelect();
-      const el=document.getElementById("warnHistory");
-      if(!items.length){el.innerHTML='<div class="empty">No warnings sent yet.</div>';return;}
-      el.innerHTML=items.map(w=>`
-        <div class="wrow ${w.read?'read':''}">
-          <div class="wrow-top">
-            <span class="wrow-user">@${w.username}</span>
-            ${w.read?'<span style="font-size:11px;color:#aaa">✓ seen</span>':'<span style="font-size:11px;color:#F5A623;font-weight:700">● unread</span>'}
-            <span class="wrow-time">${timeAgo(w.timestamp)}</span>
-          </div>
-          <div class="wrow-msg">${w.message}</div>
-        </div>`).join("");
-    });
-  }
+function toggleUserSel(id,cb){
+  if(cb.checked)selectedUsers.add(id);else selectedUsers.delete(id);
+  const row=document.getElementById("urow-"+id);
+  if(row)row.classList.toggle("selected",cb.checked);
+  updateUserBulkBar();
+  document.getElementById("userSelectAll").checked=selectedUsers.size===allUserRows.length&&allUserRows.length>0;
+}
+function toggleSelectAllUsers(cb){
+  if(cb.checked)allUserRows.forEach(r=>selectedUsers.add(r.id));
+  else selectedUsers.clear();
+  renderUsers();
+}
+function clearUserSelection(){selectedUsers.clear();renderUsers();}
+function updateUserBulkBar(){
+  const bar=document.getElementById("userBulkBar");
+  const n=selectedUsers.size;
+  bar.classList.toggle("show",n>0);
+  document.getElementById("userSelCount").textContent=`${n} user${n>1?"s":""} selected`;
+}
 
-  function updateWarnSelect(){
-    const sel=document.getElementById("warnUser");
-    const cur=sel.value;
-    sel.innerHTML='<option value="">— pick a student —</option>'+userNames.map(n=>`<option value="${n}">${n}</option>`).join("");
-    if(cur) sel.value=cur;
-  }
+async function deleteSingleUser(id,name){
+  if(!confirm(`Remove "${name}"? Cannot be undone.`))return;
+  selectedUsers.delete(id);
+  try{await window.ADMIN_DB.deleteUser(id);}catch(e){alert("Error: "+e.message);}
+}
 
-  async function deleteUser(id,name){
-    if(!confirm(`Remove user "${name}"? Their score will be deleted. This cannot be undone.`)) return;
-    try{ await window.ADMIN_DB.deleteUser(id); }
-    catch(e){ alert("Error: "+e.message); }
-  }
+async function bulkDeleteUsers(){
+  const ids=[...selectedUsers];
+  if(!ids.length)return;
+  const names=allUserRows.filter(r=>ids.includes(r.id)).map(r=>r.name).join(", ");
+  if(!confirm(`Delete ${ids.length} user${ids.length>1?"s":""}?\n\n${names}\n\nThis cannot be undone.`))return;
+  try{
+    await window.ADMIN_DB.bulkDeleteUsers(ids);
+    selectedUsers.clear();
+    renderUsers();
+  }catch(e){alert("Error: "+e.message);}
+}
 
-  async function deleteFeed(id){
-    if(!confirm("Remove this post from the feed?")) return;
-    try{ await window.ADMIN_DB.deleteFeedItem(id); }
-    catch(e){ alert("Error: "+e.message); }
-  }
+/* ===== FEED ===== */
+function loadFeed(){
+  unsubFeed=window.ADMIN_DB.subscribeFeed(items=>{
+    allFeedRows=items;
+    renderFeed();
+  });
+}
 
-  function openWarnFor(name){
-    showTab('warnings', document.querySelectorAll('.tab')[2]);
-    document.getElementById("warnUser").value=name;
-    document.getElementById("warnMsg").focus();
-  }
+function renderFeed(){
+  const el=document.getElementById("feedList");
+  if(!allFeedRows.length){el.innerHTML='<div class="empty">No posts yet.</div>';updateFeedBulkBar();return;}
+  el.innerHTML=allFeedRows.map(item=>{
+    const photo=item.photo?`<img src="${item.photo}" alt="photo"/>`:`<div class="fcard-no-photo">${item.emoji}</div>`;
+    const ptsCls=item.pts>0?"pts-pos":"pts-neg",sign=item.pts>0?"+":"";
+    const checked=selectedFeed.has(item.id)?"checked":"";
+    return `<div class="fcard ${selectedFeed.has(item.id)?"selected":""}" id="frow-${item.id}">
+      ${photo}
+      <div class="fcard-body">
+        <input type="checkbox" class="fcard-cb" ${checked} onchange="toggleFeedSel('${item.id}',this)"/>
+        <div class="fcard-info">
+          <div class="fcard-user">${item.username||"?"} · ${item.emoji} ${item.activityName}</div>
+          <div class="fcard-act ${ptsCls}">${sign}${item.pts} pts · ${timeAgo(item.timestamp)}</div>
+        </div>
+        <button class="btn-del" onclick="deleteSingleFeed('${item.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join("");
+  updateFeedBulkBar();
+  document.getElementById("feedSelectAll").checked=selectedFeed.size===allFeedRows.length&&allFeedRows.length>0;
+}
 
-  async function sendWarning(){
-    const username=document.getElementById("warnUser").value;
-    const message=(document.getElementById("warnMsg").value||"").trim();
-    const status=document.getElementById("warnStatus");
-    if(!username){showStatus("Please pick a student.","err");return;}
-    if(message.length<3){showStatus("Please type a message.","err");return;}
-    try{
-      await window.ADMIN_DB.sendWarning(username,message);
-      document.getElementById("warnMsg").value="";
-      document.getElementById("warnUser").value="";
-      showStatus("Warning sent! They'll see it next time they open the app.","ok");
-    }catch(e){showStatus("Error: "+e.message,"err");}
-  }
+function toggleFeedSel(id,cb){
+  if(cb.checked)selectedFeed.add(id);else selectedFeed.delete(id);
+  const card=document.getElementById("frow-"+id);
+  if(card)card.classList.toggle("selected",cb.checked);
+  updateFeedBulkBar();
+  document.getElementById("feedSelectAll").checked=selectedFeed.size===allFeedRows.length&&allFeedRows.length>0;
+}
+function toggleSelectAllFeed(cb){
+  if(cb.checked)allFeedRows.forEach(r=>selectedFeed.add(r.id));
+  else selectedFeed.clear();
+  renderFeed();
+}
+function clearFeedSelection(){selectedFeed.clear();renderFeed();}
+function updateFeedBulkBar(){
+  const bar=document.getElementById("feedBulkBar");
+  const n=selectedFeed.size;
+  bar.classList.toggle("show",n>0);
+  document.getElementById("feedSelCount").textContent=`${n} post${n>1?"s":""} selected`;
+}
 
-  function showStatus(msg,type){
-    const s=document.getElementById("warnStatus");
-    s.textContent=msg; s.className="status "+type; s.style.display="inline-block";
-    setTimeout(()=>s.style.display="none",3500);
-  }
+async function deleteSingleFeed(id){
+  if(!confirm("Remove this post? Cannot be undone."))return;
+  selectedFeed.delete(id);
+  try{await window.ADMIN_DB.deleteFeedItem(id);}catch(e){alert("Error: "+e.message);}
+}
 
-  function showTab(t,btn){
-    document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
-    document.getElementById("tab-"+t).classList.add("active");
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-  }
+async function bulkDeleteFeed(){
+  const ids=[...selectedFeed];
+  if(!ids.length)return;
+  if(!confirm(`Delete ${ids.length} post${ids.length>1?"s":""}? This cannot be undone.`))return;
+  try{
+    await window.ADMIN_DB.bulkDeleteFeed(ids);
+    selectedFeed.clear();
+    renderFeed();
+  }catch(e){alert("Error: "+e.message);}
+}
 
-  window.deleteUser=deleteUser; window.deleteFeed=deleteFeed;
-  window.sendWarning=sendWarning; window.showTab=showTab; window.openWarnFor=openWarnFor;
-  if(window.DB_READY) initAdmin();
+/* ===== WARNINGS ===== */
+function loadWarnings(){
+  unsubWarnings=window.ADMIN_DB.subscribeWarnings(items=>{
+    updateWarnSelect();
+    const el=document.getElementById("warnHistory");
+    if(!items.length){el.innerHTML='<div class="empty">No warnings sent yet.</div>';return;}
+    el.innerHTML=items.map(w=>`
+      <div class="wrow ${w.read?"read":""}">
+        <div class="wrow-top">
+          <span class="wrow-user">@${w.username}</span>
+          ${w.read?'<span style="font-size:11px;color:#aaa">✓ seen</span>':'<span style="font-size:11px;color:#F5A623;font-weight:700">● unread</span>'}
+          <span class="wrow-time">${timeAgo(w.timestamp)}</span>
+        </div>
+        <div class="wrow-msg">${w.message}</div>
+      </div>`).join("");
+  });
+}
+
+function updateWarnSelect(){
+  const sel=document.getElementById("warnUser");
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— pick a student —</option>'+userNames.map(n=>`<option value="${n}">${n}</option>`).join("");
+  if(cur)sel.value=cur;
+}
+
+async function sendWarning(){
+  const username=document.getElementById("warnUser").value;
+  const message=(document.getElementById("warnMsg").value||"").trim();
+  if(!username){showStatus("Please pick a student.","err");return;}
+  if(message.length<3){showStatus("Please type a message.","err");return;}
+  try{
+    await window.ADMIN_DB.sendWarning(username,message);
+    document.getElementById("warnMsg").value="";document.getElementById("warnUser").value="";
+    showStatus("Warning sent! They'll see it next time they open the app.","ok");
+  }catch(e){showStatus("Error: "+e.message,"err");}
+}
+
+function showStatus(msg,type){
+  const s=document.getElementById("warnStatus");s.textContent=msg;s.className="status "+type;s.style.display="inline-block";
+  setTimeout(()=>s.style.display="none",3500);
+}
+
+function openWarnFor(name){
+  showTab("warnings",document.querySelectorAll(".tab")[2]);
+  document.getElementById("warnUser").value=name;
+  document.getElementById("warnMsg").focus();
+}
+
+function showTab(t,btn){
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.getElementById("tab-"+t).classList.add("active");
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+window.deleteSingleUser=deleteSingleUser;window.bulkDeleteUsers=bulkDeleteUsers;
+window.deleteSingleFeed=deleteSingleFeed;window.bulkDeleteFeed=bulkDeleteFeed;
+window.toggleUserSel=toggleUserSel;window.toggleFeedSel=toggleFeedSel;
+window.toggleSelectAllUsers=toggleSelectAllUsers;window.toggleSelectAllFeed=toggleSelectAllFeed;
+window.clearUserSelection=clearUserSelection;window.clearFeedSelection=clearFeedSelection;
+window.sendWarning=sendWarning;window.showTab=showTab;window.openWarnFor=openWarnFor;
+if(window.DB_READY)initAdmin();
 </script>
 </body>
 </html>
