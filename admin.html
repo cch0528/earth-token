@@ -104,10 +104,9 @@ body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100v
 <!-- LOGIN -->
 <div class="wrap" id="loginScreen">
   <div class="login">
-    <h2>🔐 Teacher login</h2>
-    <input type="password" id="pwInput" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkPassword()"/>
-    <button onclick="checkPassword()">Sign in</button>
-    <span class="err" id="pwErr" style="display:none">Wrong password.</span>
+    <h2>🌍 Earth Token Admin</h2>
+    <p style="font-size:14px;opacity:.6;font-weight:500;text-align:center;">Teacher dashboard</p>
+    <button onclick="checkPassword()" style="margin-top:8px;">Sign in as Teacher</button>
   </div>
 </div>
 
@@ -203,9 +202,9 @@ let selectedFeed=new Set();
 let unsubUsers=null,unsubFeed=null,unsubWarnings=null;
 
 function checkPassword(){
-  const pw=document.getElementById("pwInput").value;
-  if(pw===ADMIN_PASSWORD){document.getElementById("loginScreen").style.display="none";document.getElementById("adminPanel").style.display="block";initAdmin();}
-  else{document.getElementById("pwErr").style.display="block";document.getElementById("pwInput").value="";}
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("adminPanel").style.display="block";
+  initAdmin();
 }
 window.checkPassword=checkPassword;
 
