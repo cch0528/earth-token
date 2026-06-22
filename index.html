@@ -67,7 +67,7 @@ header .sub{font-size:12px;font-weight:500;opacity:.65;margin-top:1px;}
 
 /* Ecosystem */
 .eco-wrap{margin-top:12px;}
-.eco-svg-box{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);height:300px;}
+.eco-svg-box{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);height:320px;}
 svg#tree{display:block;width:100%;height:100%;}
 .eco-info{background:var(--card);border-radius:0 0 20px 20px;margin-top:-8px;padding:10px 14px 12px;box-shadow:var(--shadow);position:relative;z-index:1;}
 .eco-stage-name{font-size:16px;font-weight:700;color:var(--ink);}
@@ -246,7 +246,7 @@ svg#tree{display:block;width:100%;height:100%;}
   /* Track view: two columns */
   .track-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
   .track-left { position: sticky; top: 80px; }
-  .eco-svg-box { height: 360px !important; }
+  .eco-svg-box { height: 380px !important; }
   .track-right { padding-top: 4px; }
 
   /* Home: challenges + leaderboard side by side */
@@ -374,7 +374,7 @@ svg#tree{display:block;width:100%;height:100%;}
       <!-- LEFT: tree + score (sticky on desktop) -->
       <div class="track-left">
         <div class="eco-wrap">
-          <div class="eco-svg-box"><svg id="tree" viewBox="0 0 300 300" preserveAspectRatio="xMidYMax meet"></svg></div>
+          <div class="eco-svg-box"><svg id="tree" viewBox="0 0 300 320" preserveAspectRatio="xMidYMax meet"></svg></div>
           <div class="eco-info">
             <div class="eco-stage-name" id="stageLabel">Seed</div>
             <div class="eco-stage-msg" id="stageMsg">Plant a seed of good actions!</div>
@@ -429,28 +429,159 @@ svg#tree{display:block;width:100%;height:100%;}
 
   <!-- LEARN -->
   <div class="view" id="view-learn">
-    <div class="card"><h3>🌍 What is a carbon footprint?</h3>
-      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air — from car rides, electricity, the food we eat, and things we buy.</p>
-      <p>More CO₂ traps more heat, making Hong Kong summers hotter. Smaller footprint = better for the planet!</p></div>
-    <div class="card"><h3>📏 How we measure it</h3>
-      <p>CO₂ is measured in <b>grams (g)</b> and <b>kilograms (kg)</b>.</p>
-      <span class="pill">1,000 g = 1 kg</span><span class="pill">1,000 kg = 1 tonne</span>
-      <p style="margin-top:9px">One tree soaks up about <b>20 kg CO₂ a year</b> — that's why your tree grows with good actions!</p></div>
-    <div class="card"><h3>⚖️ Quick comparisons</h3>
-      <div class="convo"><span class="ce">🚗</span><span class="ct">Car or taxi ride</span><span class="cv">~150 g per km</span></div>
-      <div class="convo"><span class="ce">🚇</span><span class="ct">MTR (shared)</span><span class="cv">much less each</span></div>
-      <div class="convo"><span class="ce">🚲</span><span class="ct">Bike or walking</span><span class="cv">~0 g</span></div>
-      <div class="convo"><span class="ce">✈️</span><span class="ct">Short plane flight</span><span class="cv">100s of kg!</span></div>
-      <div class="convo"><span class="ce">🍖</span><span class="ct">Big meat meal</span><span class="cv">~3 kg CO₂</span></div>
-      <div class="convo"><span class="ce">🥗</span><span class="ct">Veggie meal</span><span class="cv">under 1 kg</span></div></div>
-    <div class="card"><h3>✅ Small actions that help</h3>
-      <span class="pill">🚶 Walk nearby</span><span class="pill">🚇 Take the MTR</span>
-      <span class="pill">🥗 More veggies</span><span class="pill">🍱 No food waste</span>
-      <span class="pill">♻️ Sort recycling</span><span class="pill">💡 Switch off lights</span>
-      <span class="pill">💧 Save water</span><span class="pill">🌳 Water a plant</span></div>
-    <div class="card"><h3>🔎 Be a number detective</h3>
-      <p>Every number in this app is a <b>rough estimate</b>.</p>
-      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare with the app. Who's right?</div></div>
+    <div style="font-size:13px;font-weight:500;opacity:.6;margin:12px 4px 8px;">Tap any card to explore 👇</div>
+
+    <div class="acc-card open" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🌍</span><span class="acc-title">What is a carbon footprint?</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air from everything we do — car rides, electricity, food, and shopping.</p>
+        <p>CO₂ acts like a blanket around Earth. Too much traps heat, making summers hotter, storms stronger, and sea levels rise — including in Hong Kong!</p>
+        <div class="fact-row"><span class="fe">🌡️</span><span class="ft">Earth is now</span><span class="fv">+1.1°C hotter</span></div>
+        <div class="fact-row"><span class="fe">🌊</span><span class="ft">Sea level rising</span><span class="fv">~3mm per year</span></div>
+        <div class="fact-row"><span class="fe">🌪️</span><span class="ft">Typhoons getting</span><span class="fv">stronger & wetter</span></div>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">📏</span><span class="acc-title">How we measure CO₂</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>CO₂ is measured by <b>weight</b> — in grams (g) and kilograms (kg).</p>
+        <span class="tag">1,000 g = 1 kg</span><span class="tag">1,000 kg = 1 tonne</span>
+        <p style="margin-top:8px">One tree soaks up roughly <b>20 kg of CO₂ a year</b>. A cow produces about <b>70 kg of methane a year</b> — which is 25× more powerful than CO₂!</p>
+        <div class="fact-row"><span class="fe">🌳</span><span class="ft">1 tree absorbs</span><span class="fv">~20 kg CO₂/year</span></div>
+        <div class="fact-row"><span class="fe">🏙️</span><span class="ft">Hong Kong emits</span><span class="fv">~40 million tonnes/year</span></div>
+        <div class="fact-row"><span class="fe">🧍</span><span class="ft">HK person average</span><span class="fv">~5.5 tonnes/year</span></div>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">⚖️</span><span class="acc-title">Transport comparisons</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="fact-row"><span class="fe">🚗</span><span class="ft">Private car / taxi</span><span class="fv">~150 g per km</span></div>
+        <div class="fact-row"><span class="fe">🚌</span><span class="ft">Bus (shared)</span><span class="fv">~40 g per km each</span></div>
+        <div class="fact-row"><span class="fe">🚇</span><span class="ft">MTR (very efficient)</span><span class="fv">~10 g per km each</span></div>
+        <div class="fact-row"><span class="fe">🚲</span><span class="ft">Bike or walking</span><span class="fv">~0 g</span></div>
+        <div class="fact-row"><span class="fe">✈️</span><span class="ft">HK → Tokyo flight</span><span class="fv">~400 kg per person!</span></div>
+        <p>Taking the MTR instead of a taxi for one week saves roughly the same CO₂ as planting 2 trees! 🌳🌳</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🍽️</span><span class="acc-title">Food and the planet</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>What we eat matters just as much as how we travel. Meat — especially beef — needs enormous amounts of land, water, and energy to produce.</p>
+        <div class="fact-row"><span class="fe">🥩</span><span class="ft">Beef (per kg)</span><span class="fv">~60 kg CO₂</span></div>
+        <div class="fact-row"><span class="fe">🐔</span><span class="ft">Chicken (per kg)</span><span class="fv">~6 kg CO₂</span></div>
+        <div class="fact-row"><span class="fe">🥦</span><span class="ft">Vegetables (per kg)</span><span class="fv">~2 kg CO₂</span></div>
+        <div class="fact-row"><span class="fe">🍱</span><span class="ft">Wasted food</span><span class="fv">8% of global emissions!</span></div>
+        <p>Eating one veggie meal a week instead of beef for a whole year saves as much CO₂ as driving 500 km!</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">👗</span><span class="acc-title">Fast fashion facts</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>The fashion industry produces <b>10% of global CO₂ emissions</b> — more than all international flights combined!</p>
+        <span class="tag warn-tag">1 cotton T-shirt = 2,700 litres of water</span>
+        <span class="tag warn-tag">1 pair of jeans = ~33 kg CO₂</span>
+        <span class="tag">♻️ Secondhand = 82% less CO₂</span>
+        <span class="tag">🧵 Repair instead of replace</span>
+        <p style="margin-top:8px">Many clothes are worn only 7 times before being thrown away. Wearing clothes longer is one of the easiest ways to help!</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🌊</span><span class="acc-title">Oceans and plastic</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Oceans absorb <b>25% of all CO₂</b> humans produce — but plastic pollution is threatening the tiny ocean plants (phytoplankton) that do this work.</p>
+        <div class="fact-row"><span class="fe">🐢</span><span class="ft">Plastic in ocean</span><span class="fv">~8 million tonnes/year</span></div>
+        <div class="fact-row"><span class="fe">🧴</span><span class="ft">A plastic bottle lasts</span><span class="fv">~450 years</span></div>
+        <div class="fact-row"><span class="fe">🐟</span><span class="ft">Fish that have eaten plastic</span><span class="fv">>50% studied</span></div>
+        <p>Hong Kong's beaches collect some of the most plastic per km² in Asia. Bringing a reusable bottle is one of the easiest swaps you can make.</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">⚡</span><span class="acc-title">Energy at home</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>In Hong Kong, most electricity comes from burning fossil fuels like gas and coal. Every time you leave a light or AC on, carbon goes into the air.</p>
+        <div class="fact-row"><span class="fe">❄️</span><span class="ft">AC for 1 hour</span><span class="fv">~1 kg CO₂</span></div>
+        <div class="fact-row"><span class="fe">💡</span><span class="ft">LED bulb (vs old bulb)</span><span class="fv">75% less energy</span></div>
+        <div class="fact-row"><span class="fe">📱</span><span class="ft">Charging a phone</span><span class="fv">~8 g CO₂</span></div>
+        <div class="fact-row"><span class="fe">🚿</span><span class="ft">Hot shower (5 min)</span><span class="fv">~700 g CO₂</span></div>
+        <p>Setting AC to 25°C instead of 20°C can cut its energy use by nearly <b>half</b>!</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🐧</span><span class="acc-title">Animals in danger</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Climate change is disrupting habitats faster than many animals can adapt. Some are already disappearing.</p>
+        <div class="fact-row"><span class="fe">🐻‍❄️</span><span class="ft">Polar bears</span><span class="fv">Losing sea ice home</span></div>
+        <div class="fact-row"><span class="fe">🐠</span><span class="ft">Coral reefs</span><span class="fv">50% lost since 1950</span></div>
+        <div class="fact-row"><span class="fe">🦋</span><span class="ft">Butterflies</span><span class="fv">Moving to cooler areas</span></div>
+        <div class="fact-row"><span class="fe">🐸</span><span class="ft">Frogs</span><span class="fv">Most threatened vertebrate</span></div>
+        <p>Hong Kong is home to 236 butterfly species and many migratory birds — all sensitive to temperature changes.</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🌱</span><span class="acc-title">Nature's helpers</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Some natural systems soak up huge amounts of CO₂ — they're called <b>carbon sinks</b>.</p>
+        <div class="fact-row"><span class="fe">🌳</span><span class="ft">Forests worldwide</span><span class="fv">absorb 2.6 billion tonnes/year</span></div>
+        <div class="fact-row"><span class="fe">🌊</span><span class="ft">Oceans</span><span class="fv">absorb 25% of our CO₂</span></div>
+        <div class="fact-row"><span class="fe">🌾</span><span class="ft">Soil and grasslands</span><span class="fv">store carbon underground</span></div>
+        <div class="fact-row"><span class="fe">🌿</span><span class="ft">Mangroves</span><span class="fv">store 10x more than forests</span></div>
+        <p>Hong Kong has mangrove forests in Tai Po and Sai Kung. They protect coastlines AND store carbon!</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)">
+      <div class="acc-header"><span class="acc-icon">🔎</span><span class="acc-title">Be a number detective</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Every number in this app is a <b>rough estimate</b>. Real scientists always ask: where did this number come from?</p>
+        <div class="vbox" style="margin-top:8px">Challenge: search "how much CO₂ does a beef burger produce?" and compare with this app. Who is right — and how do you know?</div>
+        <p>A good scientist checks at least <b>3 different sources</b> before trusting a number. Try it!</p>
+      </div>
+    </div>
+
+    <div class="acc-card" onclick="toggleAcc(this)" id="quizCard">
+      <div class="acc-header"><span class="acc-icon">🧠</span><span class="acc-title">Quick quiz — test yourself!</span><span class="acc-arrow">▶</span></div>
+      <div class="acc-body" id="quizBody">
+        <div class="quiz-q">
+          <p>Which transport produces the LEAST CO₂ per km?</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">🚗 Private car</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">🚌 Bus</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,true)">🚇 MTR</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">✈️ Plane</button>
+          </div>
+          <div class="quiz-result" id="quizResult1"></div>
+        </div>
+        <div class="quiz-q" style="margin-top:16px;">
+          <p>How long does a plastic bottle last in nature?</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">5 years</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">50 years</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,true)">~450 years</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">1,000 years</button>
+          </div>
+          <div class="quiz-result" id="quizResult2"></div>
+        </div>
+        <div class="quiz-q" style="margin-top:16px;">
+          <p>Which food has the BIGGEST carbon footprint?</p>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">🥦 Broccoli</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,true)">🥩 Beef</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">🐔 Chicken</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,false)">🍚 Rice</button>
+          </div>
+          <div class="quiz-result" id="quizResult3"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- FEED -->
@@ -760,8 +891,8 @@ function closeSheet(){document.getElementById("sheetBg").classList.remove("show"
 document.getElementById("sheetBg").addEventListener("click",function(e){if(e.target===this)skipPhoto();});
 
 function floatReward(a,ev){const f=document.createElement("div");f.className="float";f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";f.style.left=(ev.clientX-18)+"px";f.style.top=(ev.clientY-30)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),950);}
-function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(state.score>=st.min)s=i;});return s;}
-function forestCount(){return Math.max(0,Math.min(6,Math.floor((state.score-1000)/200)));}
+function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(getAllTime()>=st.min)s=i;});return s;}
+function forestCount(){return Math.max(0,Math.min(6,Math.floor((getAllTime()-1000)/200)));}
 
 
 /* ---- AI comment (auto-written from actions) ---- */
@@ -838,22 +969,21 @@ function render(){
   document.getElementById("lifetimePts").textContent=getAllTime();
   const st=currentStage();
   const fc=forestCount();
-  // Stage label & msg (outside SVG now — easy to read)
-  const stageName=STAGES[st].name;
-  document.getElementById("stageLabel").textContent=stageName;
+  const lifetime=getAllTime();
+  document.getElementById("stageLabel").textContent=STAGES[st].name;
   document.getElementById("stageMsg").textContent=pts<0?"Oh no, your tree is sad. Add good actions! 🥺":STAGES[st].msg;
-  // Progress bar
+  // Progress bar based on LIFETIME
   const nextIdx=Math.min(st+1,STAGES.length-1);
   const curMin=STAGES[st].min<0?0:STAGES[st].min;
   const nextMin=STAGES[nextIdx].min;
   if(st===STAGES.length-1){
-    document.getElementById("progressText").textContent="🏆 Max stage reached!";
+    document.getElementById("progressText").textContent="🏆 Mighty Tree — lifetime achievement!";
     document.getElementById("progressPts").textContent="";
     document.getElementById("progressFill").style.width="100%";
   } else {
-    const pct=Math.min(100,Math.max(0,((pts-curMin)/(nextMin-curMin))*100));
-    const ptsLeft=Math.max(0,nextMin-pts);
-    document.getElementById("progressText").textContent=`To ${STAGES[nextIdx].name}`;
+    const pct=Math.min(100,Math.max(0,((lifetime-curMin)/(nextMin-curMin))*100));
+    const ptsLeft=Math.max(0,nextMin-lifetime);
+    document.getElementById("progressText").textContent=`Lifetime → ${STAGES[nextIdx].name}`;
     document.getElementById("progressPts").textContent=ptsLeft+" pts to go";
     document.getElementById("progressFill").style.width=pct+"%";
   }
@@ -874,7 +1004,7 @@ function render(){
 /* ---- Ecosystem SVG ---- */
 function drawEcosystem(stage){
   const svg=document.getElementById("tree");
-  const W=300,H=300,groundY=220;
+  const W=300,H=320,groundY=240;
   const skies=[["#8BB8E0","#C5DFF5"],["#7ABDE8","#C8E6F5"],["#5BAEE0","#AADAF5"],["#3D95D4","#90C9EF"],["#2680C8","#7BC0EF"],["#1A6CBD","#5AAEE8"]];
   const[skyTop,skyBot]=skies[stage]||skies[0];
   let s=`<defs>
@@ -950,11 +1080,12 @@ function drawEcosystem(stage){
     // Hedgehog
     s+=`<g style="animation:hop 5s ease-in-out 2s infinite;transform-origin:${tx-55}px ${ty}px"><ellipse cx="${tx-55}" cy="${ty-7}" rx="9" ry="6" fill="#8D6E63"/><circle cx="${tx-55}" cy="${ty-13}" r="5.5" fill="#A1887F"/><path d="M${tx-62} ${ty-15} q-3-5 0-9" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M${tx-57} ${ty-17} q0-6 2-10" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M${tx-52} ${ty-16} q3-5 1-9" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="${tx-52}" cy="${ty-14}" r="1.3" fill="#333"/></g>`;
   } else if(stage===3){
-    s+=`<rect x="${tx-8}" y="${ty-140}" width="15" height="140" rx="6" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-150}" rx="48" ry="44" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-30}" cy="${ty-128}" rx="32" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+30}" cy="${ty-128}" rx="32" ry="30" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-178}" rx="30" ry="24" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<rect x="${tx-7}" y="${ty-115}" width="14" height="116" rx="6" fill="#8B5E3C"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-128}" rx="52" ry="46" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-34}" cy="${ty-108}" rx="36" ry="32" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+34}" cy="${ty-108}" rx="36" ry="32" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-154}" rx="34" ry="28" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-16}" cy="${ty-136}" rx="22" ry="20" fill="#5BC96B" style="animation:sway 5s ease-in-out .7s infinite;transform-origin:${tx}px ${ty}px"/>`;
     // Nest
     s+=`<ellipse cx="${tx-52}" cy="${ty-128}" rx="8" ry="5" fill="#8B6914"/><ellipse cx="${tx-52}" cy="${ty-131}" rx="6.5" ry="4" fill="#6B4C10"/><circle cx="${tx-54}" cy="${ty-132}" r="2.5" fill="#FFF176"/><circle cx="${tx-50}" cy="${ty-132}" r="2.5" fill="#AED581"/>`;
     // Squirrel
@@ -966,12 +1097,13 @@ function drawEcosystem(stage){
     // Frog near ground
     s+=`<g style="animation:hop 4s ease-in-out 0.5s infinite;transform-origin:${tx+58}px ${ty}px"><ellipse cx="${tx+58}" cy="${ty-7}" rx="7" ry="5" fill="#66BB6A"/><circle cx="${tx+58}" cy="${ty-12}" r="5" fill="#81C784"/><circle cx="${tx+55}" cy="${ty-15}" r="3" fill="#A5D6A7"/><circle cx="${tx+61}" cy="${ty-15}" r="3" fill="#A5D6A7"/><circle cx="${tx+54}" cy="${ty-15.5}" r="1.2" fill="#222"/><circle cx="${tx+62}" cy="${ty-15.5}" r="1.2" fill="#222"/></g>`;
   } else if(stage===4){
-    s+=`<rect x="${tx-10}" y="${ty-172}" width="20" height="172" rx="8" fill="#8B5E3C"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-182}" rx="58" ry="52" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-36}" cy="${ty-156}" rx="38" ry="34" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+36}" cy="${ty-156}" rx="38" ry="34" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-214}" rx="38" ry="32" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-16}" cy="${ty-192}" rx="24" ry="22" fill="#5BC96B" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<rect x="${tx-9}" y="${ty-135}" width="18" height="136" rx="7" fill="#8B5E3C"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-148}" rx="60" ry="52" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-38}" cy="${ty-124}" rx="42" ry="38" fill="#3FA34D" style="animation:sway 5s ease-in-out .5s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+38}" cy="${ty-124}" rx="42" ry="38" fill="#3FA34D" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-182}" rx="40" ry="34" fill="#4CB85C" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-18}" cy="${ty-160}" rx="28" ry="24" fill="#5BC96B" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+18}" cy="${ty-158}" rx="24" ry="20" fill="#5BC96B" style="animation:sway 5s ease-in-out 1.2s infinite;transform-origin:${tx}px ${ty}px"/>`;
     // Rabbit
     s+=`<g style="animation:hop 2.2s ease-in-out infinite;transform-origin:${tx+62}px ${ty}px"><ellipse cx="${tx+62}" cy="${ty-10}" rx="7.5" ry="5.5" fill="#F5F5DC"/><circle cx="${tx+62}" cy="${ty-17}" r="5.5" fill="#F5F5DC"/><path d="M${tx+59} ${ty-22} q-2-9 0-17" stroke="#F5F5DC" stroke-width="2.3" fill="none" stroke-linecap="round"/><path d="M${tx+65} ${ty-22} q2-9 0-17" stroke="#F5F5DC" stroke-width="2.3" fill="none" stroke-linecap="round"/><circle cx="${tx+60}" cy="${ty-18}" r="1.3" fill="#FF8A9A"/></g>`;
     // 2 butterflies
@@ -981,20 +1113,21 @@ function drawEcosystem(stage){
     // Frog near stream
     s+=`<g style="animation:hop 3.5s ease-in-out 1s infinite;transform-origin:30px ${groundY}px"><ellipse cx="30" cy="${groundY-6}" rx="6" ry="4" fill="#66BB6A"/><circle cx="30" cy="${groundY-10}" r="4.5" fill="#81C784"/><circle cx="27.5" cy="${groundY-13}" r="2.5" fill="#A5D6A7"/><circle cx="32.5" cy="${groundY-13}" r="2.5" fill="#A5D6A7"/><circle cx="27" cy="${groundY-13.5}" r="1" fill="#222"/><circle cx="33" cy="${groundY-13.5}" r="1" fill="#222"/></g>`;
   } else {
-    // Stage 5: Mighty Tree full ecosystem
-    s+=`<rect x="${tx-13}" y="${ty-200}" width="26" height="200" rx="10" fill="#7B4E2D"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-210}" rx="66" ry="60" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-42}" cy="${ty-180}" rx="44" ry="40" fill="#3FA34D" style="animation:sway 5s ease-in-out .4s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+42}" cy="${ty-180}" rx="44" ry="40" fill="#3FA34D" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx}" cy="${ty-248}" rx="42" ry="36" fill="#4CB85C" style="animation:sway 5s ease-in-out .2s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx-18}" cy="${ty-224}" rx="26" ry="24" fill="#5BC96B" style="animation:sway 5s ease-in-out .6s infinite;transform-origin:${tx}px ${ty}px"/>`;
-    s+=`<ellipse cx="${tx+20}" cy="${ty-222}" rx="22" ry="20" fill="#5BC96B" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    // Stage 5: Mighty Tree full ecosystem — shorter+bushier, fits frame
+    s+=`<rect x="${tx-12}" y="${ty-145}" width="24" height="146" rx="9" fill="#7B4E2D"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-158}" rx="66" ry="56" fill="#2E7D32" style="animation:sway 5s ease-in-out infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-42}" cy="${tx-128>0?ty-128:ty-120}" rx="50" ry="44" fill="#3FA34D" style="animation:sway 5s ease-in-out .4s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+42}" cy="${ty-128}" rx="50" ry="44" fill="#3FA34D" style="animation:sway 5s ease-in-out .8s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-188}" rx="46" ry="38" fill="#4CB85C" style="animation:sway 5s ease-in-out .2s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx-20}" cy="${ty-168}" rx="32" ry="28" fill="#5BC96B" style="animation:sway 5s ease-in-out .6s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx+22}" cy="${ty-166}" rx="28" ry="24" fill="#5BC96B" style="animation:sway 5s ease-in-out 1s infinite;transform-origin:${tx}px ${ty}px"/>`;
+    s+=`<ellipse cx="${tx}" cy="${ty-208}" rx="36" ry="28" fill="#66BB6A" style="animation:sway 5s ease-in-out .3s infinite;transform-origin:${tx}px ${ty}px"/>`;
     // Fruits
-    [[tx-20,ty-194],[tx+18,ty-178],[tx-10,ty-215],[tx+28,ty-202],[tx-30,ty-168],[tx+8,ty-234]].forEach(([fx,fy])=>{
+    [[tx-22,ty-155],[tx+20,ty-142],[tx-8,ty-175],[tx+26,ty-164],[tx-30,ty-130],[tx+6,ty-190]].forEach(([fx,fy])=>{
       s+=`<circle cx="${fx}" cy="${fy}" r="5" fill="#E53935"/><path d="M${fx} ${fy-5} q2-3 4-2" stroke="#4CAF50" stroke-width="1.1" fill="none"/>`;
     });
     // 3 butterflies
-    [[tx+60,ty-155,"#F48FB1","0s"],[tx-64,ty-178,"#80DEEA","1.8s"],[tx+10,ty-140,"#FFCC80","3.5s"]].forEach(([bx,by_,col,dl])=>{
+    [[tx+60,ty-128,"#F48FB1","0s"],[tx-64,ty-150,"#80DEEA","1.8s"],[tx+10,ty-112,"#FFCC80","3.5s"]].forEach(([bx,by_,col,dl])=>{
       s+=`<g style="animation:butterflyDrift 3.8s ease-in-out ${dl} infinite"><path d="M${bx} ${by_} q-10-8-8-18 q8 2 8 18" fill="${col}" style="animation:butterfly 1.1s ease-in-out ${dl} infinite"/><path d="M${bx} ${by_} q10-8 8-18 q-8 2-8 18" fill="${col}" style="animation:butterfly 1.1s ease-in-out ${dl} infinite"/><circle cx="${bx}" cy="${by_}" r="1.3" fill="#333"/></g>`;
     });
     // Deer
@@ -1004,7 +1137,7 @@ function drawEcosystem(stage){
     // Frog near stream
     s+=`<g style="animation:hop 4s ease-in-out 1s infinite;transform-origin:60px ${ty}px"><ellipse cx="60" cy="${ty-6}" rx="6" ry="4" fill="#66BB6A"/><circle cx="60" cy="${ty-10}" r="4.5" fill="#81C784"/><circle cx="57.5" cy="${ty-13}" r="2.5" fill="#A5D6A7"/><circle cx="62.5" cy="${ty-13}" r="2.5" fill="#A5D6A7"/><circle cx="57" cy="${ty-13.5}" r="1" fill="#222"/><circle cx="63" cy="${ty-13.5}" r="1" fill="#222"/></g>`;
     // Fireflies
-    [[64,ty-88],[82,ty-125],[228,ty-95],[212,ty-148],[168,ty-68]].forEach(([sx,sy],i)=>{
+    [[64,ty-70],[82,ty-100],[228,ty-78],[212,ty-118],[168,ty-55]].forEach(([sx,sy],i)=>{
       s+=`<circle cx="${sx}" cy="${sy}" r="3" fill="#FFE57F" style="animation:sparkle 2s ease-in-out ${i*0.65}s infinite"/>`;
     });
   }
@@ -1097,6 +1230,21 @@ async function postComment(postId){
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
+/* ---- Learn accordion ---- */
+function toggleAcc(card){card.classList.toggle('open');}
+window.toggleAcc=toggleAcc;
+let quizAnswered={};
+function quizAnswer(btn,correct){
+  const opts=btn.parentElement.querySelectorAll('.quiz-opt');
+  const idx=[...btn.parentElement.parentElement.parentElement.querySelectorAll('.quiz-q')].indexOf(btn.closest('.quiz-q'))+1;
+  if(quizAnswered[idx])return;
+  quizAnswered[idx]=true;
+  opts.forEach(o=>{o.disabled=true;if(o===btn){o.classList.add(correct?'correct':'wrong');}else if(correct===false&&o.onclick.toString().includes('true')){o.classList.add('correct');}});
+  const result=document.getElementById('quizResult'+idx);
+  if(result)result.textContent=correct?'✅ Correct! Well done!':'❌ Not quite — the highlighted answer is correct.';
+}
+window.quizAnswer=quizAnswer;
+
 
 window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}};
 if(window.DB_READY&&myName()){checkForWarning();startHomeLb();}
