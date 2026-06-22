@@ -10,35 +10,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky-top:#BDE3FF;--sky-bot:#EAF7E6;
-    --leaf:#3FA34D;--leaf-dark:#2E7D32;
-    --sun:#FFD25A;--good:#2FBF62;--bad:#FF6B57;--ink:#173A2C;--card:#FFFFFF;
+    --leaf:#3FA34D;--leaf-dark:#2E7D32;--sun:#FFD25A;
+    --good:#2FBF62;--bad:#FF6B57;--ink:#173A2C;--card:#fff;
     --shadow:0 8px 24px rgba(23,58,44,.12);
-    --font:'Fredoka',ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;
+    --font:'Fredoka',ui-rounded,"SF Pro Rounded",system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;}
   body{font-family:var(--font);color:var(--ink);
-    background:linear-gradient(180deg,var(--sky-top) 0%,#D4EFFF 32%,var(--sky-bot) 100%);
+    background:linear-gradient(180deg,#BDE3FF 0%,#D4EFFF 32%,#EAF7E6 100%);
     min-height:100%;padding-bottom:32px;overflow-x:hidden;}
   .wrap{max-width:520px;margin:0 auto;padding:0 18px;}
+
   header{text-align:center;padding:20px 0 4px;}
   header h1{font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;}
   header .sub{font-size:13px;font-weight:500;opacity:.7;margin-top:2px;}
 
   /* Main tabs */
-  .tabs{display:flex;gap:5px;background:rgba(255,255,255,.6);border-radius:16px;padding:5px;margin:14px 0 4px;}
+  .tabs{display:flex;gap:5px;background:rgba(255,255,255,.65);border-radius:16px;padding:5px;margin:14px 0 4px;}
   .tab{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:12px;
     padding:9px 2px;border-radius:12px;cursor:pointer;color:var(--ink);opacity:.6;}
   .tab.active{background:#fff;opacity:1;box-shadow:var(--shadow);}
   .view{display:none;} .view.active{display:block;}
+
+  /* Username gate */
+  .gate{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-top:20px;text-align:center;}
+  .gate h3{font-size:19px;font-weight:700;margin-bottom:8px;}
+  .gate p{font-size:13.5px;opacity:.7;font-weight:500;margin-bottom:16px;line-height:1.5;}
+  .gate-row{display:flex;gap:8px;}
+  .gate-row input{flex:1;border:2px solid #E3EFE6;border-radius:12px;padding:12px;font-family:var(--font);font-size:14px;color:var(--ink);}
+  .gate-row input:focus{outline:none;border-color:var(--leaf);}
+  .gate-row button{background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:0 18px;font-family:var(--font);font-weight:700;font-size:14px;cursor:pointer;}
+  .gate-hint{font-size:12px;opacity:.55;font-weight:500;margin-top:8px;}
 
   /* Tree */
   .stage{position:relative;background:linear-gradient(180deg,#E8F6FF 0%,#F3FBEF 100%);
     border-radius:28px;box-shadow:var(--shadow);margin-top:12px;padding:14px 14px 0;overflow:hidden;}
   .sun{position:absolute;top:16px;right:20px;width:44px;height:44px;border-radius:50%;
     background:radial-gradient(circle,#FFE08A,var(--sun));
-    box-shadow:0 0 0 8px rgba(255,210,90,.25),0 0 0 16px rgba(255,210,90,.12);animation:sun 6s ease-in-out infinite;}
+    box-shadow:0 0 0 8px rgba(255,210,90,.25),0 0 0 16px rgba(255,210,90,.12);
+    animation:sun 6s ease-in-out infinite;}
   @keyframes sun{50%{transform:scale(1.06);}}
   .tree-box{height:220px;display:flex;align-items:flex-end;justify-content:center;}
   svg#tree{display:block;width:100%;height:100%;}
@@ -55,16 +66,15 @@
   .score-card .num{font-size:20px;font-weight:700;line-height:1;}
   .score-card .lbl{font-size:10px;font-weight:500;opacity:.6;margin-top:4px;text-transform:uppercase;letter-spacing:.4px;}
   .score-card.total .num{color:var(--leaf-dark);}
-  .score-card .sub-num{font-size:11px;font-weight:600;margin-top:2px;opacity:.7;}
+  .score-card .sub-num{font-size:10.5px;font-weight:600;margin-top:2px;opacity:.65;}
 
-  /* Activity segment toggle */
-  .act-toggle{display:flex;gap:6px;background:rgba(255,255,255,.7);border-radius:14px;padding:4px;margin:18px 0 12px;}
-  .act-seg{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:13px;
-    padding:9px 4px;border-radius:11px;cursor:pointer;color:var(--ink);opacity:.6;transition:all .15s;}
+  /* Activity segment */
+  .act-toggle{display:flex;gap:6px;background:rgba(255,255,255,.7);border-radius:14px;padding:4px;margin:16px 0 12px;}
+  .act-seg{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:13.5px;
+    padding:10px 4px;border-radius:11px;cursor:pointer;color:var(--ink);opacity:.6;}
   .act-seg.active{opacity:1;box-shadow:var(--shadow);}
   .act-seg.good-seg.active{background:#E8F9EE;color:var(--leaf-dark);}
   .act-seg.bad-seg.active{background:#FFF0EE;color:var(--bad);}
-  .act-seg.ai-seg.active{background:#EEF4FF;color:#3B5BDB;}
   .act-panel{display:none;} .act-panel.active{display:block;}
 
   /* Activity grid */
@@ -73,28 +83,9 @@
     padding:11px;box-shadow:var(--shadow);font-family:var(--font);display:flex;flex-direction:column;gap:4px;transition:transform .08s ease;}
   .act:active{transform:scale(.95);}
   .act .emoji{font-size:22px;} .act .name{font-size:12px;font-weight:600;line-height:1.2;color:var(--ink);}
-  .act .pts{font-size:11.5px;font-weight:700;}
-  .act .co2{font-size:10.5px;font-weight:500;opacity:.55;}
+  .act .pts{font-size:11.5px;font-weight:700;} .act .co2{font-size:10.5px;opacity:.5;font-weight:500;}
   .act.good{border-color:rgba(47,191,98,.25);} .act.good .pts{color:var(--good);}
   .act.bad{border-color:rgba(255,107,87,.25);} .act.bad .pts{color:var(--bad);}
-
-  /* AI input panel */
-  .ai-panel-inner{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);}
-  .ai-panel-inner p{font-size:13px;font-weight:500;opacity:.7;margin-bottom:10px;line-height:1.5;}
-  .ai-input-row{display:flex;gap:8px;}
-  .ai-input-row input{flex:1;border:2px solid #E3EFE6;border-radius:12px;padding:11px;font-family:var(--font);font-size:14px;color:var(--ink);}
-  .ai-input-row input:focus{outline:none;border-color:#3B5BDB;}
-  .ai-input-row button{background:#3B5BDB;color:#fff;border:none;border-radius:12px;padding:0 16px;font-family:var(--font);font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;}
-  .ai-input-row button:active{transform:scale(.97);}
-  .ai-result{margin-top:12px;background:#F3F6FF;border-radius:14px;padding:13px;display:none;}
-  .ai-result .ar-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-  .ai-result .ar-emoji{font-size:22px;}
-  .ai-result .ar-pts{font-size:16px;font-weight:700;}
-  .ai-result .ar-pts.pos{color:var(--good);} .ai-result .ar-pts.neg{color:var(--bad);}
-  .ai-result .ar-explain{font-size:13px;font-weight:500;line-height:1.5;opacity:.8;margin-bottom:10px;}
-  .ai-result .ar-vet{background:#FFF6E5;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:600;color:#9A6A00;}
-  .ai-result .ar-add{width:100%;margin-top:10px;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:11px;font-family:var(--font);font-weight:700;font-size:14px;cursor:pointer;}
-  .ai-loading{text-align:center;padding:14px;font-size:13px;font-weight:600;opacity:.6;display:none;}
 
   /* Log */
   .sec-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin:18px 4px 10px;}
@@ -122,8 +113,8 @@
   .reflect{background:linear-gradient(180deg,#FFFDF5,#fff);border-radius:20px;padding:15px;
     box-shadow:var(--shadow);border:2px solid #FFEFC2;}
   .reflect .rtxt{font-size:13.5px;line-height:1.6;font-weight:500;}
-  .reflect .rbtn{margin-top:10px;background:#fff;border:2px solid #E3EFE6;color:var(--ink);font-family:var(--font);
-    font-weight:600;font-size:13px;padding:8px 14px;border-radius:12px;cursor:pointer;}
+  .reflect .rbtn{margin-top:10px;background:#fff;border:2px solid #E3EFE6;color:var(--ink);
+    font-family:var(--font);font-weight:600;font-size:13px;padding:8px 14px;border-radius:12px;cursor:pointer;}
 
   .controls{display:flex;gap:10px;margin-top:16px;}
   .btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:13.5px;padding:12px;border-radius:16px;box-shadow:var(--shadow);}
@@ -131,11 +122,11 @@
 
   /* Learn */
   .card{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-top:12px;}
-  .card h3{font-size:15px;font-weight:700;margin-bottom:8px;display:flex;gap:7px;align-items:center;}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:8px;}
   .card p{font-size:13px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:8px;}
   .convo{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #EEF4EF;}
   .convo:last-child{border-bottom:none;}
-  .convo .ce{font-size:20px;width:28px;text-align:center;} .convo .ct{flex:1;font-size:12.5px;font-weight:500;}
+  .convo .ce{font-size:20px;width:26px;text-align:center;} .convo .ct{flex:1;font-size:12.5px;font-weight:500;}
   .convo .cv{font-size:12.5px;font-weight:700;color:var(--leaf-dark);}
   .pill{display:inline-block;background:#EAF7E6;color:var(--leaf-dark);font-size:12px;font-weight:600;padding:6px 10px;border-radius:12px;margin:3px 3px 0 0;}
   .vbox{background:#FFF6E5;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;color:#9A6A00;margin-top:6px;}
@@ -143,15 +134,32 @@
   /* Feed */
   .feed-card{background:var(--card);border-radius:20px;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;animation:slidein .4s ease;}
   .feed-photo{width:100%;max-height:260px;object-fit:cover;display:block;}
-  .feed-no-photo{height:70px;background:linear-gradient(135deg,#E8F6FF,#F3FBEF);display:flex;align-items:center;justify-content:center;font-size:36px;}
+  .feed-no-photo{height:64px;background:linear-gradient(135deg,#E8F6FF,#F3FBEF);display:flex;align-items:center;justify-content:center;font-size:32px;}
   .feed-body{padding:12px 14px;}
   .feed-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
   .feed-avatar{width:32px;height:32px;border-radius:50%;background:var(--leaf);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
-  .feed-user{font-size:13.5px;font-weight:700;} .feed-time{font-size:11px;opacity:.5;font-weight:500;margin-left:auto;}
-  .feed-act{display:flex;align-items:center;gap:8px;}
+  .feed-user{font-size:13.5px;font-weight:700;} .feed-time{font-size:11px;opacity:.5;margin-left:auto;}
+  .feed-act{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
   .feed-act .fa-emoji{font-size:18px;} .feed-act .fa-name{font-size:13px;font-weight:500;flex:1;}
   .feed-act .fa-pts{font-size:13px;font-weight:700;}
   .fa-pts.good{color:var(--good);} .fa-pts.bad{color:var(--bad);}
+
+  /* Comments */
+  .comment-btn{border:none;background:#F2F6F3;border-radius:10px;padding:7px 12px;font-family:var(--font);
+    font-weight:600;font-size:12.5px;cursor:pointer;color:var(--ink);opacity:.7;}
+  .comment-btn:active{transform:scale(.97);}
+  .comment-section{margin-top:10px;display:none;}
+  .comment-section.open{display:block;}
+  .comment-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #F0F5F1;}
+  .comment-item:last-of-type{border-bottom:none;}
+  .ci-avatar{width:24px;height:24px;border-radius:50%;background:#D4EFE0;color:var(--leaf-dark);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+  .ci-user{font-size:12px;font-weight:700;} .ci-text{font-size:12.5px;font-weight:500;opacity:.85;margin-top:1px;}
+  .ci-body{flex:1;}
+  .ci-empty{font-size:12.5px;opacity:.5;font-weight:500;padding:6px 0;}
+  .comment-input-row{display:flex;gap:7px;margin-top:10px;}
+  .comment-input-row input{flex:1;border:2px solid #E3EFE6;border-radius:10px;padding:9px;font-family:var(--font);font-size:13px;color:var(--ink);}
+  .comment-input-row input:focus{outline:none;border-color:var(--leaf);}
+  .comment-input-row button{background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:0 14px;font-family:var(--font);font-weight:700;font-size:13px;cursor:pointer;}
 
   /* Leaderboard */
   .lb-row{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:11px 14px;margin-bottom:8px;box-shadow:0 4px 12px rgba(23,58,44,.07);}
@@ -160,11 +168,7 @@
   .lb-pts{font-size:14px;font-weight:700;}
   .lb-pts.pos{color:var(--leaf-dark);} .lb-pts.neg{color:var(--bad);}
   .lb-row.me{border:2px solid var(--leaf);background:#F3FBEF;}
-  .nameform{display:flex;gap:8px;margin-top:10px;}
-  .nameform input{flex:1;border:2px solid #E3EFE6;border-radius:12px;padding:11px;font-family:var(--font);font-size:14px;color:var(--ink);}
-  .nameform input:focus{outline:none;border-color:var(--leaf);}
-  .nameform button{background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:0 16px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;}
-  .hint{font-size:12.5px;opacity:.6;font-weight:500;margin-top:8px;}
+  .hint{font-size:12.5px;opacity:.6;font-weight:500;margin-top:8px;margin-bottom:4px;}
 
   /* Photo sheet */
   .sheet-bg{position:fixed;inset:0;background:rgba(23,58,44,.5);display:none;align-items:flex-end;justify-content:center;z-index:60;}
@@ -177,7 +181,8 @@
   .sheet-btn.primary{background:var(--leaf);color:#fff;} .sheet-btn.secondary{background:#F2F6F3;color:var(--ink);}
   .preview-wrap{position:relative;margin-bottom:14px;display:none;}
   .preview-wrap img{width:100%;border-radius:14px;max-height:200px;object-fit:cover;}
-  .preview-wrap .re-snap{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:10px;padding:6px 10px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;}
+  .preview-wrap .re-snap{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;border:none;
+    border-radius:10px;padding:6px 10px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;}
 
   /* Modals */
   .modal-bg{position:fixed;inset:0;background:rgba(23,58,44,.45);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;}
@@ -186,11 +191,13 @@
   .modal h2{font-size:18px;font-weight:700;margin-bottom:10px;}
   .modal p{font-size:13.5px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:10px;}
   .modal .qbox{background:#F3FBEF;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--leaf-dark);margin:6px 0 14px;}
-  .modal .close{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:14px;padding:12px;font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
+  .modal .close{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:14px;padding:12px;
+    font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
   .warn-modal{background:#fff;border-radius:24px;padding:24px;max-width:380px;width:100%;box-shadow:var(--shadow);border-top:6px solid var(--bad);}
   .warn-modal h2{font-size:18px;font-weight:700;margin-bottom:10px;color:var(--bad);}
   .warn-modal .wmsg{background:#FFF0EE;border-radius:14px;padding:14px;font-size:14px;font-weight:600;color:#C0392B;margin-bottom:16px;line-height:1.5;}
-  .warn-modal .close{width:100%;background:var(--bad);color:#fff;border:none;border-radius:14px;padding:12px;font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
+  .warn-modal .close{width:100%;background:var(--bad);color:#fff;border:none;border-radius:14px;padding:12px;
+    font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
 
   .float{position:fixed;font-size:22px;font-weight:700;pointer-events:none;z-index:40;animation:floatUp 1s ease-out forwards;}
   @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.6);}20%{opacity:1;}100%{opacity:0;transform:translateY(-70px) scale(1.1);}}
@@ -224,55 +231,20 @@
         <div class="sub-num" id="co2Display">0 g CO₂</div>
         <div class="lbl">Today</div>
       </div>
-      <div class="score-card">
-        <div class="num" id="actCount">0</div>
-        <div class="lbl">Actions</div>
-      </div>
-      <div class="score-card">
-        <div class="num" id="treeFraction">0.0</div>
-        <div class="lbl">🌲 trees</div>
-      </div>
-      <div class="score-card">
-        <div class="num" id="forestCount">0</div>
-        <div class="lbl">Extra trees</div>
-      </div>
+      <div class="score-card"><div class="num" id="actCount">0</div><div class="lbl">Actions</div></div>
+      <div class="score-card"><div class="num" id="treeFrac">0.00</div><div class="lbl">🌲 of tree</div></div>
+      <div class="score-card"><div class="num" id="forestCount">0</div><div class="lbl">Extra 🌲</div></div>
     </div>
 
-    <!-- Activity segment toggle -->
     <div class="act-toggle">
       <button class="act-seg good-seg active" onclick="switchSeg('good',this)">🌱 Good</button>
       <button class="act-seg bad-seg" onclick="switchSeg('bad',this)">🔥 Bad</button>
-      <button class="act-seg ai-seg" onclick="switchSeg('ai',this)">✏️ Type it</button>
     </div>
-
-    <div class="act-panel active" id="panel-good">
-      <div class="grid" id="goodGrid"></div>
-    </div>
-    <div class="act-panel" id="panel-bad">
-      <div class="grid" id="badGrid"></div>
-    </div>
-    <div class="act-panel" id="panel-ai">
-      <div class="ai-panel-inner">
-        <p>Describe what you did and I'll estimate the carbon footprint using AI — then check if you agree with my answer! 🔎</p>
-        <div class="ai-input-row">
-          <input id="aiInput" placeholder="e.g. I walked to school today" maxlength="120" onkeydown="if(event.key==='Enter')askAI()"/>
-          <button onclick="askAI()">Ask AI</button>
-        </div>
-        <div class="ai-loading" id="aiLoading">🤔 Thinking…</div>
-        <div class="ai-result" id="aiResult">
-          <div class="ar-top">
-            <span class="ar-emoji" id="arEmoji">🌱</span>
-            <span class="ar-pts" id="arPts"></span>
-          </div>
-          <div class="ar-explain" id="arExplain"></div>
-          <div class="ar-vet" id="arVet"></div>
-          <button class="ar-add" onclick="addAIAction()">✓ Log this action</button>
-        </div>
-      </div>
-    </div>
+    <div class="act-panel active" id="panel-good"><div class="grid" id="goodGrid"></div></div>
+    <div class="act-panel" id="panel-bad"><div class="grid" id="badGrid"></div></div>
 
     <div class="sec-title">📋 Today's actions</div>
-    <div id="log"><div class="empty">No actions yet. Tap a button to start!</div></div>
+    <div id="log"><div class="empty">No actions yet. Tap a button above!</div></div>
 
     <div class="sec-title">📅 My month</div>
     <div class="cal"><div class="cal-head"><span id="calTitle"></span></div><div class="cal-grid" id="calGrid"></div></div>
@@ -282,48 +254,71 @@
       <div class="rtxt" id="reflectText">Tap some actions, and I'll write your reflection here! 🌱</div>
       <button class="rbtn" onclick="newReflection()">↻ New reflection</button>
     </div>
-    <div class="controls">
-      <button class="btn info" onclick="openInfo()">? About the numbers</button>
-    </div>
+    <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
   </div>
 
   <!-- LEARN -->
   <div class="view" id="view-learn">
     <div class="card"><h3>🌍 What is a carbon footprint?</h3>
-      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air — from car rides, electricity, food, and the stuff we buy.</p>
-      <p>More CO₂ traps more heat, making summers hotter. Smaller footprint = cooler, happier planet.</p></div>
+      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air — from car rides, electricity, the food we eat, and things we buy.</p>
+      <p>More CO₂ traps more heat, making Hong Kong summers even hotter. Smaller footprint = cooler, happier planet.</p></div>
     <div class="card"><h3>📏 How we measure it</h3>
       <p>CO₂ is measured in <b>grams (g)</b> and <b>kilograms (kg)</b>.</p>
       <span class="pill">1,000 g = 1 kg</span><span class="pill">1,000 kg = 1 tonne</span>
-      <p style="margin-top:10px">One tree soaks up about <b>20 kg of CO₂ a year</b> — that's why the tree in the app grows with your good actions!</p></div>
-    <div class="card"><h3>⚖️ Quick conversions</h3>
-      <div class="convo"><span class="ce">🚗</span><span class="ct">Car ride</span><span class="cv">~150 g per km</span></div>
-      <div class="convo"><span class="ce">🚌</span><span class="ct">Bus (shared)</span><span class="cv">much less per person</span></div>
+      <p style="margin-top:10px">One tree soaks up about <b>20 kg of CO₂ a year</b> — that's why your tree grows with good actions!</p></div>
+    <div class="card"><h3>⚖️ Quick comparisons</h3>
+      <div class="convo"><span class="ce">🚗</span><span class="ct">Car or taxi ride</span><span class="cv">~150 g per km</span></div>
+      <div class="convo"><span class="ce">🚇</span><span class="ct">MTR (shared by many)</span><span class="cv">much less each</span></div>
       <div class="convo"><span class="ce">🚲</span><span class="ct">Bike or walking</span><span class="cv">~0 g</span></div>
-      <div class="convo"><span class="ce">✈️</span><span class="ct">Short plane flight</span><span class="cv">100s of kg each</span></div>
-      <div class="convo"><span class="ce">🍔</span><span class="ct">Beef burger</span><span class="cv">~3 kg</span></div>
+      <div class="convo"><span class="ce">✈️</span><span class="ct">Short plane flight</span><span class="cv">100s of kg!</span></div>
+      <div class="convo"><span class="ce">🍖</span><span class="ct">Big meat meal</span><span class="cv">~3 kg CO₂</span></div>
       <div class="convo"><span class="ce">🥗</span><span class="ct">Veggie meal</span><span class="cv">under 1 kg</span></div>
-      <div class="convo"><span class="ce">🥤</span><span class="ct">Making 1 plastic bottle</span><span class="cv">~80 g</span></div>
-      <div class="convo"><span class="ce">📱</span><span class="ct">Charging a phone</span><span class="cv">tiny (~few g)</span></div></div>
-    <div class="card"><h3>✅ What helps the planet?</h3>
-      <span class="pill">🚶 Walk or bike</span><span class="pill">🚌 Share rides</span>
-      <span class="pill">🥗 Eat more plants</span><span class="pill">🍱 No food waste</span>
-      <span class="pill">♻️ Recycle</span><span class="pill">🔁 Reuse & repair</span>
-      <span class="pill">💧 Save water</span><span class="pill">💡 Save electricity</span>
-      <span class="pill">🌳 Plant trees</span><span class="pill">👕 Secondhand</span></div>
+      <div class="convo"><span class="ce">🧋</span><span class="ct">Takeaway drink cup</span><span class="cv">~80 g</span></div></div>
+    <div class="card"><h3>✅ Small actions that help</h3>
+      <span class="pill">🚶 Walk nearby</span><span class="pill">🚇 Take the MTR</span>
+      <span class="pill">🥗 Eat more veggies</span><span class="pill">🍱 No food waste</span>
+      <span class="pill">♻️ Sort recycling</span><span class="pill">💡 Switch off lights</span>
+      <span class="pill">💧 Save water</span><span class="pill">👜 Reusable bag</span>
+      <span class="pill">🌳 Water a plant</span><span class="pill">👕 Wear clothes again</span></div>
     <div class="card"><h3>🔎 Be a number detective</h3>
-      <p>Every number here — including what the AI estimates — is a <b>rough guess</b>. Real scientists always check where numbers come from.</p>
-      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce" and compare it with the app's numbers. Do they match?</div></div>
+      <p>Every number in this app is a <b>rough estimate</b>. Real scientists always check where numbers come from.</p>
+      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare it with the app. Do the numbers match? Who is right?</div></div>
   </div>
 
   <!-- FEED -->
   <div class="view" id="view-feed">
-    <div style="margin-top:12px;" id="feedBody"><div class="empty">Loading the class feed… 🌱</div></div>
+    <div id="feedGate" style="display:none">
+      <div class="gate">
+        <h3>📸 Class Feed</h3>
+        <p>Pick a username to see and post on the class feed. Each name can only be used once!</p>
+        <div class="gate-row">
+          <input id="gateNameFeed" maxlength="16" placeholder="Your username"/>
+          <button onclick="claimName('feed')">Join</button>
+        </div>
+        <div class="gate-hint">You'll use this name on the leaderboard too.</div>
+      </div>
+    </div>
+    <div id="feedContent" style="margin-top:12px;display:none">
+      <div id="feedBody"><div class="empty">Loading… 🌱</div></div>
+    </div>
   </div>
 
   <!-- TOP -->
   <div class="view" id="view-top">
-    <div class="card" style="margin-top:12px;"><h3>🏆 Class leaderboard</h3><div id="lbBody"><p>Loading…</p></div></div>
+    <div id="topGate" style="display:none">
+      <div class="gate">
+        <h3>🏆 Leaderboard</h3>
+        <p>Pick a username to join the class leaderboard. Each name can only be used once!</p>
+        <div class="gate-row">
+          <input id="gateNameTop" maxlength="16" placeholder="Your username"/>
+          <button onclick="claimName('top')">Join</button>
+        </div>
+        <div class="gate-hint">You'll use this name on the feed too.</div>
+      </div>
+    </div>
+    <div id="topContent" style="display:none">
+      <div class="card" style="margin-top:12px;"><h3>🏆 Class leaderboard</h3><div id="lbBody"><p>Loading…</p></div></div>
+    </div>
   </div>
 </div>
 
@@ -331,8 +326,11 @@
 <div class="sheet-bg" id="sheetBg">
   <div class="sheet">
     <h3 id="sheetTitle">Add a photo?</h3>
-    <p id="sheetSub">Show the class what you did! It'll appear on the feed.</p>
-    <div class="preview-wrap" id="previewWrap"><img id="previewImg" src="" alt="preview"/><button class="re-snap" onclick="triggerCamera()">↺ Retake</button></div>
+    <p id="sheetSub">Show the class what you did!</p>
+    <div class="preview-wrap" id="previewWrap">
+      <img id="previewImg" src="" alt="preview"/>
+      <button class="re-snap" onclick="triggerCamera()">↺ Retake</button>
+    </div>
     <div class="sheet-btns">
       <button class="sheet-btn secondary" onclick="skipPhoto()">Skip</button>
       <button class="sheet-btn primary" id="snapBtn" onclick="triggerCamera()">📷 Take photo</button>
@@ -345,8 +343,8 @@
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h2>🔎 Check the numbers!</h2>
-    <p>The Earth Points here are <b>rough estimates</b>. Real carbon numbers depend on lots of things — the distance, the car, where food came from.</p>
-    <div class="qbox">Detective question: Where did these numbers come from? Are they fair? How could we check them?</div>
+    <p>The Earth Points here are <b>rough estimates</b>. Real carbon numbers depend on many things.</p>
+    <div class="qbox">Detective question: Where did these numbers come from? Are they fair? How could we check?</div>
     <button class="close" onclick="closeInfo()">Got it</button>
   </div>
 </div>
@@ -363,57 +361,76 @@
 
 <!-- FIREBASE -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, addDoc, collection, query, orderBy, limit, onSnapshot, where, getDocs }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-token-62b31.firebaseapp.com",projectId:"earth-token-62b31",storageBucket:"earth-token-62b31.firebasestorage.app",messagingSenderId:"7396616782",appId:"1:7396616782:web:4b4a49bae4a2009414711f"};
-  try{
-    const app=initializeApp(CFG), db=getFirestore(app);
-    window.DB={
-      async claimName(n){const r=doc(db,"scores",n.toLowerCase()),s=await getDoc(r);if(s.exists())return false;await setDoc(r,{name:n,points:0,updated:Date.now()});return true;},
-      async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
-      subscribeScores(cb){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(20)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
-      async postFeed(item){await addDoc(collection(db,"feed"),item);},
-      subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
-      async checkWarning(u){const q=query(collection(db,"warnings"),where("username","==",u.toLowerCase()),where("read","==",false),limit(1));const s=await getDocs(q);if(s.empty)return null;const d=s.docs[0];return{id:d.id,...d.data()};},
-      async markWarningRead(id){await setDoc(doc(db,"warnings",id),{read:true},{merge:true});}
-    };window.DB_READY=true;
-  }catch(e){console.error(e);}
-  if(window.onDBReady)window.onDBReady();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, query, orderBy, limit, where, onSnapshot, getDocs }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-token-62b31.firebaseapp.com",
+  projectId:"earth-token-62b31",storageBucket:"earth-token-62b31.firebasestorage.app",
+  messagingSenderId:"7396616782",appId:"1:7396616782:web:4b4a49bae4a2009414711f"};
+try{
+  const app=initializeApp(CFG), db=getFirestore(app);
+  window.DB={
+    async claimName(n){
+      const r=doc(db,"scores",n.toLowerCase()),s=await getDoc(r);
+      if(s.exists())return false;
+      await setDoc(r,{name:n,points:0,updated:Date.now()});return true;
+    },
+    async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
+    subscribeScores(cb){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(20)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    async postFeed(item){return await addDoc(collection(db,"feed"),item);},
+    subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    async getComments(postId){
+      const q=query(collection(db,"feedComments"),where("postId","==",postId),orderBy("timestamp","asc"),limit(30));
+      const s=await getDocs(q); return s.docs.map(d=>d.data());
+    },
+    async addComment(obj){await addDoc(collection(db,"feedComments"),obj);},
+    async checkWarning(u){
+      const q=query(collection(db,"warnings"),where("username","==",u.toLowerCase()),where("read","==",false),limit(1));
+      const s=await getDocs(q);if(s.empty)return null;const d=s.docs[0];return{id:d.id,...d.data()};
+    },
+    async markWarningRead(id){await setDoc(doc(db,"warnings",id),{read:true},{merge:true});}
+  };window.DB_READY=true;
+}catch(e){console.error(e);}
+if(window.onDBReady)window.onDBReady();
 </script>
 
 <script>
+/* ---- Storage ---- */
 const mem={};
-const Store={get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return mem[k]??null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}};
+const Store={
+  get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return mem[k]??null;}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;}}
+};
 
-/* ---- Activity data (1 point ≈ 1g CO₂) ---- */
+/* ---- Activities (kid-friendly HK, no duplicates) ---- */
 const GOOD=[
-  {emoji:"🚶",name:"Walked instead of car",pts:150,co2:"~150g saved"},
+  {emoji:"🚶",name:"Walked to school or nearby",pts:150,co2:"~150g saved"},
   {emoji:"🚲",name:"Rode a bike",pts:120,co2:"~120g saved"},
-  {emoji:"🚌",name:"Took bus or train",pts:80,co2:"~80g saved"},
+  {emoji:"🚇",name:"Took the MTR or bus",pts:80,co2:"~80g saved"},
   {emoji:"🥗",name:"Ate a veggie meal",pts:200,co2:"~200g saved"},
-  {emoji:"♻️",name:"Recycled bottles/cans",pts:50,co2:"~50g saved"},
-  {emoji:"💧",name:"Saved water today",pts:40,co2:"~40g saved"},
-  {emoji:"💡",name:"Turned off the lights",pts:30,co2:"~30g saved"},
   {emoji:"🍱",name:"Finished all my food",pts:60,co2:"~60g saved"},
-  {emoji:"🛍️",name:"Used a reusable bag",pts:40,co2:"~40g saved"},
-  {emoji:"👕",name:"Wore secondhand clothes",pts:50,co2:"~50g saved"},
-  {emoji:"🌱",name:"Composted food scraps",pts:50,co2:"~50g saved"},
-  {emoji:"🌳",name:"Planted something",pts:200,co2:"~200g saved"},
+  {emoji:"♻️",name:"Sorted recycling correctly",pts:50,co2:"~50g saved"},
+  {emoji:"💡",name:"Turned off lights when leaving",pts:35,co2:"~35g saved"},
+  {emoji:"💧",name:"Turned off tap while brushing",pts:30,co2:"~30g saved"},
+  {emoji:"👜",name:"Brought my own reusable bag",pts:40,co2:"~40g saved"},
+  {emoji:"👕",name:"Wore clothes again before washing",pts:45,co2:"~45g saved"},
+  {emoji:"🌿",name:"Chose a plant-based snack",pts:50,co2:"~50g saved"},
+  {emoji:"🌳",name:"Watered or planted a plant",pts:200,co2:"~200g saved"},
 ];
 const BAD=[
-  {emoji:"🚗",name:"Got a car ride",pts:-150,co2:"~150g added"},
-  {emoji:"✈️",name:"Took a plane trip",pts:-500,co2:"100s kg added"},
-  {emoji:"🍔",name:"Ate a big meat meal",pts:-200,co2:"~200g added"},
-  {emoji:"🗑️",name:"Threw away food",pts:-60,co2:"~60g added"},
-  {emoji:"💨",name:"Left the AC on all day",pts:-80,co2:"~80g added"},
-  {emoji:"🥤",name:"Used a plastic bottle",pts:-50,co2:"~50g added"},
-  {emoji:"🚿",name:"Very long shower (20+ min)",pts:-45,co2:"~45g added"},
-  {emoji:"👗",name:"Bought new fast fashion",pts:-100,co2:"~100g added"},
-  {emoji:"📺",name:"Left devices on overnight",pts:-35,co2:"~35g added"},
-  {emoji:"🛒",name:"Ordered lots of delivery",pts:-70,co2:"~70g added"},
-  {emoji:"🖨️",name:"Printed lots of paper",pts:-30,co2:"~30g added"},
-  {emoji:"🧴",name:"Bought single-use plastic",pts:-50,co2:"~50g added"},
+  {emoji:"🚗",name:"Took a private car or taxi",pts:-150,co2:"~150g added"},
+  {emoji:"✈️",name:"Took a flight",pts:-500,co2:"100s kg added"},
+  {emoji:"🍖",name:"Had a big meat meal",pts:-200,co2:"~200g added"},
+  {emoji:"🗑️",name:"Threw away uneaten food",pts:-60,co2:"~60g added"},
+  {emoji:"❄️",name:"Left the AC on all day",pts:-80,co2:"~80g added"},
+  {emoji:"🧋",name:"Used a disposable drink cup",pts:-50,co2:"~50g added"},
+  {emoji:"🚿",name:"Had a very long shower",pts:-45,co2:"~45g added"},
+  {emoji:"🛍️",name:"Used single-use plastic bags",pts:-50,co2:"~50g added"},
+  {emoji:"📱",name:"Left devices charging all night",pts:-35,co2:"~35g added"},
+  {emoji:"🍟",name:"Bought fast food with lots of packaging",pts:-70,co2:"~70g added"},
+  {emoji:"🖨️",name:"Printed lots of pages",pts:-30,co2:"~30g added"},
+  {emoji:"💡",name:"Left lights on when leaving",pts:-35,co2:"~35g added"},
 ];
 const STAGES=[
   {min:-99999,name:"Seed",msg:"Plant a seed of good actions!"},
@@ -431,126 +448,88 @@ function getAllTime(){return Store.get("et:alltime")||0;}
 function addAllTime(n){Store.set("et:alltime",Math.max(0,getAllTime()+n));}
 function myName(){return Store.get("et:username");}
 
+/* ---- Build buttons ---- */
 function makeButtons(list,id,cls){
-  const g=document.getElementById(id); g.innerHTML="";
+  const g=document.getElementById(id);g.innerHTML="";
   list.forEach(a=>{
-    const b=document.createElement("button"); b.className="act "+cls;
+    const b=document.createElement("button");b.className="act "+cls;
     b.innerHTML=`<span class="emoji">${a.emoji}</span><span class="name">${a.name}</span><span class="pts">${a.pts>0?"+":""}${a.pts} pts</span><span class="co2">${a.co2}</span>`;
-    b.onclick=(e)=>logAction(a,e); g.appendChild(b);
+    b.onclick=(e)=>logAction(a,e);g.appendChild(b);
   });
 }
-makeButtons(GOOD,"goodGrid","good"); makeButtons(BAD,"badGrid","bad");
+makeButtons(GOOD,"goodGrid","good");makeButtons(BAD,"badGrid","bad");
 
 function switchSeg(seg,btn){
   document.querySelectorAll(".act-seg").forEach(s=>s.classList.remove("active"));
   document.querySelectorAll(".act-panel").forEach(p=>p.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("panel-"+seg).classList.add("active");
-}
-
-/* ---- AI text input ---- */
-let pendingAIAction=null;
-async function askAI(){
-  const input=document.getElementById("aiInput").value.trim();
-  if(input.length<3){alert("Please describe what you did.");return;}
-  document.getElementById("aiLoading").style.display="block";
-  document.getElementById("aiResult").style.display="none";
-  try{
-    const response=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-6",
-        max_tokens:300,
-        system:`You are a carbon footprint calculator for primary school students (age 9-12) in Hong Kong. 
-Given an activity description, estimate its CO2 impact in grams.
-Positive points = good for Earth (CO2 saved vs average). Negative = bad (CO2 emitted).
-Be realistic. Cap at ±500 points. If the claim is impossible or silly, give 0 with a gentle note.
-Pick one emoji that fits the activity.
-Respond ONLY in JSON (no markdown, no explanation outside JSON):
-{"points":number,"emoji":"single emoji","explanation":"one friendly sentence for a 10-year-old","vet_question":"one detective question they can research to check this number"}`,
-        messages:[{role:"user",content:input}]
-      })
-    });
-    const data=await response.json();
-    const text=data.content?.[0]?.text||"{}";
-    const result=JSON.parse(text.replace(/```json|```/g,"").trim());
-    pendingAIAction={emoji:result.emoji||"🌱",name:input,pts:Math.round(result.points||0),co2:Math.abs(result.points||0)+"g",aiGenerated:true};
-    const pts=pendingAIAction.pts;
-    document.getElementById("arEmoji").textContent=result.emoji||"🌱";
-    document.getElementById("arPts").textContent=(pts>0?"+":"")+pts+" pts";
-    document.getElementById("arPts").className="ar-pts "+(pts>=0?"pos":"neg");
-    document.getElementById("arExplain").textContent=result.explanation||"";
-    document.getElementById("arVet").textContent="🔎 "+result.vet_question||"";
-    document.getElementById("aiResult").style.display="block";
-  }catch(e){alert("Couldn't get an answer. Check your internet and try again.");}
-  document.getElementById("aiLoading").style.display="none";
-}
-
-function addAIAction(){
-  if(!pendingAIAction) return;
-  logAction(pendingAIAction,null);
-  document.getElementById("aiResult").style.display="none";
-  document.getElementById("aiInput").value="";
-  pendingAIAction=null;
+  btn.classList.add("active");document.getElementById("panel-"+seg).classList.add("active");
 }
 
 /* ---- Log action ---- */
-let pendingAction=null, pendingPhotoData=null;
+let pendingAction=null,pendingPhotoData=null;
 function logAction(a,ev){
   const ps=currentStage(),pf=forestCount();
-  state.score+=a.pts; state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts,aiGenerated:!!a.aiGenerated});
-  state.reflection=generateReflection(); addAllTime(a.pts); saveState(); render(); if(ev)floatReward(a,ev); pushScore();
-  if(currentStage()>ps||forestCount()>pf){const c=document.querySelector(".canopy");if(c){c.classList.add("pop");setTimeout(()=>c.classList.remove("pop"),650);}}
-  pendingAction=a; pendingPhotoData=null;
-  document.getElementById("sheetTitle").textContent=`${a.emoji} ${a.name}`;
-  document.getElementById("sheetSub").textContent="Add a photo to show the class what you did!";
-  document.getElementById("previewWrap").style.display="none";
-  document.getElementById("snapBtn").textContent="📷 Take photo";
-  document.getElementById("snapBtn").onclick=triggerCamera;
-  document.getElementById("sheetBg").classList.add("show");
+  state.score+=a.pts;state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
+  state.reflection=generateReflection();addAllTime(a.pts);saveState();render();
+  if(ev)floatReward(a,ev);pushScore();
+  if(currentStage()>ps||forestCount()>pf){
+    const c=document.querySelector(".canopy");
+    if(c){c.classList.add("pop");setTimeout(()=>c.classList.remove("pop"),650);}
+  }
+  // photo prompt (only if logged in)
+  if(myName()){
+    pendingAction=a;pendingPhotoData=null;
+    document.getElementById("sheetTitle").textContent=`${a.emoji} ${a.name}`;
+    document.getElementById("previewWrap").style.display="none";
+    document.getElementById("snapBtn").textContent="📷 Take photo";
+    document.getElementById("snapBtn").onclick=triggerCamera;
+    document.getElementById("sheetBg").classList.add("show");
+  }
 }
 
+/* ---- Photo ---- */
 function triggerCamera(){document.getElementById("camInput").click();}
 function onPhotoChosen(ev){
-  const file=ev.target.files[0]; if(!file) return;
+  const file=ev.target.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{
     const img=new Image();
     img.onload=()=>{
       const MAX=480,canvas=document.createElement("canvas");
       const scale=Math.min(1,MAX/Math.max(img.width,img.height));
-      canvas.width=img.width*scale; canvas.height=img.height*scale;
+      canvas.width=img.width*scale;canvas.height=img.height*scale;
       canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
       pendingPhotoData=canvas.toDataURL("image/jpeg",0.6);
       document.getElementById("previewImg").src=pendingPhotoData;
       document.getElementById("previewWrap").style.display="block";
       document.getElementById("snapBtn").textContent="✓ Post with photo";
       document.getElementById("snapBtn").onclick=postWithPhoto;
-    };
-    img.src=e.target.result;
-  };
-  reader.readAsDataURL(file); ev.target.value="";
+    };img.src=e.target.result;
+  };reader.readAsDataURL(file);ev.target.value="";
 }
 async function postWithPhoto(){
   closeSheet();
-  if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}}
-  pendingAction=null; pendingPhotoData=null;
+  if(pendingAction&&window.DB&&myName()){
+    try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}
+  }
+  pendingAction=null;pendingPhotoData=null;
 }
 async function skipPhoto(){
   closeSheet();
-  if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:null,timestamp:Date.now()});}catch(e){}}
-  pendingAction=null; pendingPhotoData=null;
+  if(pendingAction&&window.DB&&myName()){
+    try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:null,timestamp:Date.now()});}catch(e){}
+  }
+  pendingAction=null;pendingPhotoData=null;
 }
-function closeSheet(){document.getElementById("sheetBg").classList.remove("show"); document.getElementById("snapBtn").onclick=triggerCamera;}
+function closeSheet(){document.getElementById("sheetBg").classList.remove("show");document.getElementById("snapBtn").onclick=triggerCamera;}
 document.getElementById("sheetBg").addEventListener("click",function(e){if(e.target===this)skipPhoto();});
 
 function floatReward(a,ev){
-  const f=document.createElement("div"); f.className="float";
-  f.textContent=(a.pts>0?"+":"")+a.pts; f.style.color=a.pts>0?"#2FBF62":"#FF6B57";
-  const x=ev?ev.clientX:innerWidth/2,y=ev?ev.clientY:innerHeight/2;
-  f.style.left=(x-18)+"px"; f.style.top=(y-30)+"px";
-  document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
+  const f=document.createElement("div");f.className="float";
+  f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";
+  const x=ev.clientX,y=ev.clientY;
+  f.style.left=(x-18)+"px";f.style.top=(y-30)+"px";
+  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
 }
 
 function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(state.score>=st.min)s=i;});return s;}
@@ -559,26 +538,30 @@ function forestCount(){return Math.max(0,Math.min(6,Math.floor((state.score-1000
 /* ---- Reflection ---- */
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function generateReflection(){
-  if(!state.actions.length) return "Tap some actions, and I'll write your reflection here! 🌱";
-  const good=state.actions.filter(a=>a.pts>0),bad=state.actions.filter(a=>a.pts<0); let p=[];
-  if(state.score<=0) p.push(pick(["Tough day for the Earth — but every hero has off days.","Today was bumpy, and that's okay."]));
-  else if(state.score<150) p.push(pick(["Nice start! You made some Earth-friendly choices.","Good effort — you helped the planet a little!"]));
-  else if(state.score<600) p.push(pick(["Great job — you really helped the planet today!","You were kind to the Earth. Well done! 🌍"]));
-  else p.push(pick(["Wow, what an Earth hero you were today! 🌟","Amazing day for the planet — be proud!"]));
+  if(!state.actions.length)return"Tap some actions, and I'll write your reflection here! 🌱";
+  const good=state.actions.filter(a=>a.pts>0),bad=state.actions.filter(a=>a.pts<0);let p=[];
+  if(state.score<=0)p.push(pick(["Tough day for the Earth — but every hero has off days.","Today was bumpy, and that's okay!"]));
+  else if(state.score<150)p.push(pick(["Nice start! You made some Earth-friendly choices today.","Good effort — you helped the planet a little!"]));
+  else if(state.score<600)p.push(pick(["Great job — you really helped the planet today!","You were kind to the Earth. Well done! 🌍"]));
+  else p.push(pick(["Wow, what an Earth hero you were today! 🌟","Amazing day for the planet — be really proud!"]));
   if(good.length){const best=good.reduce((m,a)=>a.pts>m.pts?a:m,good[0]);p.push(`Your best move was "${best.name.toLowerCase()}" (+${best.pts} pts).`);}
-  if(bad.length){const swaps={"car":"try walking or the bus","plane":"a train saves a lot","meat":"a veggie meal saves a lot","threw":"finishing food helps","ac":"turning it off saves energy","plastic":"a reusable bottle is better","shower":"a shorter shower helps","fashion":"secondhand clothes are great","devices":"turning off devices saves energy"};const b=bad[0].name.toLowerCase();let tip=null;for(const k in swaps){if(b.includes(k)){tip=swaps[k];break;}}p.push(pick(["Tomorrow, ","Next time, "])+(tip||"try one more Earth-friendly choice")+".");}
-  if(forestCount()>0) p.push(`You grew ${forestCount()} extra tree${forestCount()>1?"s":""} in your forest! 🌲`);
+  if(bad.length){
+    const swaps={"car":"try the MTR or bus","flight":"consider a video call instead","meat":"a veggie meal saves a lot","threw":"finishing food helps","ac":"try a fan or open a window","shower":"aim for under 5 minutes","devices":"unplug chargers overnight","plastic":"bring your own bag or cup","lights":"always switch off when leaving"};
+    const b=bad[0].name.toLowerCase();let tip=null;for(const k in swaps){if(b.includes(k)){tip=swaps[k];break;}}
+    p.push(pick(["Tomorrow, ","Next time, "])+(tip||"try one more Earth-friendly swap")+".");
+  }
+  if(forestCount()>0)p.push(`You grew ${forestCount()} extra tree${forestCount()>1?"s":""} in your forest! 🌲`);
   p.push(pick(["Keep it up! 💚","See you tomorrow, Earth hero!","Small actions, big difference."]));
   return p.join(" ");
 }
 function newReflection(){state.reflection=generateReflection();saveState();document.getElementById("reflectText").textContent=state.reflection;}
 
+/* ---- Modals ---- */
 function openInfo(){document.getElementById("modalBg").classList.add("show");}
 function closeInfo(){document.getElementById("modalBg").classList.remove("show");}
 document.getElementById("modalBg").addEventListener("click",function(e){if(e.target===this)closeInfo();});
-
 async function checkForWarning(){
-  if(!window.DB||!myName()) return;
+  if(!window.DB||!myName())return;
   try{const w=await window.DB.checkWarning(myName());if(w){document.getElementById("warnMsg").textContent=w.message;document.getElementById("warnBg").classList.add("show");window._pendingWarnId=w.id;}}catch(e){}
 }
 async function dismissWarning(){
@@ -587,6 +570,26 @@ async function dismissWarning(){
 }
 window.dismissWarning=dismissWarning;
 
+/* ---- Username claim (gate-aware) ---- */
+async function claimName(source){
+  const inputId=source==="feed"?"gateNameFeed":"gateNameTop";
+  const name=(document.getElementById(inputId).value||"").trim().slice(0,16);
+  if(name.length<2){alert("Pick a name with at least 2 letters.");return;}
+  if(!window.DB){alert("No internet connection.");return;}
+  try{
+    const ok=await window.DB.claimName(name);
+    if(!ok){alert("That name is taken! Try another one.");return;}
+    Store.set("et:username",name);
+    await window.DB.pushScore(name,getAllTime());
+    checkForWarning();
+    // show the correct content
+    if(source==="feed"){document.getElementById("feedGate").style.display="none";document.getElementById("feedContent").style.display="block";renderFeed();}
+    else{document.getElementById("topGate").style.display="none";document.getElementById("topContent").style.display="block";renderLeaderboard();}
+  }catch(e){alert("Couldn't connect. Check your internet.");}
+}
+window.claimName=claimName;
+
+/* ---- Tab switching ---- */
 let lbUnsub=null,feedUnsub=null;
 function showView(v,btn){
   if(v!=="top"&&lbUnsub){lbUnsub();lbUnsub=null;}
@@ -596,16 +599,26 @@ function showView(v,btn){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
-  if(v==="top") renderLeaderboard();
-  if(v==="feed") renderFeed();
+  if(v==="feed") initFeedView();
+  if(v==="top") initTopView();
 }
 
+function initFeedView(){
+  if(myName()){document.getElementById("feedGate").style.display="none";document.getElementById("feedContent").style.display="block";renderFeed();}
+  else{document.getElementById("feedContent").style.display="none";document.getElementById("feedGate").style.display="block";}
+}
+function initTopView(){
+  if(myName()){document.getElementById("topGate").style.display="none";document.getElementById("topContent").style.display="block";renderLeaderboard();}
+  else{document.getElementById("topContent").style.display="none";document.getElementById("topGate").style.display="block";}
+}
+
+/* ---- Render track ---- */
 function render(){
   const pts=state.score;
   document.getElementById("totalScore").textContent=pts;
-  document.getElementById("co2Display").textContent=(pts>0?"+":"")+pts+" g CO₂";
+  document.getElementById("co2Display").textContent=(pts>0?"+":pts<0?"":"")+pts+" g CO₂";
   document.getElementById("actCount").textContent=state.actions.length;
-  document.getElementById("treeFraction").textContent=(pts/20000).toFixed(2);
+  document.getElementById("treeFrac").textContent=(Math.max(0,pts)/20000).toFixed(2);
   document.getElementById("forestCount").textContent=forestCount();
   const st=currentStage();
   document.getElementById("stageLabel").textContent=STAGES[st].name+(forestCount()>0?" 🌲×"+forestCount():"");
@@ -613,16 +626,24 @@ function render(){
   drawTree(st);
   const log=document.getElementById("log");
   log.innerHTML=state.actions.length
-    ?state.actions.map(a=>`<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}${a.aiGenerated?' <span style="font-size:10px;background:#EEF4FF;color:#3B5BDB;padding:2px 5px;border-radius:6px;font-weight:600">AI</span>':''}</span><span class="li-pts ${a.pts>0?"good":"bad"}">${a.pts>0?"+":""}${a.pts}</span></div>`).join("")
-    :'<div class="empty">No actions yet. Tap a button to start!</div>';
+    ?state.actions.map(a=>`<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}</span><span class="li-pts ${a.pts>0?"good":"bad"}">${a.pts>0?"+":""}${a.pts}</span></div>`).join("")
+    :'<div class="empty">No actions yet. Tap a button above!</div>';
   document.getElementById("reflectText").textContent=state.reflection||"Tap some actions, and I'll write your reflection here! 🌱";
   drawCalendar();
 }
 
 function drawTree(stage){
-  const soil=`<ellipse cx="120" cy="218" rx="92" ry="12" fill="#6B4226"/><ellipse cx="120" cy="214" rx="88" ry="10" fill="#7C4F2E"/>`;
-  const trees={0:`<g class="canopy"><ellipse cx="120" cy="204" rx="11" ry="14" fill="#8B5E3C"/><path d="M120 192 q4-10 12-12" stroke="#3FA34D" stroke-width="4" fill="none" stroke-linecap="round"/></g>`,1:`<g class="canopy"><rect x="116" y="174" width="8" height="42" rx="4" fill="#8B5E3C"/><path d="M120 182 q-18-6-26-22 q22 2 26 18" fill="#3FA34D"/><path d="M120 176 q18-8 26-24 q-22 4-26 20" fill="#4CB85C"/></g>`,2:`<g class="canopy"><rect x="114" y="154" width="12" height="62" rx="5" fill="#8B5E3C"/><circle cx="120" cy="142" r="34" fill="#3FA34D"/><circle cx="98" cy="154" r="22" fill="#4CB85C"/><circle cx="142" cy="154" r="22" fill="#4CB85C"/></g>`,3:`<g class="canopy"><rect x="112" y="140" width="16" height="76" rx="6" fill="#8B5E3C"/><circle cx="120" cy="116" r="44" fill="#2E7D32"/><circle cx="86" cy="134" r="30" fill="#3FA34D"/><circle cx="154" cy="134" r="30" fill="#3FA34D"/><circle cx="120" cy="100" r="30" fill="#4CB85C"/></g>`,4:`<g class="canopy"><rect x="108" y="124" width="24" height="92" rx="8" fill="#8B5E3C"/><circle cx="120" cy="100" r="54" fill="#2E7D32"/><circle cx="78" cy="122" r="36" fill="#3FA34D"/><circle cx="162" cy="122" r="36" fill="#3FA34D"/><circle cx="120" cy="78" r="38" fill="#4CB85C"/><circle cx="98" cy="96" r="24" fill="#5BC96B"/></g>`,5:`<g class="canopy"><rect x="104" y="120" width="32" height="96" rx="9" fill="#8B5E3C"/><circle cx="120" cy="96" r="60" fill="#2E7D32"/><circle cx="72" cy="120" r="40" fill="#3FA34D"/><circle cx="168" cy="120" r="40" fill="#3FA34D"/><circle cx="120" cy="70" r="42" fill="#4CB85C"/><circle cx="94" cy="90" r="26" fill="#5BC96B"/><circle cx="148" cy="90" r="22" fill="#5BC96B"/><circle cx="96" cy="104" r="6" fill="#FF6B57"/><circle cx="142" cy="82" r="6" fill="#FF6B57"/><circle cx="120" cy="114" r="6" fill="#FFB23F"/><circle cx="158" cy="112" r="6" fill="#FF6B57"/></g>`};
-  let forest="";const spots=[[38,210],[202,210],[64,216],[176,216],[20,216],[220,216]];
+  const soil=`<ellipse cx="120" cy="218" rx="90" ry="12" fill="#6B4226"/><ellipse cx="120" cy="214" rx="86" ry="10" fill="#7C4F2E"/>`;
+  const trees={
+    0:`<g class="canopy"><ellipse cx="120" cy="204" rx="11" ry="14" fill="#8B5E3C"/><path d="M120 192 q4-10 12-12" stroke="#3FA34D" stroke-width="4" fill="none" stroke-linecap="round"/></g>`,
+    1:`<g class="canopy"><rect x="116" y="174" width="8" height="42" rx="4" fill="#8B5E3C"/><path d="M120 182 q-18-6-26-22 q22 2 26 18" fill="#3FA34D"/><path d="M120 176 q18-8 26-24 q-22 4-26 20" fill="#4CB85C"/></g>`,
+    2:`<g class="canopy"><rect x="114" y="154" width="12" height="62" rx="5" fill="#8B5E3C"/><circle cx="120" cy="142" r="34" fill="#3FA34D"/><circle cx="98" cy="154" r="22" fill="#4CB85C"/><circle cx="142" cy="154" r="22" fill="#4CB85C"/></g>`,
+    3:`<g class="canopy"><rect x="112" y="140" width="16" height="76" rx="6" fill="#8B5E3C"/><circle cx="120" cy="116" r="44" fill="#2E7D32"/><circle cx="86" cy="134" r="30" fill="#3FA34D"/><circle cx="154" cy="134" r="30" fill="#3FA34D"/><circle cx="120" cy="100" r="30" fill="#4CB85C"/></g>`,
+    4:`<g class="canopy"><rect x="108" y="124" width="24" height="92" rx="8" fill="#8B5E3C"/><circle cx="120" cy="100" r="54" fill="#2E7D32"/><circle cx="78" cy="122" r="36" fill="#3FA34D"/><circle cx="162" cy="122" r="36" fill="#3FA34D"/><circle cx="120" cy="78" r="38" fill="#4CB85C"/><circle cx="98" cy="96" r="24" fill="#5BC96B"/></g>`,
+    5:`<g class="canopy"><rect x="104" y="120" width="32" height="96" rx="9" fill="#8B5E3C"/><circle cx="120" cy="96" r="60" fill="#2E7D32"/><circle cx="72" cy="120" r="40" fill="#3FA34D"/><circle cx="168" cy="120" r="40" fill="#3FA34D"/><circle cx="120" cy="70" r="42" fill="#4CB85C"/><circle cx="94" cy="90" r="26" fill="#5BC96B"/><circle cx="148" cy="90" r="22" fill="#5BC96B"/><circle cx="96" cy="104" r="6" fill="#FF6B57"/><circle cx="142" cy="82" r="6" fill="#FF6B57"/><circle cx="120" cy="114" r="6" fill="#FFB23F"/><circle cx="158" cy="112" r="6" fill="#FF6B57"/></g>`
+  };
+  let forest="";
+  const spots=[[38,210],[202,210],[64,216],[176,216],[20,216],[220,216]];
   for(let i=0;i<forestCount();i++){const[fx,fy]=spots[i];forest+=`<g transform="translate(${fx},${fy})"><rect x="-3" y="-16" width="6" height="18" rx="3" fill="#8B5E3C"/><circle cx="0" cy="-20" r="13" fill="#3FA34D"/><circle cx="-8" cy="-14" r="9" fill="#4CB85C"/><circle cx="8" cy="-14" r="9" fill="#4CB85C"/></g>`;}
   document.getElementById("tree").innerHTML=soil+forest+(trees[stage]||trees[0]);
 }
@@ -632,29 +653,27 @@ function drawCalendar(){
   document.getElementById("calTitle").textContent=now.toLocaleString('en-US',{month:'long'})+" "+y;
   const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
   let html=["S","M","T","W","T","F","S"].map(d=>`<div class="dow">${d}</div>`).join("");
-  for(let i=0;i<first;i++) html+=`<div class="day empty-cell"></div>`;
+  for(let i=0;i<first;i++)html+=`<div class="day empty-cell"></div>`;
   for(let d=1;d<=days;d++){
     const key=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
     const rec=Store.get("et:"+key);let cls="day",dot="";
-    if(rec&&rec.actions&&rec.actions.length){if(rec.score>0){cls+=" pos";dot=`<span class="dot pos">+${rec.score}</span>`;}else if(rec.score<0){cls+=" neg";dot=`<span class="dot neg">${rec.score}</span>`;}}
-    if(d===td) cls+=" today";
+    if(rec&&rec.actions&&rec.actions.length){
+      if(rec.score>0){cls+=" pos";dot=`<span class="dot pos">+${rec.score}</span>`;}
+      else if(rec.score<0){cls+=" neg";dot=`<span class="dot neg">${rec.score}</span>`;}
+    }
+    if(d===td)cls+=" today";
     html+=`<div class="${cls}">${d}${dot}</div>`;
   }
   document.getElementById("calGrid").innerHTML=html;
 }
 
+/* ---- Score push ---- */
 async function pushScore(){if(window.DB&&myName()){try{await window.DB.pushScore(myName(),getAllTime());}catch(e){}}}
-async function claimName(){
-  const inp=document.getElementById("nameInput"),name=(inp.value||"").trim().slice(0,16);
-  if(name.length<2){alert("Pick a name with at least 2 letters.");return;}
-  try{const ok=await window.DB.claimName(name);if(!ok){alert("That name is taken! Try another.");return;}Store.set("et:username",name);await window.DB.pushScore(name,getAllTime());renderLeaderboard();checkForWarning();}
-  catch(e){alert("Couldn't connect. Check your internet.");}
-}
 
+/* ---- Leaderboard ---- */
 function renderLeaderboard(){
   const body=document.getElementById("lbBody");
   if(!window.DB){body.innerHTML="<p>Connecting…</p>";setTimeout(renderLeaderboard,800);return;}
-  if(!myName()){body.innerHTML=`<p>Pick a username to join the leaderboard. Each name can only be used once!</p><div class="nameform"><input id="nameInput" maxlength="16" placeholder="Your username"/><button onclick="claimName()">Join</button></div><p class="hint">Your lifetime points: ${getAllTime()}</p>`;return;}
   if(lbUnsub){lbUnsub();lbUnsub=null;}
   body.innerHTML="<p>Loading…</p>";
   lbUnsub=window.DB.subscribeScores(rows=>{
@@ -662,15 +681,18 @@ function renderLeaderboard(){
     rows.forEach((r,i)=>{
       const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
       const me=r.name.toLowerCase()===myName().toLowerCase()?" me":"";
-      const ptsCls=r.points<0?"neg":"pos",sign=r.points>0?"+":"";
+      const ptsCls=r.points<0?"neg":"pos";
+      const sign=r.points>0?"+":"";
       html+=`<div class="lb-row${me}"><span class="lb-rank">${medal}</span><span class="lb-name">${r.name}</span><span class="lb-pts ${ptsCls}">${sign}${r.points} pts</span></div>`;
     });
-    if(!html) html="<p>No scores yet — be the first!</p>";
-    body.innerHTML=`<p class="hint">🟢 Live · You: <b>${myName()}</b> · ${getAllTime()} pts</p>`+html;
+    if(!html)html="<p>No scores yet.</p>";
+    body.innerHTML=`<p class="hint">🟢 Live · You: <b>${myName()}</b> · ${getAllTime()} lifetime pts</p>`+html;
   });
 }
 
+/* ---- Feed + comments ---- */
 function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return"just now";if(s<3600)return Math.floor(s/60)+"m ago";if(s<86400)return Math.floor(s/3600)+"h ago";return Math.floor(s/86400)+"d ago";}
+
 function renderFeed(){
   const body=document.getElementById("feedBody");
   if(!window.DB){body.innerHTML='<div class="empty">Connecting…</div>';setTimeout(renderFeed,800);return;}
@@ -679,15 +701,81 @@ function renderFeed(){
   feedUnsub=window.DB.subscribeFeed(items=>{
     if(!items.length){body.innerHTML='<div class="empty">No posts yet — be the first! 🌱</div>';return;}
     body.innerHTML=items.map(item=>{
-      const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"",initial=(item.username||"?")[0].toUpperCase();
+      const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
+      const initial=(item.username||"?")[0].toUpperCase();
       const photoHtml=item.photo?`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`:`<div class="feed-no-photo">${item.emoji}</div>`;
-      return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div></div></div>`;
+      return `<div class="feed-card">
+        ${photoHtml}
+        <div class="feed-body">
+          <div class="feed-top">
+            <div class="feed-avatar">${initial}</div>
+            <span class="feed-user">${item.username||"Someone"}</span>
+            <span class="feed-time">${timeAgo(item.timestamp)}</span>
+          </div>
+          <div class="feed-act">
+            <span class="fa-emoji">${item.emoji}</span>
+            <span class="fa-name">${item.activityName}</span>
+            <span class="fa-pts ${ptsCls}">${sign}${item.pts}</span>
+          </div>
+          <button class="comment-btn" onclick="toggleComments('${item.id}',this)">💬 Comments</button>
+          <div class="comment-section" id="cs-${item.id}">
+            <div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading comments…</div></div>
+            <div class="comment-input-row">
+              <input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/>
+              <button onclick="postComment('${item.id}')">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
     }).join("");
   });
 }
 
-window.claimName=claimName; window.askAI=askAI; window.addAIAction=addAIAction; window.switchSeg=switchSeg;
-window.onDBReady=function(){checkForWarning();const a=document.querySelector(".view.active");if(a&&a.id==="view-top")renderLeaderboard();if(a&&a.id==="view-feed")renderFeed();};
+async function toggleComments(postId,btn){
+  const section=document.getElementById("cs-"+postId);
+  const isOpen=section.classList.contains("open");
+  section.classList.toggle("open");
+  if(!isOpen) loadComments(postId);
+}
+
+async function loadComments(postId){
+  const list=document.getElementById("cl-"+postId);
+  if(!list||!window.DB)return;
+  try{
+    const comments=await window.DB.getComments(postId);
+    if(!comments.length){list.innerHTML='<div class="ci-empty">No comments yet — be the first!</div>';return;}
+    list.innerHTML=comments.map(c=>`
+      <div class="comment-item">
+        <div class="ci-avatar">${(c.username||"?")[0].toUpperCase()}</div>
+        <div class="ci-body">
+          <div class="ci-user">${c.username}</div>
+          <div class="ci-text">${c.text}</div>
+        </div>
+      </div>`).join("");
+  }catch(e){list.innerHTML='<div class="ci-empty">Couldn\'t load comments.</div>';}
+}
+
+async function postComment(postId){
+  const input=document.getElementById("ci-"+postId);
+  const text=(input.value||"").trim();
+  if(!text)return;
+  if(!myName()){alert("Join the leaderboard first to comment.");return;}
+  if(!window.DB)return;
+  input.value="";
+  try{
+    await window.DB.addComment({postId,username:myName(),text,timestamp:Date.now()});
+    loadComments(postId);
+  }catch(e){alert("Couldn't post comment. Check your internet.");}
+}
+window.toggleComments=toggleComments; window.postComment=postComment;
+
+window.switchSeg=switchSeg;
+window.onDBReady=function(){
+  checkForWarning();
+  const a=document.querySelector(".view.active");
+  if(a&&a.id==="view-feed")initFeedView();
+  if(a&&a.id==="view-top")initTopView();
+};
 render();
 if(window.DB_READY)checkForWarning();
 </script>
