@@ -232,6 +232,62 @@ svg#tree{display:block;width:100%;height:100%;}
 .fade-out{animation:fadeOut .5s ease forwards;}
 @keyframes fadeOut{to{opacity:0;}}
 
+
+/* ====== RESPONSIVE: Tablet & Desktop ====== */
+@media (min-width: 768px) {
+  body { font-size: 15px; }
+  .wrap { max-width: 960px; }
+  header h1 { font-size: 32px; }
+
+  /* 5-tab row stays but bigger */
+  .tabs { gap: 8px; padding: 6px; }
+  .tab { font-size: 13px; padding: 10px 4px; }
+
+  /* Track view: two columns */
+  .track-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .track-left { position: sticky; top: 80px; }
+  .eco-svg-box { height: 360px !important; }
+  .track-right { padding-top: 4px; }
+
+  /* Home: challenges + leaderboard side by side */
+  .home-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+
+  /* Feed: two columns */
+  .feed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .feed-grid .feed-card { margin-bottom: 0; }
+
+  /* Bigger activity grid */
+  .grid { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* Score row: more breathing room */
+  .score-row { gap: 12px; }
+  .score-card .num { font-size: 24px; }
+
+  /* Bigger AI comment + reflection */
+  .ai-comment-card, .user-note-wrap { font-size: 14.5px; }
+}
+
+@media (min-width: 1100px) {
+  .wrap { max-width: 1100px; }
+  .track-layout { grid-template-columns: 420px 1fr; }
+  .feed-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* AI comment card */
+.ai-comment-card {
+  background: linear-gradient(135deg, #E8F6FF, #F3FBEF);
+  border-radius: 18px; padding: 14px 16px;
+  box-shadow: var(--shadow); border-left: 4px solid var(--leaf);
+}
+.ai-comment-card .aic-label {
+  font-size: 11.5px; font-weight: 700; color: var(--leaf-dark);
+  text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 5px;
+}
+.ai-comment-card .aic-text {
+  font-size: 13.5px; font-weight: 500; line-height: 1.6; color: var(--ink);
+}
+
 /* Ecosystem animations */
 @keyframes cloudDrift{from{transform:translateX(-90px);}to{transform:translateX(320px);}}
 @keyframes birdFly{0%{transform:translate(280px,-5px);}100%{transform:translate(-60px,10px);}}
@@ -298,58 +354,77 @@ svg#tree{display:block;width:100%;height:100%;}
   <div class="view active" id="view-home">
     <div class="home-greeting" id="homeGreeting">Good day! 👋</div>
     <div class="home-sub" id="homeSub">Here are today's challenges for the class:</div>
-    <div class="challenge-card">
-      <h3>🎯 Today's Challenges</h3>
-      <div id="challengeList"></div>
-      <div class="ch-bonus" id="bonusMsg" style="display:none">🎉 All 3 done! +100 bonus points!</div>
-    </div>
-    <div class="home-lb">
-      <h3>🏆 Class ranking <span class="live-dot">🟢 Live</span></h3>
-      <div id="homeLbBody"><div style="font-size:13px;opacity:.5">Loading…</div></div>
+    <div class="home-layout">
+      <div class="challenge-card">
+        <h3>🎯 Today's Challenges</h3>
+        <div id="challengeList"></div>
+        <div class="ch-bonus" id="bonusMsg" style="display:none">🎉 All 3 done! +100 bonus points!</div>
+      </div>
+      <div class="home-lb">
+        <h3>🏆 Class ranking <span class="live-dot">🟢 Live</span></h3>
+        <div id="homeLbBody"><div style="font-size:13px;opacity:.5">Loading…</div></div>
+      </div>
     </div>
   </div>
 
   <!-- TRACK -->
   <div class="view" id="view-track">
-    <div class="eco-wrap">
-      <div class="eco-svg-box"><svg id="tree" viewBox="0 0 300 300" preserveAspectRatio="xMidYMax meet"></svg></div>
-      <div class="eco-info">
-        <div class="eco-stage-name" id="stageLabel">Seed</div>
-        <div class="eco-stage-msg" id="stageMsg">Plant a seed of good actions!</div>
-        <div class="eco-progress-wrap">
-          <div class="eco-progress-label"><span id="progressText">Progress to Sprout</span><span id="progressPts"></span></div>
-          <div class="eco-progress-bar"><div class="eco-progress-fill" id="progressFill"></div></div>
+    <div class="track-layout">
+
+      <!-- LEFT: tree + score (sticky on desktop) -->
+      <div class="track-left">
+        <div class="eco-wrap">
+          <div class="eco-svg-box"><svg id="tree" viewBox="0 0 300 300" preserveAspectRatio="xMidYMax meet"></svg></div>
+          <div class="eco-info">
+            <div class="eco-stage-name" id="stageLabel">Seed</div>
+            <div class="eco-stage-msg" id="stageMsg">Plant a seed of good actions!</div>
+            <div class="eco-progress-wrap">
+              <div class="eco-progress-label"><span id="progressText">Progress to Sprout</span><span id="progressPts"></span></div>
+              <div class="eco-progress-bar"><div class="eco-progress-fill" id="progressFill"></div></div>
+            </div>
+          </div>
         </div>
+        <div style="text-align:center;margin-top:8px;" id="forestBadgeWrap"></div>
+        <div class="score-row">
+          <div class="score-card total"><div class="num" id="totalScore">0</div><div class="sub-num" id="co2Display">0 g CO₂</div><div class="lbl">Today</div></div>
+          <div class="score-card"><div class="num" id="actCount">0</div><div class="lbl">Actions</div></div>
+          <div class="score-card"><div class="num" id="lifetimePts">0</div><div class="lbl">Lifetime</div></div>
+        </div>
+
+        <!-- AI comment (auto-written from actions) -->
+        <div class="sec-title" style="margin-top:14px;">🤖 Earth Token says</div>
+        <div class="ai-comment-card">
+          <div class="aic-label">✨ Based on your actions today</div>
+          <div class="aic-text" id="aiCommentText">Log some actions and I'll write a comment here! 🌱</div>
+        </div>
+
+        <!-- User's own reflection -->
+        <div class="sec-title">✍️ My reflection</div>
+        <div class="user-note-wrap">
+          <textarea id="userNote" placeholder="Write your thoughts here… What did you do well today? What will you try tomorrow?"></textarea>
+          <div class="note-saved" id="noteSaved">Saved ✓</div>
+        </div>
+
+        <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
       </div>
+
+      <!-- RIGHT: activities + log + calendar -->
+      <div class="track-right">
+        <div class="act-toggle">
+          <button class="act-seg good-seg active" onclick="switchSeg('good',this)">🌱 Good</button>
+          <button class="act-seg bad-seg" onclick="switchSeg('bad',this)">🔥 Bad</button>
+        </div>
+        <div class="act-panel active" id="panel-good"><div class="grid" id="goodGrid"></div></div>
+        <div class="act-panel" id="panel-bad"><div class="grid" id="badGrid"></div></div>
+
+        <div class="sec-title">📋 Today's actions</div>
+        <div id="log"><div class="empty">No actions yet. Tap a button above!</div></div>
+
+        <div class="sec-title">📅 My month</div>
+        <div class="cal"><div class="cal-head"><span id="calTitle"></span></div><div class="cal-grid" id="calGrid"></div></div>
+      </div>
+
     </div>
-
-    <div style="text-align:center;margin-top:8px;" id="forestBadgeWrap"></div>
-
-    <div class="score-row">
-      <div class="score-card total"><div class="num" id="totalScore">0</div><div class="sub-num" id="co2Display">0 g CO₂</div><div class="lbl">Today</div></div>
-      <div class="score-card"><div class="num" id="actCount">0</div><div class="lbl">Actions</div></div>
-      <div class="score-card"><div class="num" id="lifetimePts">0</div><div class="lbl">Lifetime</div></div>
-    </div>
-
-    <div class="act-toggle">
-      <button class="act-seg good-seg active" onclick="switchSeg('good',this)">🌱 Good</button>
-      <button class="act-seg bad-seg" onclick="switchSeg('bad',this)">🔥 Bad</button>
-    </div>
-    <div class="act-panel active" id="panel-good"><div class="grid" id="goodGrid"></div></div>
-    <div class="act-panel" id="panel-bad"><div class="grid" id="badGrid"></div></div>
-
-    <div class="sec-title">📋 Today's actions</div>
-    <div id="log"><div class="empty">No actions yet. Tap a button above!</div></div>
-
-    <div class="sec-title">📅 My month</div>
-    <div class="cal"><div class="cal-head"><span id="calTitle"></span></div><div class="cal-grid" id="calGrid"></div></div>
-
-    <div class="sec-title">💬 Comments</div>
-    <div class="user-note-wrap">
-      <textarea id="userNote" placeholder="Write your thoughts here… What did you do well today? What will you try tomorrow?"></textarea>
-      <div class="note-saved" id="noteSaved">Saved ✓</div>
-    </div>
-    <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
   </div>
 
   <!-- LEARN -->
@@ -688,7 +763,29 @@ function floatReward(a,ev){const f=document.createElement("div");f.className="fl
 function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(state.score>=st.min)s=i;});return s;}
 function forestCount(){return Math.max(0,Math.min(6,Math.floor((state.score-1000)/200)));}
 
-/* ---- User note (replacing AI reflection) ---- */
+
+/* ---- AI comment (auto-written from actions) ---- */
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function generateAIComment(){
+  if(!state.actions||!state.actions.length) return "Log some actions and I'll write a comment here! 🌱";
+  const good=state.actions.filter(a=>a.pts>0), bad=state.actions.filter(a=>a.pts<0);
+  let p=[];
+  if(state.score<=0) p.push(pick(["Tough day for the Earth — but every hero has off days.","Today was bumpy, and that's okay!"]));
+  else if(state.score<150) p.push(pick(["Nice start! You made some Earth-friendly choices today.","Good effort — you helped the planet a little!"]));
+  else if(state.score<600) p.push(pick(["Great job — you really helped the planet today! 🌍","You were kind to the Earth. Well done!"]));
+  else p.push(pick(["Wow, what an Earth hero you were today! 🌟","Amazing day for the planet — be really proud!"]));
+  if(good.length){const best=good.reduce((m,a)=>a.pts>m.pts?a:m,good[0]);p.push(`Your best move was "${best.name.toLowerCase()}" (+${best.pts} pts).`);}
+  if(bad.length){const swaps={"car":"try the MTR or walk","flight":"a video call saves a lot","meat":"a veggie meal saves a lot","threw":"finishing food helps","ac":"try a fan instead","shower":"under 5 minutes is great","devices":"unplug chargers overnight","plastic":"bring your own bag","lights":"always switch off when leaving"};const b=bad[0].name.toLowerCase();let tip=null;for(const k in swaps){if(b.includes(k)){tip=swaps[k];break;}}p.push(pick(["Tomorrow, ","Next time, "])+(tip||"try one more green swap")+".");}
+  if(forestCount()>0) p.push(`You grew ${forestCount()} extra tree${forestCount()>1?"s":""} in your forest! 🌲`);
+  p.push(pick(["Keep it up! 💚","See you tomorrow, Earth hero!","Small actions, big difference."]));
+  return p.join(" ");
+}
+function updateAIComment(){
+  const el=document.getElementById("aiCommentText");
+  if(el) el.textContent=generateAIComment();
+}
+
+/* ---- User note ---- */
 let noteTimer;
 document.getElementById("userNote").addEventListener("input",function(){
   const val=this.value;Store.set("et:note:"+todayKey(),val);
@@ -771,6 +868,7 @@ function render(){
     ?state.actions.map(a=>`<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}</span><span class="li-pts ${a.pts>0?"good":"bad"}">${a.pts>0?"+":""}${a.pts}</span></div>`).join("")
     :'<div class="empty">No actions yet. Tap a button above!</div>';
   drawCalendar();
+  updateAIComment();
 }
 
 /* ---- Ecosystem SVG ---- */
@@ -979,12 +1077,12 @@ function renderFeed(){
   if(feedUnsub){feedUnsub();feedUnsub=null;}
   feedUnsub=window.DB.subscribeFeed(items=>{
     if(!items.length){body.innerHTML='<div class="empty">No posts yet — be the first! 🌱</div>';return;}
-    body.innerHTML=items.map(item=>{
+    body.innerHTML='<div class="feed-grid">'+items.map(item=>{
       const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
       const initial=(item.username||"?")[0].toUpperCase();
       const photoHtml=item.photo?`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`:`<div class="feed-no-photo">${item.emoji}</div>`;
       return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div><button class="comment-btn" onclick="toggleComments('${item.id}')">💬 Comments</button><div class="comment-section" id="cs-${item.id}"><div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div><div class="comment-input-row"><input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/><button onclick="postComment('${item.id}')">Send</button></div></div></div></div>`;
-    }).join("");
+    }).join("")+'</div>';
   });
 }
 function toggleComments(postId){const s=document.getElementById("cs-"+postId);const open=s.classList.toggle("open");if(open)loadComments(postId);}
