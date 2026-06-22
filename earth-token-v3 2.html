@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Earth Token</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#BDE3FF;--sky-bot:#EAF7E6;
+    --leaf:#3FA34D;--leaf-dark:#2E7D32;--trunk:#8B5E3C;--soil:#6B4226;
+    --sun:#FFD25A;--good:#2FBF62;--bad:#FF6B57;--ink:#173A2C;--card:#FFFFFF;
+    --shadow:0 8px 24px rgba(23,58,44,.12);
+    --font:'Fredoka', ui-rounded, "SF Pro Rounded", system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{font-family:var(--font);color:var(--ink);
+    background:linear-gradient(180deg,var(--sky-top) 0%, #D4EFFF 32%, var(--sky-bot) 100%);
+    min-height:100%;padding-bottom:32px;overflow-x:hidden;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 18px;}
+  header{text-align:center;padding:20px 0 4px;}
+  header h1{font-size:30px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;justify-content:center;gap:8px;}
+  header .sub{font-size:13.5px;font-weight:500;opacity:.7;margin-top:2px;}
+
+  .tabs{display:flex;gap:6px;background:rgba(255,255,255,.6);border-radius:16px;padding:5px;margin:14px 0 4px;}
+  .tab{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:13.5px;
+    padding:9px 4px;border-radius:12px;cursor:pointer;color:var(--ink);opacity:.6;}
+  .tab.active{background:#fff;opacity:1;box-shadow:var(--shadow);}
+  .view{display:none;} .view.active{display:block;}
+
+  .stage{position:relative;background:linear-gradient(180deg,#E8F6FF 0%, #F3FBEF 100%);
+    border-radius:28px;box-shadow:var(--shadow);margin-top:12px;padding:14px 14px 0;overflow:hidden;}
+  .sun{position:absolute;top:16px;right:20px;width:46px;height:46px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, #FFE08A, var(--sun));
+    box-shadow:0 0 0 8px rgba(255,210,90,.25),0 0 0 16px rgba(255,210,90,.12);animation:sun 6s ease-in-out infinite;}
+  @keyframes sun{50%{transform:scale(1.06);}}
+  .tree-box{height:236px;display:flex;align-items:flex-end;justify-content:center;}
+  svg#tree{display:block;width:100%;height:100%;}
+  .canopy{transform-origin:50% 100%;animation:sway 5s ease-in-out infinite;}
+  @keyframes sway{0%,100%{transform:rotate(-1.2deg);}50%{transform:rotate(1.2deg);}}
+  .pop{animation:pop .6s ease;}
+  @keyframes pop{0%{transform:scale(.7);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
+  .stage-label{text-align:center;font-weight:600;font-size:18px;padding:6px 0 4px;}
+  .stage-msg{text-align:center;font-size:13.5px;font-weight:500;opacity:.75;padding-bottom:14px;min-height:18px;}
+
+  .score-row{display:flex;gap:10px;margin-top:14px;}
+  .score-card{flex:1;background:var(--card);border-radius:20px;padding:14px 8px;text-align:center;box-shadow:var(--shadow);}
+  .score-card .num{font-size:24px;font-weight:700;line-height:1;}
+  .score-card .lbl{font-size:11px;font-weight:500;opacity:.6;margin-top:5px;text-transform:uppercase;letter-spacing:.4px;}
+  .score-card.total .num{color:var(--leaf-dark);}
+
+  .sec-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;margin:22px 4px 10px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .act{border:2px solid transparent;cursor:pointer;text-align:left;background:var(--card);border-radius:18px;
+    padding:12px;box-shadow:var(--shadow);font-family:var(--font);display:flex;flex-direction:column;gap:6px;transition:transform .08s ease;}
+  .act:active{transform:scale(.95);}
+  .act .emoji{font-size:25px;} .act .name{font-size:13px;font-weight:600;line-height:1.15;color:var(--ink);}
+  .act .pts{font-size:12.5px;font-weight:700;}
+  .act.good{border-color:rgba(47,191,98,.25);} .act.good .pts{color:var(--good);}
+  .act.bad{border-color:rgba(255,107,87,.25);} .act.bad .pts{color:var(--bad);}
+
+  .log-item{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:14px;padding:9px 12px;
+    margin-bottom:8px;box-shadow:0 4px 12px rgba(23,58,44,.07);animation:slidein .35s ease;}
+  @keyframes slidein{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+  .log-item .li-emoji{font-size:20px;} .log-item .li-name{flex:1;font-size:13.5px;font-weight:500;}
+  .log-item .li-pts{font-size:13px;font-weight:700;} .li-pts.good{color:var(--good);} .li-pts.bad{color:var(--bad);}
+  .empty{text-align:center;font-size:13px;opacity:.55;font-weight:500;background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
+
+  .cal{background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--shadow);}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;font-weight:600;margin-bottom:10px;font-size:15px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+  .dow{text-align:center;font-size:10.5px;font-weight:600;opacity:.5;padding-bottom:2px;}
+  .day{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:12px;font-weight:600;background:#F2F6F3;color:var(--ink);position:relative;border:2px solid transparent;}
+  .day.pos{background:#DDF4E4;} .day.neg{background:#FFE3DE;}
+  .day.today{border-color:var(--leaf);}
+  .day .dot{font-size:9px;font-weight:700;margin-top:1px;}
+  .day .dot.pos{color:var(--good);} .day .dot.neg{color:var(--bad);}
+  .day.empty-cell{background:transparent;}
+
+  /* Reflection (auto-written) */
+  .reflect{background:linear-gradient(180deg,#FFFDF5,#FFFFFF);border-radius:20px;padding:16px;box-shadow:var(--shadow);
+    border:2px solid #FFEFC2;}
+  .reflect .rtxt{font-size:14.5px;line-height:1.6;font-weight:500;}
+  .reflect .rbtn{margin-top:12px;background:#fff;border:2px solid #E3EFE6;color:var(--ink);font-family:var(--font);
+    font-weight:600;font-size:13px;padding:9px 14px;border-radius:12px;cursor:pointer;}
+  .reflect .rbtn:active{transform:scale(.97);}
+
+  .controls{display:flex;gap:10px;margin-top:18px;}
+  .btn{flex:1;border:none;cursor:pointer;font-family:var(--font);font-weight:600;font-size:14px;padding:13px;border-radius:16px;box-shadow:var(--shadow);}
+  .btn.reset{background:#fff;color:var(--ink);} .btn.info{background:var(--leaf);color:#fff;}
+  .btn:active{transform:scale(.97);}
+
+  .card{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-top:12px;}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:8px;display:flex;gap:7px;align-items:center;}
+  .card p{font-size:13.5px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:8px;}
+  .convo{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EEF4EF;}
+  .convo:last-child{border-bottom:none;}
+  .convo .ce{font-size:22px;width:30px;text-align:center;} .convo .ct{flex:1;font-size:13px;font-weight:500;}
+  .convo .cv{font-size:13px;font-weight:700;color:var(--leaf-dark);text-align:right;}
+  .pill{display:inline-block;background:#EAF7E6;color:var(--leaf-dark);font-size:12.5px;font-weight:600;padding:7px 11px;border-radius:12px;margin:4px 4px 0 0;}
+  .vbox{background:#FFF6E5;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;color:#9A6A00;margin-top:6px;}
+
+  /* Leaderboard */
+  .lb-row{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:11px 14px;margin-bottom:8px;box-shadow:0 4px 12px rgba(23,58,44,.07);}
+  .lb-rank{font-size:16px;font-weight:700;width:30px;text-align:center;}
+  .lb-name{flex:1;font-size:14px;font-weight:600;}
+  .lb-pts{font-size:14px;font-weight:700;color:var(--leaf-dark);}
+  .lb-row.me{border:2px solid var(--leaf);background:#F3FBEF;}
+  .nameform{display:flex;gap:8px;margin-top:10px;}
+  .nameform input{flex:1;border:2px solid #E3EFE6;border-radius:12px;padding:11px;font-family:var(--font);font-size:14px;color:var(--ink);}
+  .nameform input:focus{outline:none;border-color:var(--leaf);}
+  .nameform button{background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:0 16px;font-family:var(--font);font-weight:600;cursor:pointer;}
+  .hint{font-size:12.5px;opacity:.6;font-weight:500;margin-top:8px;}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(23,58,44,.45);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;}
+  .modal-bg.show{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:24px;max-width:380px;box-shadow:var(--shadow);}
+  .modal h2{font-size:19px;font-weight:700;margin-bottom:10px;display:flex;gap:8px;align-items:center;}
+  .modal p{font-size:14px;line-height:1.55;font-weight:500;opacity:.85;margin-bottom:10px;}
+  .modal .qbox{background:#F3FBEF;border-radius:14px;padding:12px 14px;font-size:13.5px;font-weight:600;color:var(--leaf-dark);margin:6px 0 14px;}
+  .modal .close{width:100%;background:var(--leaf);color:#fff;border:none;border-radius:14px;padding:12px;font-family:var(--font);font-weight:600;font-size:15px;cursor:pointer;}
+
+  .float{position:fixed;font-size:24px;font-weight:700;pointer-events:none;z-index:40;animation:floatUp 1s ease-out forwards;}
+  @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.6);}20%{opacity:1;}100%{opacity:0;transform:translateY(-70px) scale(1.1);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🌍 Earth Token</h1>
+    <div class="sub">Do good for the Earth. Grow your forest.</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showView('track',this)">🌱 Track</button>
+    <button class="tab" onclick="showView('learn',this)">📖 Learn</button>
+    <button class="tab" onclick="showView('top',this);renderLeaderboard()">🏆 Top</button>
+  </div>
+
+  <!-- ===== TRACK ===== -->
+  <div class="view active" id="view-track">
+    <section class="stage">
+      <div class="sun"></div>
+      <div class="tree-box"><svg id="tree" viewBox="0 0 240 236" aria-label="Your tree"></svg></div>
+      <div class="stage-label" id="stageLabel">Seed</div>
+      <div class="stage-msg" id="stageMsg">Plant a seed of good actions!</div>
+    </section>
+
+    <div class="score-row">
+      <div class="score-card total"><div class="num" id="totalScore">0</div><div class="lbl">Today's points</div></div>
+      <div class="score-card"><div class="num" id="actCount">0</div><div class="lbl">Actions</div></div>
+      <div class="score-card"><div class="num" id="forestCount">0</div><div class="lbl">Extra trees</div></div>
+    </div>
+
+    <div class="sec-title">🌱 Good for the Earth</div>
+    <div class="grid" id="goodGrid"></div>
+    <div class="sec-title">🔥 Hurts the Earth</div>
+    <div class="grid" id="badGrid"></div>
+
+    <div class="sec-title">📋 Today's actions</div>
+    <div id="log"><div class="empty">No actions yet. Tap a button to start!</div></div>
+
+    <div class="sec-title">📅 My month</div>
+    <div class="cal"><div class="cal-head"><span id="calTitle">Month</span></div><div class="cal-grid" id="calGrid"></div></div>
+
+    <div class="sec-title">✍️ My reflection</div>
+    <div class="reflect">
+      <div class="rtxt" id="reflectText">Tap some actions, and I'll write your reflection here! 🌱</div>
+      <button class="rbtn" onclick="newReflection()">↻ New reflection</button>
+    </div>
+
+    <div class="controls">
+      <button class="btn reset" onclick="clearToday()">↺ Clear today</button>
+      <button class="btn info" onclick="openInfo()">? About the numbers</button>
+    </div>
+  </div>
+
+  <!-- ===== LEARN ===== -->
+  <div class="view" id="view-learn">
+    <div class="card">
+      <h3>🌍 What is a carbon footprint?</h3>
+      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air from things we do — car rides, electricity, the food we eat, the stuff we buy.</p>
+      <p>More CO₂ traps more heat, which makes summers hotter. Smaller footprint = cooler, happier planet.</p>
+    </div>
+    <div class="card">
+      <h3>📏 The unit: how we measure it</h3>
+      <p>CO₂ is measured by weight, in <b>grams (g)</b> and <b>kilograms (kg)</b>.</p>
+      <span class="pill">1,000 g = 1 kg</span><span class="pill">1,000 kg = 1 tonne</span>
+      <p style="margin-top:10px">One tree soaks up roughly <b>20 kg of CO₂ a year</b> — that's why trees matter!</p>
+    </div>
+    <div class="card">
+      <h3>⚖️ Quick conversions</h3>
+      <p>Roughly how much CO₂ different things make (these are estimates!):</p>
+      <div class="convo"><span class="ce">🚗</span><span class="ct">Car ride</span><span class="cv">~150 g per km</span></div>
+      <div class="convo"><span class="ce">🚌</span><span class="ct">Bus (shared)</span><span class="cv">much less each</span></div>
+      <div class="convo"><span class="ce">🚲</span><span class="ct">Bike or walking</span><span class="cv">~0 g</span></div>
+      <div class="convo"><span class="ce">✈️</span><span class="ct">Short plane flight</span><span class="cv">like 100s of car trips</span></div>
+      <div class="convo"><span class="ce">🍔</span><span class="ct">Beef burger</span><span class="cv">a few kg</span></div>
+      <div class="convo"><span class="ce">🥗</span><span class="ct">Veggie meal</span><span class="cv">under 1 kg</span></div>
+      <div class="convo"><span class="ce">🥤</span><span class="ct">Making 1 plastic bottle</span><span class="cv">~80 g</span></div>
+      <div class="convo"><span class="ce">📱</span><span class="ct">Charging a phone</span><span class="cv">tiny (~few g)</span></div>
+    </div>
+    <div class="card">
+      <h3>✅ What's good for the planet?</h3>
+      <p>Lots of small choices add up:</p>
+      <span class="pill">🚶 Walk or bike</span><span class="pill">🚌 Share rides</span><span class="pill">🥗 Eat more plants</span>
+      <span class="pill">🍱 No food waste</span><span class="pill">♻️ Recycle</span><span class="pill">🔁 Reuse & repair</span>
+      <span class="pill">💧 Save water</span><span class="pill">💡 Save electricity</span><span class="pill">🛍️ Less plastic</span>
+      <span class="pill">👕 Secondhand</span><span class="pill">🌳 Plant trees</span><span class="pill">🌱 Compost</span>
+    </div>
+    <div class="card">
+      <h3>🔎 Be a number detective</h3>
+      <p>Every number here is a <b>rough estimate</b>. Real scientists always check where numbers come from.</p>
+      <div class="vbox">Challenge: search "how much CO₂ does a tree absorb in a year" and see if you get the same answer. Who's right — and how do you know?</div>
+    </div>
+  </div>
+
+  <!-- ===== LEADERBOARD ===== -->
+  <div class="view" id="view-top">
+    <div class="card" id="lbCard">
+      <h3>🏆 Class leaderboard</h3>
+      <div id="lbBody"><p>Loading…</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>🔎 Check the numbers!</h2>
+    <p>The Earth Points here are <b>rough estimates</b>. Real carbon numbers depend on lots of things — the car, the distance, where food came from.</p>
+    <div class="qbox">Detective question:<br>Where did these numbers come from? Are they fair? How could we check them?</div>
+    <p>A good AI helper always lets you <b>question and check</b> its answers!</p>
+    <button class="close" onclick="closeInfo()">Got it</button>
+  </div>
+</div>
+
+<!-- ============ FIREBASE (paste your keys below to turn on the leaderboard) ============ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ↓↓↓ PASTE YOUR FIREBASE CONFIG HERE ↓↓↓
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",
+    authDomain: "earth-token-62b31.firebaseapp.com",
+    projectId: "earth-token-62b31",
+    storageBucket: "earth-token-62b31.firebasestorage.app",
+    messagingSenderId: "7396616782",
+    appId: "1:7396616782:web:4b4a49bae4a2009414711f"
+  };
+  // ↑↑↑ PASTE YOUR FIREBASE CONFIG HERE ↑↑↑
+
+  if (String(FIREBASE_CONFIG.apiKey).startsWith("PASTE")) {
+    window.LB_STATUS = "setup";
+  } else {
+    try {
+      const app = initializeApp(FIREBASE_CONFIG);
+      const db = getFirestore(app);
+      window.LB = {
+        async claim(name){
+          const id = name.toLowerCase();
+          const ref = doc(db,"scores",id);
+          const snap = await getDoc(ref);
+          if (snap.exists()) return false;                 // name taken
+          await setDoc(ref,{name, points:0, updated:Date.now()});
+          return true;
+        },
+        async push(name, points){
+          await setDoc(doc(db,"scores",name.toLowerCase()),
+            {name, points, updated:Date.now()}, {merge:true});
+        },
+        async top(){
+          const q = query(collection(db,"scores"), orderBy("points","desc"), limit(20));
+          const s = await getDocs(q);
+          return s.docs.map(d=>d.data());
+        }
+      };
+      window.LB_STATUS = "ready";
+    } catch(e){ console.error(e); window.LB_STATUS = "error"; }
+  }
+  if (window.onLBReady) window.onLBReady();
+</script>
+
+<script>
+/* ---------- Safe storage (works on GitHub Pages; falls back in preview) ---------- */
+const mem={};
+const Store={
+  get(k){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return mem[k]??null;} },
+  set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;} }
+};
+
+/* ---------- Activity tables ---------- */
+const GOOD=[
+  {emoji:"🚶",name:"Walked instead of a car ride",pts:150},{emoji:"🚲",name:"Rode a bike",pts:120},
+  {emoji:"🚌",name:"Took the bus or train",pts:80},{emoji:"🥗",name:"Ate a veggie meal",pts:100},
+  {emoji:"♻️",name:"Recycled a bottle or can",pts:50},{emoji:"💧",name:"Saved water",pts:40},
+  {emoji:"💡",name:"Turned off the lights",pts:30},{emoji:"🍱",name:"Finished all my food",pts:60},
+  {emoji:"🛍️",name:"Used a reusable bag",pts:40},{emoji:"👕",name:"Reused or secondhand",pts:40},
+  {emoji:"🌱",name:"Composted food scraps",pts:50},{emoji:"🌳",name:"Planted something",pts:200},
+];
+const BAD=[
+  {emoji:"🚗",name:"Got a car ride",pts:-150},{emoji:"✈️",name:"Took a plane trip",pts:-300},
+  {emoji:"🍔",name:"Ate a big meat meal",pts:-100},{emoji:"🗑️",name:"Threw away food",pts:-60},
+  {emoji:"💨",name:"Left the AC on all day",pts:-80},{emoji:"🥤",name:"Used a plastic bottle",pts:-50},
+];
+const STAGES=[
+  {min:-99999,name:"Seed",msg:"Plant a seed of good actions!"},
+  {min:50,name:"Sprout",msg:"A tiny sprout appears! Keep going."},
+  {min:150,name:"Sapling",msg:"Your sapling is getting stronger 💪"},
+  {min:350,name:"Young Tree",msg:"Look at it grow! Great work."},
+  {min:600,name:"Big Tree",msg:"A big healthy tree. The Earth thanks you!"},
+  {min:1000,name:"Mighty Tree",msg:"🎉 Mighty tree! Keep going to grow a forest!"},
+];
+
+function todayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+let state = Store.get("et:"+todayKey()) || {score:0,actions:[],reflection:""};
+function saveState(){ Store.set("et:"+todayKey(),state); }
+
+/* lifetime points for the leaderboard */
+function getAllTime(){ return Store.get("et:alltime")||0; }
+function addAllTime(n){ Store.set("et:alltime", Math.max(0, getAllTime()+n)); }
+
+function makeButtons(list,id,cls){
+  const grid=document.getElementById(id);grid.innerHTML="";
+  list.forEach(a=>{const b=document.createElement("button");b.className="act "+cls;const s=a.pts>0?"+":"";
+    b.innerHTML=`<span class="emoji">${a.emoji}</span><span class="name">${a.name}</span><span class="pts">${s}${a.pts} pts</span>`;
+    b.onclick=(e)=>logAction(a,e);grid.appendChild(b);});
+}
+makeButtons(GOOD,"goodGrid","good"); makeButtons(BAD,"badGrid","bad");
+
+function logAction(a,ev){
+  const ps=currentStage(),pf=forestCount();
+  state.score+=a.pts; state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
+  state.reflection=generateReflection(); addAllTime(a.pts); saveState(); render(); floatReward(a,ev); pushScore();
+  if(currentStage()>ps||forestCount()>pf){const c=document.querySelector(".canopy");if(c){c.classList.add("pop");setTimeout(()=>c.classList.remove("pop"),650);}}
+}
+function floatReward(a,ev){const f=document.createElement("div");f.className="float";
+  f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";
+  const x=ev?ev.clientX:innerWidth/2,y=ev?ev.clientY:innerHeight/2;f.style.left=(x-18)+"px";f.style.top=(y-30)+"px";
+  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);}
+function currentStage(){let s=0;for(let i=0;i<STAGES.length;i++){if(state.score>=STAGES[i].min)s=i;}return s;}
+function forestCount(){return Math.max(0,Math.min(6,Math.floor((state.score-1000)/200)));}
+
+/* ---------- Auto-written reflection ---------- */
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function generateReflection(){
+  if(state.actions.length===0) return "Tap some actions, and I'll write your reflection here! 🌱";
+  const good=state.actions.filter(a=>a.pts>0), bad=state.actions.filter(a=>a.pts<0), score=state.score;
+  let p=[];
+  if(score<=0) p.push(pick(["Tough day for the Earth — but every hero has off days.","Today was bumpy for the planet, and that's okay."]));
+  else if(score<150) p.push(pick(["Nice start! You made some Earth-friendly choices today.","Good effort today — you helped the planet a little!"]));
+  else if(score<600) p.push(pick(["Great job today — you really helped the planet!","You were kind to the Earth today. Well done! 🌍"]));
+  else p.push(pick(["Wow, what an Earth hero you were today! 🌟","Amazing day for the planet — be proud!"]));
+  if(good.length){const best=good.reduce((m,a)=>a.pts>m.pts?a:m,good[0]);
+    p.push(`Your best move was "${best.name.toLowerCase()}" (+${best.pts}).`);}
+  if(bad.length){
+    const swaps={"car ride":"try walking or the bus","plane":"a train saves a lot next time","meat":"a veggie meal saves a lot",
+      "threw away food":"finishing your food helps","ac on":"turning it off saves energy","plastic bottle":"a reusable bottle is better"};
+    const b=bad[0].name.toLowerCase(); let tip=null; for(const k in swaps){if(b.includes(k)){tip=swaps[k];break;}}
+    p.push(pick(["Tomorrow, ","Next time, "])+(tip||"try one more Earth-friendly choice")+".");}
+  if(forestCount()>0) p.push(`You grew ${forestCount()} extra tree${forestCount()>1?"s":""} in your forest! 🌲`);
+  else { const st=currentStage(); if(st>=3) p.push(`Your tree reached "${STAGES[st].name}"!`); }
+  p.push(pick(["Keep it up! 💚","See you tomorrow, Earth hero!","Small actions, big difference."]));
+  return p.join(" ");
+}
+function newReflection(){ state.reflection=generateReflection(); saveState(); document.getElementById("reflectText").textContent=state.reflection; }
+
+function clearToday(){ state={score:0,actions:[],reflection:""}; saveState(); render(); }
+function openInfo(){document.getElementById("modalBg").classList.add("show");}
+function closeInfo(){document.getElementById("modalBg").classList.remove("show");}
+document.getElementById("modalBg").addEventListener("click",function(e){if(e.target===this)closeInfo();});
+function showView(v,btn){document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.getElementById("view-"+v).classList.add("active");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});}
+
+function render(){
+  document.getElementById("totalScore").textContent=state.score;
+  document.getElementById("actCount").textContent=state.actions.length;
+  document.getElementById("forestCount").textContent=forestCount();
+  const st=currentStage();
+  document.getElementById("stageLabel").textContent=STAGES[st].name+(forestCount()>0?" 🌲x"+forestCount():"");
+  let msg=STAGES[st].msg; if(state.score<0) msg="Oh no, your tree is sad. Add good actions! 🥺";
+  document.getElementById("stageMsg").textContent=msg; drawTree(st);
+  const log=document.getElementById("log");
+  if(state.actions.length===0) log.innerHTML='<div class="empty">No actions yet. Tap a button to start!</div>';
+  else log.innerHTML=state.actions.map(a=>{const c=a.pts>0?"good":"bad",s=a.pts>0?"+":"";
+    return `<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}</span><span class="li-pts ${c}">${s}${a.pts}</span></div>`;}).join("");
+  document.getElementById("reflectText").textContent=state.reflection||"Tap some actions, and I'll write your reflection here! 🌱";
+  drawCalendar();
+}
+
+function drawTree(stage){
+  const soil=`<ellipse cx="120" cy="220" rx="92" ry="14" fill="#6B4226"/><ellipse cx="120" cy="216" rx="92" ry="12" fill="#7C4F2E"/>`;
+  let t="";
+  if(stage===0) t=`<g class="canopy"><ellipse cx="120" cy="206" rx="11" ry="14" fill="#8B5E3C"/><path d="M120 194 q4 -10 12 -12" stroke="#3FA34D" stroke-width="4" fill="none" stroke-linecap="round"/></g>`;
+  else if(stage===1) t=`<g class="canopy"><rect x="116" y="176" width="8" height="42" rx="4" fill="#8B5E3C"/><path d="M120 184 q-18 -6 -26 -22 q22 2 26 18" fill="#3FA34D"/><path d="M120 178 q18 -8 26 -24 q-22 4 -26 20" fill="#4CB85C"/></g>`;
+  else if(stage===2) t=`<g class="canopy"><rect x="114" y="156" width="12" height="62" rx="5" fill="#8B5E3C"/><circle cx="120" cy="144" r="34" fill="#3FA34D"/><circle cx="98" cy="156" r="22" fill="#4CB85C"/><circle cx="142" cy="156" r="22" fill="#4CB85C"/></g>`;
+  else if(stage===3) t=`<g class="canopy"><rect x="112" y="141" width="16" height="78" rx="6" fill="#8B5E3C"/><circle cx="120" cy="118" r="44" fill="#2E7D32"/><circle cx="86" cy="136" r="30" fill="#3FA34D"/><circle cx="154" cy="136" r="30" fill="#3FA34D"/><circle cx="120" cy="102" r="30" fill="#4CB85C"/></g>`;
+  else if(stage===4) t=`<g class="canopy"><rect x="108" y="126" width="24" height="92" rx="8" fill="#8B5E3C"/><circle cx="120" cy="102" r="54" fill="#2E7D32"/><circle cx="78" cy="124" r="36" fill="#3FA34D"/><circle cx="162" cy="124" r="36" fill="#3FA34D"/><circle cx="120" cy="80" r="38" fill="#4CB85C"/><circle cx="98" cy="98" r="24" fill="#5BC96B"/></g>`;
+  else t=`<g class="canopy"><rect x="104" y="122" width="32" height="96" rx="9" fill="#8B5E3C"/><circle cx="120" cy="98" r="60" fill="#2E7D32"/><circle cx="72" cy="122" r="40" fill="#3FA34D"/><circle cx="168" cy="122" r="40" fill="#3FA34D"/><circle cx="120" cy="72" r="42" fill="#4CB85C"/><circle cx="94" cy="92" r="26" fill="#5BC96B"/><circle cx="148" cy="92" r="22" fill="#5BC96B"/><circle cx="96" cy="106" r="6" fill="#FF6B57"/><circle cx="142" cy="84" r="6" fill="#FF6B57"/><circle cx="120" cy="116" r="6" fill="#FFB23F"/><circle cx="158" cy="114" r="6" fill="#FF6B57"/></g>`;
+  let forest="";const n=forestCount();const spots=[[38,212],[202,212],[64,218],[176,218],[20,218],[220,218]];
+  for(let i=0;i<n;i++){const[fx,fy]=spots[i];
+    forest+=`<g transform="translate(${fx},${fy})" style="animation:pop .6s ease"><rect x="-3" y="-16" width="6" height="18" rx="3" fill="#8B5E3C"/><circle cx="0" cy="-20" r="13" fill="#3FA34D"/><circle cx="-8" cy="-14" r="9" fill="#4CB85C"/><circle cx="8" cy="-14" r="9" fill="#4CB85C"/></g>`;}
+  document.getElementById("tree").innerHTML=soil+forest+t;
+}
+
+function drawCalendar(){
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+  document.getElementById("calTitle").textContent=now.toLocaleString('en-US',{month:'long'})+" "+y;
+  const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),td=now.getDate();
+  let html=["S","M","T","W","T","F","S"].map(d=>`<div class="dow">${d}</div>`).join("");
+  for(let i=0;i<first;i++) html+=`<div class="day empty-cell"></div>`;
+  for(let d=1;d<=days;d++){
+    const key=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
+    const rec=Store.get("et:"+key); let cls="day",dot="";
+    if(rec&&rec.actions&&rec.actions.length){
+      if(rec.score>0){cls+=" pos";dot=`<span class="dot pos">+${rec.score}</span>`;}
+      else if(rec.score<0){cls+=" neg";dot=`<span class="dot neg">${rec.score}</span>`;}
+    }
+    if(d===td) cls+=" today";
+    html+=`<div class="${cls}">${d}${dot}</div>`;
+  }
+  document.getElementById("calGrid").innerHTML=html;
+}
+
+/* ---------- Leaderboard ---------- */
+function myName(){ return Store.get("et:username"); }
+async function pushScore(){
+  if(window.LB && myName()){ try{ await window.LB.push(myName(), getAllTime()); }catch(e){} }
+}
+async function claimName(){
+  const inp=document.getElementById("nameInput"); const raw=(inp.value||"").trim();
+  if(raw.length<2){ alert("Pick a name with at least 2 letters."); return; }
+  const name=raw.slice(0,16);
+  try{
+    const ok=await window.LB.claim(name);
+    if(!ok){ alert("That name is taken! Try another."); return; }
+    Store.set("et:username",name); await window.LB.push(name,getAllTime()); renderLeaderboard();
+  }catch(e){ alert("Couldn't connect. Check your internet."); }
+}
+async function renderLeaderboard(){
+  const body=document.getElementById("lbBody");
+  if(window.LB_STATUS==="setup"||(!window.LB && window.LB_STATUS!=="ready")){
+    body.innerHTML=`<p>The leaderboard turns on once your teacher adds the Firebase keys to the app's code.</p>
+      <p class="hint">Until then, everything else works perfectly offline.</p>`; return;
+  }
+  if(!window.LB){ body.innerHTML="<p>Connecting…</p>"; setTimeout(renderLeaderboard,800); return; }
+  if(!myName()){
+    body.innerHTML=`<p>Pick a username to join the class leaderboard. Each name can only be used once!</p>
+      <div class="nameform"><input id="nameInput" maxlength="16" placeholder="Your username"/><button onclick="claimName()">Join</button></div>
+      <p class="hint">Your lifetime points: ${getAllTime()}</p>`; return;
+  }
+  body.innerHTML="<p>Loading scores…</p>";
+  try{
+    const rows=await window.LB.top();
+    let html="";
+    rows.forEach((r,i)=>{
+      const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
+      const me=r.name.toLowerCase()===myName().toLowerCase()?" me":"";
+      html+=`<div class="lb-row${me}"><span class="lb-rank">${medal}</span><span class="lb-name">${r.name}</span><span class="lb-pts">${r.points}</span></div>`;
+    });
+    if(!html) html="<p>No scores yet — be the first!</p>";
+    body.innerHTML=`<p class="hint">You are "<b>${myName()}</b>" · ${getAllTime()} lifetime points</p>`+html+
+      `<button class="rbtn" style="margin-top:6px" onclick="renderLeaderboard()">↻ Refresh</button>`;
+  }catch(e){ body.innerHTML="<p>Couldn't load scores. Check your internet.</p>"; }
+}
+window.claimName=claimName; window.renderLeaderboard=renderLeaderboard;
+window.onLBReady=function(){ const v=document.getElementById("view-top"); if(v && v.classList.contains("active")) renderLeaderboard(); };
+
+render();
+</script>
+</body>
+</html>
