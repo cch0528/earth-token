@@ -63,6 +63,10 @@ header .sub{font-size:12px;font-weight:500;opacity:.65;margin-top:1px;}
 .tabs{display:flex;gap:4px;background:rgba(255,255,255,.65);border-radius:14px;padding:4px;margin:12px 0 4px;}
 .tab{flex:1;border:none;background:transparent;font-family:var(--font);font-weight:600;font-size:11px;padding:8px 1px;border-radius:10px;cursor:pointer;color:var(--ink);opacity:.55;}
 .tab.active{background:#fff;opacity:1;box-shadow:var(--shadow);}
+.tab-wrap{position:relative;flex:1;}
+.tab-wrap .tab{width:100%;}
+.tab-badge{position:absolute;top:5px;right:6px;background:#FF6B57;border-radius:50%;width:8px;height:8px;display:none;}
+.tab-badge.show{display:block;}
 .view{display:none;}.view.active{display:block;}
 
 /* Ecosystem */
@@ -346,14 +350,20 @@ svg#tree{display:block;width:100%;height:100%;}
 <div id="app">
 <div class="wrap">
   <header>
-    <h1>🌍 Earth Token</h1>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;position:relative;">
+      <h1 style="font-size:26px;">🌍 Earth Token</h1>
+      <button id="logoutBtn" onclick="logout()" style="position:absolute;right:0;background:rgba(23,58,44,.08);border:none;border-radius:10px;padding:6px 10px;font-family:var(--font);font-weight:600;font-size:12px;color:var(--ink);cursor:pointer;opacity:.7;">Sign out</button>
+    </div>
     <div class="sub" id="appSub">Loading…</div>
   </header>
   <div class="tabs">
     <button class="tab active" onclick="showView('home',this)">🏠 Home</button>
     <button class="tab" onclick="showView('track',this)">🌱 Track</button>
     <button class="tab" onclick="showView('learn',this)">📖 Learn</button>
-    <button class="tab" onclick="showView('feed',this)">📸 Feed</button>
+    <div class="tab-wrap">
+      <button class="tab" id="feedTab" onclick="showView('feed',this)">📸 Feed</button>
+      <div class="tab-badge" id="feedBadge"></div>
+    </div>
     <button class="tab" onclick="showView('top',this)">🏆 Top</button>
   </div>
 
@@ -593,6 +603,10 @@ try{
     subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
     async postFeed(item){return await addDoc(collection(db,"feed"),item);},
     subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    subscribeFeedCommentCount(postId,cb){
+      return onSnapshot(query(collection(db,"feedComments"),where("postId","==",postId),limit(50)),
+        s=>cb(s.docs.length));
+    },
     async getComments(postId){
       const q=query(collection(db,"feedComments"),where("postId","==",postId),limit(30));
       const s=await getDocs(q);
@@ -600,11 +614,12 @@ try{
     },
     async addComment(obj){await addDoc(collection(db,"feedComments"),obj);},
     /* WARNING: single where clause only — no composite index needed */
-    async checkWarning(u){
-      const q=query(collection(db,"warnings"),where("username","==",u.toLowerCase()),limit(10));
-      const s=await getDocs(q);
-      const unread=s.docs.map(d=>({id:d.id,...d.data()})).find(w=>w.read!==true);
-      return unread||null;
+    subscribeWarnings(u,cb){
+      /* Single where clause — no composite index needed; filter read client-side */
+      return onSnapshot(
+        query(collection(db,"warnings"),where("username","==",u.toLowerCase()),limit(20)),
+        snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()})))
+      );
     },
     async markWarningRead(id){await setDoc(doc(db,"warnings",id),{read:true},{merge:true});}
   };window.DB_READY=true;
@@ -735,7 +750,7 @@ function initApp(){
   document.getElementById("appSub").textContent=`Hi ${myName()}! Do good for the Earth.`;
   document.getElementById("homeGreeting").textContent=`Hi ${myName()}! 👋`;
   render();renderChallenges();
-  if(window.DB){checkForWarning();startHomeLb();}
+  if(window.DB){listenForWarnings();startHomeLb();}
   loadNote();
   renderQuiz();
 }
@@ -919,17 +934,24 @@ function loadNote(){
 function openInfo(){document.getElementById("modalBg").classList.add("show");}
 function closeInfo(){document.getElementById("modalBg").classList.remove("show");}
 document.getElementById("modalBg").addEventListener("click",function(e){if(e.target===this)closeInfo();});
-async function checkForWarning(){
+let _warnUnsub=null;
+let _shownWarnIds=new Set();
+function listenForWarnings(){
   if(!window.DB||!myName())return;
-  try{
-    const w=await window.DB.checkWarning(myName());
-    if(w){
+  if(_warnUnsub){_warnUnsub();_warnUnsub=null;}
+  _warnUnsub=window.DB.subscribeWarnings(myName(),warnings=>{
+    const unread=warnings.filter(w=>w.read!==true&&!_shownWarnIds.has(w.id));
+    if(unread.length>0){
+      const w=unread[0];
+      _shownWarnIds.add(w.id);
       document.getElementById("warnMsg").textContent=w.message;
       document.getElementById("warnBg").classList.add("show");
       window._pendingWarnId=w.id;
     }
-  }catch(e){console.error("Warning check error:",e);}
+  });
 }
+/* keep old name as alias so existing calls still work */
+function checkForWarning(){listenForWarnings();}
 async function dismissWarning(){
   document.getElementById("warnBg").classList.remove("show");
   if(window._pendingWarnId&&window.DB){try{await window.DB.markWarningRead(window._pendingWarnId);}catch(e){}}
@@ -947,7 +969,7 @@ function showView(v,btn){
   btn.classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
   if(v==="top")renderLeaderboard();
-  if(v==="feed")renderFeed();
+  if(v==="feed"){renderFeed();updateFeedBadge([]);_lastFeedVisit=Date.now();Store.set("et:lastFeedVisit",_lastFeedVisit);}
   if(v==="home")renderChallenges();
   if(v==="learn")renderQuiz();
 }
@@ -1201,6 +1223,7 @@ function renderFeed(){
   if(!window.DB){body.innerHTML='<div class="empty">Connecting…</div>';setTimeout(renderFeed,800);return;}
   if(feedUnsub){feedUnsub();feedUnsub=null;}
   feedUnsub=window.DB.subscribeFeed(items=>{
+    updateFeedBadge(items);
     if(!items.length){body.innerHTML='<div class="empty">No posts yet — be the first! 🌱</div>';return;}
     body.innerHTML='<div class="feed-grid">'+items.map(item=>{
       const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
@@ -1222,6 +1245,30 @@ async function postComment(postId){
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
+
+/* ---- Logout ---- */
+function logout(){
+  if(!confirm("Sign out? Your score and progress stay saved. You'll need to enter your username again.")) return;
+  try{localStorage.removeItem("et:username");}catch(e){}
+  location.reload();
+}
+window.logout=logout;
+
+/* ---- Feed notification badge ---- */
+let _lastFeedVisit=Store.get("et:lastFeedVisit")||0;
+let _feedBadgeCount=0;
+function updateFeedBadge(items){
+  const onFeed=document.getElementById("view-feed").classList.contains("active");
+  if(onFeed){
+    _lastFeedVisit=Date.now();
+    Store.set("et:lastFeedVisit",_lastFeedVisit);
+    _feedBadgeCount=0;
+  } else {
+    _feedBadgeCount=(items||[]).filter(i=>(i.timestamp||0)>_lastFeedVisit).length;
+  }
+  const badge=document.getElementById("feedBadge");
+  if(badge) badge.classList.toggle("show",_feedBadgeCount>0);
+}
 
 /* ---- Dynamic quiz (random 3 from pool each visit) ---- */
 const QUIZ_POOL=[
@@ -1301,7 +1348,7 @@ window.quizAnswer=quizAnswer;
 
 
 window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}};
-if(window.DB_READY&&myName()){checkForWarning();startHomeLb();}
+if(window.DB_READY&&myName()){listenForWarnings();startHomeLb();}
 </script>
 </body>
 </html>
