@@ -21,6 +21,36 @@
 html,body{height:100%;overflow-x:hidden;background:#0A1628;}
 body{font-family:var(--font);color:var(--ink);}
 
+
+/* ====== ONBOARDING OVERLAY ====== */
+#onboarding{
+  position:fixed;inset:0;z-index:90;
+  background:rgba(10,22,40,.96);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;
+}
+#onboarding.show{display:flex;}
+.ob-card{
+  background:linear-gradient(160deg,#0D2A1A,#133A22);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;padding:32px 24px 24px;
+  width:100%;max-width:380px;text-align:center;
+  animation:obIn .35s ease;
+}
+@keyframes obIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.ob-icon{font-size:64px;margin-bottom:16px;display:block;}
+.ob-title{font-size:24px;font-weight:700;color:#fff;margin-bottom:10px;}
+.ob-desc{font-size:15px;font-weight:500;color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:24px;}
+.ob-highlight{color:#7DD87D;font-weight:700;}
+.ob-dots{display:flex;gap:7px;justify-content:center;margin-bottom:20px;}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .2s;}
+.ob-dot.active{background:#3FA34D;width:22px;border-radius:4px;}
+.ob-next{width:100%;background:#3FA34D;color:#fff;border:none;border-radius:16px;
+  padding:15px;font-family:var(--font);font-weight:700;font-size:17px;cursor:pointer;margin-bottom:10px;}
+.ob-next:active{transform:scale(.98);}
+.ob-skip{background:transparent;border:none;color:rgba(255,255,255,.4);
+  font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;padding:6px;}
+
 /* ====== INTRO ====== */
 #intro{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#0A1628 0%,#0D2A1A 40%,#133A22 100%);display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding-bottom:40px;padding-top:env(safe-area-inset-top,0px);}
 .intro-stars{position:absolute;inset:0;pointer-events:none;}
@@ -364,6 +394,18 @@ svg#tree{display:block;width:100%;height:100%;}
     <div class="load-bar-wrap" id="loadBarWrap"><div class="load-bar-fill" id="loadBarFill"></div></div>
     <div class="load-label" id="loadLabel">Setting up your tree… 🌱</div>
     <button class="returning-btn" id="returningToggle" onclick="toggleReturning()">Already have a username? Sign in here</button>
+  </div>
+</div>
+
+<!-- ====== ONBOARDING ====== -->
+<div id="onboarding">
+  <div class="ob-card" id="obCard">
+    <span class="ob-icon" id="obIcon">🌱</span>
+    <div class="ob-title" id="obTitle">Track your actions</div>
+    <div class="ob-desc" id="obDesc">Every day, tap <span class="ob-highlight">Good</span> or <span class="ob-highlight">Bad</span> activities. Your virtual tree grows with every good choice you make!</div>
+    <div class="ob-dots" id="obDots"></div>
+    <button class="ob-next" id="obNext" onclick="obAdvance()">Next →</button>
+    <button class="ob-skip" onclick="obFinish()">Skip intro</button>
   </div>
 </div>
 
@@ -805,7 +847,13 @@ window.registerUser=registerUser;
 
 function launchApp(){
   document.getElementById("intro").classList.add("fade-out");
-  setTimeout(()=>{document.getElementById("intro").style.display="none";document.getElementById("app").style.display="block";initApp();},500);
+  setTimeout(()=>{
+    document.getElementById("intro").style.display="none";
+    document.getElementById("app").style.display="block";
+    initApp();
+    // Show onboarding for brand new registrations
+    setTimeout(showOnboardingIfNew, 400);
+  },500);
 }
 function initApp(){
   document.getElementById("appSub").textContent=`Hi ${myName()}! Do good for the Earth.`;
@@ -820,7 +868,7 @@ function initApp(){
 if(myName()){
   document.getElementById("intro").style.display="none";
   document.getElementById("app").style.display="block";
-  setTimeout(initApp,100);
+  setTimeout(()=>{initApp();setTimeout(showOnboardingIfNew,400);},100);
 }
 
 /* ---- Buttons ---- */
@@ -1515,7 +1563,75 @@ function quizAnswer(btn,correct){
 window.quizAnswer=quizAnswer;
 
 
-window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}};
+
+/* ---- Onboarding ---- */
+const OB_STEPS=[
+  {
+    icon:"🌱",
+    title:"Track your actions",
+    desc:'Every day tap <span class="ob-highlight">Good</span> or <span class="ob-highlight">Bad</span> activities. Your virtual tree grows permanently with every good choice — the whole course!'
+  },
+  {
+    icon:"🎯",
+    title:"Daily challenges",
+    desc:'The <span class="ob-highlight">Home tab</span> shows 3 special challenges every day — same for the whole class. Complete all 3 for a <span class="ob-highlight">+100 bonus!</span>'
+  },
+  {
+    icon:"📸",
+    title:"Share with the class",
+    desc:'After logging an action, snap a photo to prove it! Your photo appears on the <span class="ob-highlight">Feed tab</span> for everyone to see and comment on.'
+  },
+  {
+    icon:"🏆",
+    title:"Climb the leaderboard",
+    desc:'Your points add up across <span class="ob-highlight">every day</span> of the course. Keep your <span class="ob-highlight">🔥 streak</span> going and aim for the top of the class ranking!'
+  },
+  {
+    icon:"🌍",
+    title:"You're ready!",
+    desc:'Remember: <span class="ob-highlight">one action per day</span>, be honest, and have fun growing your forest. Small actions, big difference for the Earth. Let's go!'
+  },
+];
+let obStep=0;
+
+function obRender(){
+  const s=OB_STEPS[obStep];
+  const card=document.getElementById("obCard");
+  // animate out/in
+  card.style.animation="none";
+  requestAnimationFrame(()=>{
+    card.style.animation="obIn .35s ease";
+    document.getElementById("obIcon").textContent=s.icon;
+    document.getElementById("obTitle").textContent=s.title;
+    document.getElementById("obDesc").innerHTML=s.desc;
+    // dots
+    const dots=document.getElementById("obDots");
+    dots.innerHTML=OB_STEPS.map((_,i)=>`<div class="ob-dot ${i===obStep?'active':''}"></div>`).join("");
+    // button
+    const btn=document.getElementById("obNext");
+    btn.textContent=obStep===OB_STEPS.length-1?"🌱 Let's go!":"Next →";
+  });
+}
+
+function obAdvance(){
+  if(obStep<OB_STEPS.length-1){obStep++;obRender();}
+  else obFinish();
+}
+
+function obFinish(){
+  Store.set("et:ob-done","1");
+  document.getElementById("onboarding").classList.remove("show");
+}
+
+function showOnboardingIfNew(){
+  if(!Store.get("et:ob-done")){
+    obStep=0;obRender();
+    document.getElementById("onboarding").classList.add("show");
+  }
+}
+window.obAdvance=obAdvance;window.obFinish=obFinish;
+
+window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}if(myName())showOnboardingIfNew();};
 if(window.DB_READY&&myName()){listenForWarnings();startHomeLb();}
 </script>
 </body>
