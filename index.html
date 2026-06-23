@@ -166,6 +166,16 @@ svg#tree{display:block;width:100%;height:100%;}
 /* Home tab */
 .home-greeting{font-size:20px;font-weight:700;margin:14px 4px 4px;}
 .home-sub{font-size:13px;opacity:.65;font-weight:500;margin:0 4px 14px;}
+.home-top-row{display:flex;gap:10px;margin-bottom:12px;}
+.streak-card{flex:1;background:linear-gradient(135deg,#FF6B35,#FF8C42);border-radius:18px;padding:14px;box-shadow:var(--shadow);color:#fff;text-align:center;}
+.streak-card .streak-num{font-size:34px;font-weight:700;line-height:1;}
+.streak-card .streak-lbl{font-size:12px;font-weight:600;opacity:.85;margin-top:3px;}
+.streak-card .streak-icon{font-size:22px;margin-bottom:4px;}
+.streak-card.zero{background:linear-gradient(135deg,#8B9467,#A0AB76);}
+.winner-card{flex:1;background:linear-gradient(135deg,#2E7D32,#3FA34D);border-radius:18px;padding:14px;box-shadow:var(--shadow);color:#fff;}
+.winner-card .win-lbl{font-size:11px;font-weight:600;opacity:.8;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+.winner-card .win-name{font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.winner-card .win-pts{font-size:13px;font-weight:600;opacity:.85;margin-top:2px;}
 .challenge-card{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);margin-bottom:10px;}
 .challenge-card h3{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .challenge-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EEF4EF;}
@@ -382,6 +392,20 @@ svg#tree{display:block;width:100%;height:100%;}
   <div class="view active" id="view-home">
     <div class="home-greeting" id="homeGreeting">Good day! 👋</div>
     <div class="home-sub" id="homeSub">Here are today's challenges for the class:</div>
+
+    <div class="home-top-row">
+      <div class="streak-card zero" id="streakCard">
+        <div class="streak-icon">🔥</div>
+        <div class="streak-num" id="streakNum">0</div>
+        <div class="streak-lbl">Day streak</div>
+      </div>
+      <div class="winner-card">
+        <div class="win-lbl">🏅 Yesterday's hero</div>
+        <div class="win-name" id="winnerName">Loading…</div>
+        <div class="win-pts" id="winnerPts"></div>
+      </div>
+    </div>
+
     <div class="home-layout">
       <div class="challenge-card">
         <h3>🎯 Today's Challenges</h3>
@@ -829,6 +853,8 @@ function getDailyChallenges(){
 function isChallengeComplete(ch){return state.actions.some(a=>a.name===ch.name);}
 
 function renderChallenges(){
+  updateStreakUI();
+  loadYesterdayWinner();
   const chs=getDailyChallenges();
   const allDone=chs.every(ch=>isChallengeComplete(ch));
   // Give bonus once
@@ -891,6 +917,7 @@ function confirmScore(){
   const ps=currentStage(),pf=forestCount();
   state.score+=a.pts; state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
   addAllTime(a.pts); saveState(); render(); renderChallenges();
+  updateStreakUI(); // refresh streak immediately after action
   if(pendingEv) floatReward(a,pendingEv);
   pushScore();
   if(currentStage()>ps||forestCount()>pf) drawEcosystem(currentStage());
@@ -1256,6 +1283,7 @@ async function pushScore(){if(window.DB&&myName()){try{await window.DB.pushScore
 function startHomeLb(){
   if(!window.DB)return;
   homeLbUnsub=window.DB.subscribeScores(rows=>{
+    snapshotTodayLeader(rows);
     const body=document.getElementById("homeLbBody");
     if(!rows.length){body.innerHTML='<div style="font-size:13px;opacity:.5">No players yet.</div>';return;}
     body.innerHTML=rows.slice(0,5).map((r,i)=>{
@@ -1328,6 +1356,71 @@ function logout(){
   location.reload();
 }
 window.logout=logout;
+
+/* ---- Streak counter ---- */
+function calcStreak(){
+  const today=new Date();
+  let streak=0;
+  // Check if user logged a good action today
+  const todayRec=Store.get("et:"+todayKey());
+  const loggedToday=todayRec&&todayRec.actions&&todayRec.actions.some(a=>a.pts>0);
+  // Count backwards from yesterday
+  let checkDate=new Date(today);
+  if(loggedToday) streak=1; // today counts
+  // Check previous days
+  for(let i=1;i<=60;i++){
+    checkDate=new Date(today);
+    checkDate.setDate(today.getDate()-i);
+    const key=checkDate.getFullYear()+"-"+String(checkDate.getMonth()+1).padStart(2,"0")+"-"+String(checkDate.getDate()).padStart(2,"0");
+    const rec=Store.get("et:"+key);
+    const hadGood=rec&&rec.actions&&rec.actions.some(a=>a.pts>0);
+    if(hadGood) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function updateStreakUI(){
+  const streak=calcStreak();
+  const card=document.getElementById("streakCard");
+  const num=document.getElementById("streakNum");
+  if(!card||!num) return;
+  num.textContent=streak;
+  card.classList.toggle("zero", streak===0);
+  const icon=card.querySelector(".streak-icon");
+  if(icon) icon.textContent=streak>=7?"🔥🔥":streak>=3?"🔥":"💤";
+}
+
+/* ---- Yesterday's winner (from Firebase scores) ---- */
+async function loadYesterdayWinner(){
+  const nameEl=document.getElementById("winnerName");
+  const ptsEl=document.getElementById("winnerPts");
+  if(!nameEl) return;
+  if(!window.DB){nameEl.textContent="No data yet";return;}
+  try{
+    // Yesterday's key
+    const y=new Date();y.setDate(y.getDate()-1);
+    const yKey=y.getFullYear()+"-"+String(y.getMonth()+1).padStart(2,"0")+"-"+String(y.getDate()).padStart(2,"0");
+    const stored=Store.get("et:winner:"+yKey);
+    if(stored){
+      nameEl.textContent="🥇 "+stored.name;
+      ptsEl.textContent="+"+stored.pts+" pts";
+      return;
+    }
+    // Fallback: show current top player as "leading"
+    nameEl.textContent="First day!";
+    ptsEl.textContent="Be the first hero 🌱";
+  }catch(e){nameEl.textContent="—";}
+}
+
+/* Store today's winner snapshot at end of day (called when home loads) */
+function snapshotTodayLeader(rows){
+  if(!rows||!rows.length) return;
+  const top=rows[0];
+  if(top.points<=0) return;
+  const tKey=todayKey();
+  Store.set("et:winner:"+tKey,{name:top.name,pts:top.points});
+}
 
 /* ---- Feed notification badge ---- */
 let _lastFeedVisit=Store.get("et:lastFeedVisit")||0;
