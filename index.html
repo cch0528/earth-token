@@ -522,30 +522,8 @@ svg#tree{display:block;width:100%;height:100%;}
     </div>
     <div class="card">
       <h3>🧠 Quick quiz — test yourself!</h3>
-      <p style="font-weight:600;margin-bottom:8px">Which transport produces the LEAST CO₂ per km?</p>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
-        <button class="quiz-opt" onclick="qa(this,false,'q1')">🚗 Private car</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q1')">🚌 Bus</button>
-        <button class="quiz-opt" onclick="qa(this,true,'q1')">🚇 MTR</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q1')">✈️ Plane</button>
-      </div>
-      <div id="qr1" style="font-size:13px;font-weight:700;min-height:18px;margin-bottom:14px"></div>
-      <p style="font-weight:600;margin-bottom:8px">How long does a plastic bottle last in nature?</p>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
-        <button class="quiz-opt" onclick="qa(this,false,'q2')">5 years</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q2')">50 years</button>
-        <button class="quiz-opt" onclick="qa(this,true,'q2')">~450 years</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q2')">1,000 years</button>
-      </div>
-      <div id="qr2" style="font-size:13px;font-weight:700;min-height:18px;margin-bottom:14px"></div>
-      <p style="font-weight:600;margin-bottom:8px">Which food has the BIGGEST carbon footprint?</p>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
-        <button class="quiz-opt" onclick="qa(this,false,'q3')">🥦 Broccoli</button>
-        <button class="quiz-opt" onclick="qa(this,true,'q3')">🥩 Beef</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q3')">🐔 Chicken</button>
-        <button class="quiz-opt" onclick="qa(this,false,'q3')">🍚 Rice</button>
-      </div>
-      <div id="qr3" style="font-size:13px;font-weight:700;min-height:18px"></div>
+      <p style="font-size:12px;opacity:.6;font-weight:500;margin-bottom:10px">New questions every time you visit! 🎲</p>
+      <div id="quizContainer"></div>
     </div>
   </div>
   <!-- FEED -->
@@ -752,6 +730,7 @@ function initApp(){
   render();renderChallenges();
   if(window.DB){checkForWarning();startHomeLb();}
   loadNote();
+  renderQuiz();
 }
 
 // Skip intro if already registered
@@ -870,7 +849,13 @@ async function skipPhoto(){
   pendingAction=null;pendingPhotoData=null;
 }
 function closeSheet(){document.getElementById("sheetBg").classList.remove("show");document.getElementById("snapBtn").onclick=triggerCamera;}
-document.getElementById("sheetBg").addEventListener("click",function(e){if(e.target===this)skipPhoto();});
+document.getElementById("sheetBg").addEventListener("click",function(e){
+  if(e.target===this) cancelAction(); // cancel only — no score added
+});
+function cancelAction(){
+  pendingAction=null; pendingPhotoData=null; pendingEv=null;
+  closeSheet();
+}
 
 function floatReward(a,ev){const f=document.createElement("div");f.className="float";f.textContent=(a.pts>0?"+":"")+a.pts;f.style.color=a.pts>0?"#2FBF62":"#FF6B57";f.style.left=(ev.clientX-18)+"px";f.style.top=(ev.clientY-30)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),950);}
 function currentStage(){let s=0;STAGES.forEach((st,i)=>{if(getAllTime()>=st.min)s=i;});return s;}
@@ -959,6 +944,7 @@ function showView(v,btn){
   if(v==="top")renderLeaderboard();
   if(v==="feed")renderFeed();
   if(v==="home")renderChallenges();
+  if(v==="learn")renderQuiz();
 }
 
 /* ---- Render ---- */
@@ -1232,19 +1218,66 @@ async function postComment(postId){
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
 
-/* Quiz */
-const _qa={};
-function qa(btn,correct,qid){
-  if(_qa[qid])return; _qa[qid]=true;
-  btn.parentElement.querySelectorAll('.quiz-opt').forEach(o=>{
+/* ---- Dynamic quiz (random 3 from pool each visit) ---- */
+const QUIZ_POOL=[
+  {q:"Which transport produces the LEAST CO₂ per km?",
+   opts:[{t:"🚗 Private car",c:false},{t:"🚌 Bus",c:false},{t:"🚇 MTR",c:true},{t:"✈️ Plane",c:false}]},
+  {q:"How long does a plastic bottle last in nature?",
+   opts:[{t:"5 years",c:false},{t:"50 years",c:false},{t:"~450 years",c:true},{t:"1,000 years",c:false}]},
+  {q:"Which food has the BIGGEST carbon footprint?",
+   opts:[{t:"🥦 Broccoli",c:false},{t:"🥩 Beef",c:true},{t:"🐔 Chicken",c:false},{t:"🍚 Rice",c:false}]},
+  {q:"How much CO₂ does one tree absorb per year?",
+   opts:[{t:"~2 kg",c:false},{t:"~20 kg",c:true},{t:"~200 kg",c:false},{t:"~2,000 kg",c:false}]},
+  {q:"What % of global CO₂ emissions comes from fashion?",
+   opts:[{t:"1%",c:false},{t:"5%",c:false},{t:"10%",c:true},{t:"25%",c:false}]},
+  {q:"What % of all CO₂ do oceans absorb?",
+   opts:[{t:"5%",c:false},{t:"10%",c:false},{t:"25%",c:true},{t:"50%",c:false}]},
+  {q:"How much hotter is Earth now vs 1850?",
+   opts:[{t:"+0.2°C",c:false},{t:"+1.1°C",c:true},{t:"+3°C",c:false},{t:"+5°C",c:false}]},
+  {q:"Setting AC to 25°C instead of 20°C saves about…",
+   opts:[{t:"5% energy",c:false},{t:"20% energy",c:false},{t:"~half the energy",c:true},{t:"No difference",c:false}]},
+  {q:"How many butterfly species live in Hong Kong?",
+   opts:[{t:"36",c:false},{t:"96",c:false},{t:"236",c:true},{t:"536",c:false}]},
+  {q:"How much water to make 1 cotton T-shirt?",
+   opts:[{t:"270 litres",c:false},{t:"2,700 litres",c:true},{t:"27,000 litres",c:false},{t:"27 litres",c:false}]},
+  {q:"Which carbon sink stores 10x more CO₂ than forests?",
+   opts:[{t:"Oceans",c:false},{t:"Glaciers",c:false},{t:"Mangroves",c:true},{t:"Soil",c:false}]},
+  {q:"A hot shower for 5 minutes produces about how much CO₂?",
+   opts:[{t:"~70 g",c:false},{t:"~700 g",c:true},{t:"~7 kg",c:false},{t:"~70 kg",c:false}]},
+];
+
+function shuffle(arr){return [...arr].sort(()=>Math.random()-.5);}
+
+function renderQuiz(){
+  const container=document.getElementById("quizContainer");
+  if(!container) return;
+  const qs=shuffle(QUIZ_POOL).slice(0,3);
+  container.innerHTML=qs.map((q,i)=>{
+    const opts=shuffle(q.opts);
+    return `<div class="quiz-q"${i>0?' style="margin-top:16px"':''}>
+      <p style="font-weight:600;margin-bottom:8px">${q.q}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
+        ${opts.map(o=>`<button class="quiz-opt" data-correct="${o.c}" onclick="qa(this)">${o.t}</button>`).join('')}
+      </div>
+      <div class="quiz-result-text" style="font-size:13px;font-weight:700;min-height:18px"></div>
+    </div>`;
+  }).join('');
+}
+
+function qa(btn){
+  const qDiv=btn.closest('.quiz-q');
+  if(qDiv.dataset.answered) return;
+  qDiv.dataset.answered='1';
+  const correct=btn.dataset.correct==='true';
+  qDiv.querySelectorAll('.quiz-opt').forEach(o=>{
     o.disabled=true;
     if(o===btn) o.classList.add(correct?'correct':'wrong');
-    else if(o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+    else if(o.dataset.correct==='true') o.classList.add('correct');
   });
-  const r=document.getElementById('qr'+qid.slice(1));
-  if(r) r.textContent=correct?'✅ Correct!':'❌ Not quite — the highlighted answer is correct.';
+  const r=qDiv.querySelector('.quiz-result-text');
+  if(r) r.textContent=correct?'✅ Correct! Well done!':'❌ Not quite — the green answer is correct.';
 }
-window.qa=qa;
+window.qa=qa; window.renderQuiz=renderQuiz;
 
 /* ---- Learn accordion ---- */
 function toggleAcc(card){card.classList.toggle('open');}
