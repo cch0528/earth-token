@@ -100,6 +100,13 @@ svg#tree{display:block;width:100%;height:100%;}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .act{border:2px solid transparent;cursor:pointer;text-align:left;background:var(--card);border-radius:14px;padding:10px;box-shadow:var(--shadow);font-family:var(--font);display:flex;flex-direction:column;gap:3px;transition:transform .08s ease;}
 .act:active{transform:scale(.95);}
+.act.used{opacity:.45;background:#F8F8F8;cursor:not-allowed;}
+.act.used .pts{color:#999!important;}
+.cooldown-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:rgba(23,58,44,.9);color:#fff;font-family:var(--font);font-weight:600;
+  font-size:14px;padding:10px 20px;border-radius:14px;z-index:80;
+  opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap;}
+.cooldown-toast.show{opacity:1;}
 .act .emoji{font-size:21px;}.act .name{font-size:11.5px;font-weight:600;line-height:1.2;color:var(--ink);}
 .act .pts{font-size:11px;font-weight:700;}.act .co2{font-size:10px;opacity:.5;font-weight:500;}
 .act.good{border-color:rgba(47,191,98,.22);}.act.good .pts{color:var(--good);}
@@ -337,7 +344,9 @@ svg#tree{display:block;width:100%;height:100%;}
   </div>
   <div class="intro-form">
     <label id="introLabel" for="introName">Pick your username to start 👇</label>
-    <input id="introName" maxlength="16" placeholder="e.g. GreenHero, EcoKid…" onkeydown="if(event.key==='Enter')registerUser()"/>
+    <input id="introName" maxlength="16" placeholder="e.g. GreenHero, EcoKid…"/>
+    <label id="pinLabel" style="display:block;font-size:14px;font-weight:700;color:#fff;margin-top:12px;margin-bottom:7px;">Set a 4-digit PIN 🔑</label>
+    <input id="introPin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="e.g. 1234" onkeydown="if(event.key==='Enter')registerUser()"/>
     <div class="intro-err" id="introErr"></div>
     <button class="intro-join" id="joinBtn" onclick="registerUser()">🌱 Join Earth Token</button>
     <div class="load-bar-wrap" id="loadBarWrap"><div class="load-bar-fill" id="loadBarFill"></div></div>
@@ -547,6 +556,7 @@ svg#tree{display:block;width:100%;height:100%;}
   </div>
 </div>
 </div>
+<div class='cooldown-toast' id='cooldownToast'></div>
 
 <!-- Photo sheet -->
 <div class="sheet-bg" id="sheetBg">
@@ -597,8 +607,19 @@ const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-to
 try{
   const app=initializeApp(CFG),db=getFirestore(app);
   window.DB={
-    async claimName(n){const r=doc(db,"scores",n.toLowerCase()),s=await getDoc(r);if(s.exists())return false;await setDoc(r,{name:n,points:0,updated:Date.now()});return true;},
-    async nameExists(n){const s=await getDoc(doc(db,"scores",n.toLowerCase()));return s.exists()?s.data().name:null;},
+    async claimName(n,pin){
+      const r=doc(db,"scores",n.toLowerCase()),s=await getDoc(r);
+      if(s.exists())return false;
+      await setDoc(r,{name:n,points:0,pin:pin,updated:Date.now()});
+      return true;
+    },
+    async verifyPin(n,pin){
+      const s=await getDoc(doc(db,"scores",n.toLowerCase()));
+      if(!s.exists())return null;
+      const d=s.data();
+      if(d.pin&&d.pin!==pin)return false;
+      return d.name;
+    },
     async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
     subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
     async postFeed(item){return await addDoc(collection(db,"feed"),item);},
@@ -688,18 +709,23 @@ let returningMode=false;
 function toggleReturning(){
   returningMode=!returningMode;
   const lbl=document.getElementById("introLabel");
+  const pinLbl=document.getElementById("pinLabel");
   const btn=document.getElementById("joinBtn");
   const tog=document.getElementById("returningToggle");
   if(returningMode){
-    lbl.textContent="Enter your existing username 👇";
+    lbl.textContent="Enter your username 👇";
+    if(pinLbl) pinLbl.textContent="Enter your PIN 🔑";
     btn.textContent="🔑 Sign in";
     tog.textContent="New player? Create a username";
     document.getElementById("introName").placeholder="Your username…";
+    document.getElementById("introPin").placeholder="Your PIN";
   } else {
     lbl.textContent="Pick your username to start 👇";
+    if(pinLbl) pinLbl.textContent="Set a 4-digit PIN 🔑";
     btn.textContent="🌱 Join Earth Token";
     tog.textContent="Already have a username? Sign in here";
     document.getElementById("introName").placeholder="e.g. GreenHero, EcoKid…";
+    document.getElementById("introPin").placeholder="e.g. 1234";
   }
   document.getElementById("introErr").textContent="";
 }
@@ -707,9 +733,11 @@ window.toggleReturning=toggleReturning;
 
 async function registerUser(){
   const raw=(document.getElementById("introName").value||"").trim();
+  const pin=(document.getElementById("introPin").value||"").trim();
   const err=document.getElementById("introErr");
   if(raw.length<2){err.textContent="Please pick a name with at least 2 letters.";return;}
   if(raw.length>16){err.textContent="Name must be 16 characters or less.";return;}
+  if(pin.length!==4||!/^[0-9]{4}$/.test(pin)){err.textContent="Please enter a 4-digit number PIN (e.g. 1234).";return;}
   err.textContent="";
   const btn=document.getElementById("joinBtn");
   const barWrap=document.getElementById("loadBarWrap");
@@ -723,14 +751,15 @@ async function registerUser(){
   try{
     if(returningMode){
       // Just verify the name exists
-      const realName=await window.DB.nameExists(raw);
-      if(!realName){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Name not found. Check your spelling.";return;}
-      Store.set("et:username",realName);
+      const result=await window.DB.verifyPin(raw,pin);
+      if(result===null){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Username not found. Check your spelling.";return;}
+      if(result===false){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Wrong PIN. Try again.";return;}
+      Store.set("et:username",result);Store.set("et:pin",pin);
       barFill.style.width="100%";label.textContent="Welcome back! 👋";
       await new Promise(r=>setTimeout(r,600));
       launchApp();
     } else {
-      const ok=await window.DB.claimName(raw);
+      const ok=await window.DB.claimName(name,pin);
       if(!ok){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="😬 That name is taken — try a different one!";return;}
       Store.set("et:username",raw);
       await window.DB.pushScore(raw,getAllTime());
@@ -767,7 +796,7 @@ function makeButtons(list,id,cls){
   const g=document.getElementById(id);g.innerHTML="";
   list.forEach(a=>{
     const b=document.createElement("button");b.className="act "+cls;
-    b.innerHTML=`<span class="emoji">${a.emoji}</span><span class="name">${a.name}</span><span class="pts">${a.pts>0?"+":""}${a.pts} pts</span><span class="co2">${a.co2}</span>`;
+    b.innerHTML=`<span class="emoji" data-orig="${a.emoji}">${a.emoji}</span><span class="name">${a.name}</span><span class="pts">${a.pts>0?"+":""}${a.pts} pts</span><span class="co2">${a.co2}</span>`;
     b.onclick=(e)=>logAction(a,e);g.appendChild(b);
   });
 }
@@ -812,7 +841,31 @@ function renderChallenges(){
 
 /* ---- Log action ---- */
 let pendingAction=null,pendingPhotoData=null,pendingEv=null;
+let _lastActionTime=0;
+const ACTION_COOLDOWN=5000; // 5 seconds between actions
+
+function showToast(msg){
+  const t=document.getElementById("cooldownToast");
+  if(!t)return;
+  t.textContent=msg;t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove("show"),2200);
+}
+
 function logAction(a,ev){
+  // Check once-per-day limit
+  if(state.actions.some(x=>x.name===a.name)){
+    showToast("Already logged today! ✓ Try a different action.");
+    return;
+  }
+  // Check cooldown
+  const now=Date.now();
+  const wait=ACTION_COOLDOWN-(now-_lastActionTime);
+  if(wait>0){
+    showToast(`Please wait ${Math.ceil(wait/1000)}s before logging again ⏳`);
+    return;
+  }
+  _lastActionTime=now;
   // Store pending action — score NOT added yet, wait for Skip or Photo confirm
   pendingAction=a; pendingPhotoData=null;
   if(ev) pendingEv=ev; else pendingEv=null;
@@ -1007,6 +1060,15 @@ function render(){
   badge.innerHTML=`<span class="forest-badge">🌲 Your forest: ${totalTrees} tree${totalTrees>1?"s":""}</span>`;
   drawEcosystem(st);
   // Log
+  // Mark already-used activity buttons
+  document.querySelectorAll(".act").forEach(btn=>{
+    const name=btn.querySelector(".name")?.textContent;
+    const used=state.actions.some(a=>a.name===name);
+    btn.classList.toggle("used",used);
+    btn.disabled=used;
+    const emoji=btn.querySelector(".emoji");
+    if(emoji) emoji.textContent=used?"✓":(emoji.dataset.orig||emoji.textContent);
+  });
   const log=document.getElementById("log");
   log.innerHTML=state.actions.length
     ?state.actions.map(a=>`<div class="log-item"><span class="li-emoji">${a.emoji}</span><span class="li-name">${a.name}</span><span class="li-pts ${a.pts>0?"good":"bad"}">${a.pts>0?"+":""}${a.pts}</span></div>`).join("")
