@@ -141,6 +141,13 @@ svg#tree{display:block;width:100%;height:100%;}
 .convo .ce{font-size:19px;width:24px;text-align:center;}.convo .ct{flex:1;font-size:12px;font-weight:500;}
 .convo .cv{font-size:12px;font-weight:700;color:var(--leaf-dark);}
 .pill{display:inline-block;background:#EAF7E6;color:var(--leaf-dark);font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:10px;margin:3px 3px 0 0;}
+
+.quiz-opt{background:#F2F6F3;border:2px solid transparent;border-radius:10px;padding:8px 12px;
+  font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;}
+.quiz-opt:active{transform:scale(.97);}
+.quiz-opt.correct{background:#DDF4E4;border-color:var(--good);color:var(--leaf-dark);font-weight:700;}
+.quiz-opt.wrong{background:#FFE3DE;border-color:var(--bad);color:#c0392b;}
+
 .vbox{background:#FFF6E5;border-radius:12px;padding:11px 13px;font-size:12.5px;font-weight:600;color:#9A6A00;margin-top:5px;}
 
 /* Home tab */
@@ -391,21 +398,6 @@ svg#tree{display:block;width:100%;height:100%;}
           <div class="score-card"><div class="num" id="lifetimePts">0</div><div class="lbl">Lifetime</div></div>
         </div>
 
-        <!-- AI comment (auto-written from actions) -->
-        <div class="sec-title" style="margin-top:14px;">🤖 Earth Token says</div>
-        <div class="ai-comment-card">
-          <div class="aic-label">✨ Based on your actions today</div>
-          <div class="aic-text" id="aiCommentText">Log some actions and I'll write a comment here! 🌱</div>
-        </div>
-
-        <!-- User's own reflection -->
-        <div class="sec-title">✍️ My reflection</div>
-        <div class="user-note-wrap">
-          <textarea id="userNote" placeholder="Write your thoughts here… What did you do well today? What will you try tomorrow?"></textarea>
-          <div class="note-saved" id="noteSaved">Saved ✓</div>
-        </div>
-
-        <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
       </div>
 
       <!-- RIGHT: activities + log + calendar -->
@@ -418,10 +410,28 @@ svg#tree{display:block;width:100%;height:100%;}
         <div class="act-panel" id="panel-bad"><div class="grid" id="badGrid"></div></div>
 
         <div class="sec-title">📋 Today's actions</div>
-        <div id="log"><div class="empty">No actions yet. Tap a button above!</div></div>
+        <div id="log" style="max-height:220px;overflow-y:auto;border-radius:13px;"><div class="empty">No actions yet. Tap a button above!</div></div>
 
         <div class="sec-title">📅 My month</div>
         <div class="cal"><div class="cal-head"><span id="calTitle"></span></div><div class="cal-grid" id="calGrid"></div></div>
+
+        <!-- AI comment (auto-written from actions) -->
+        <div class="sec-title" style="margin-top:14px;">🤖 Earth Token says</div>
+        <div class="ai-comment-card">
+          <div class="aic-label">✨ Based on your actions today</div>
+          <div class="aic-text" id="aiCommentText">Log some actions and I'll write a comment here! 🌱</div>
+        </div>
+
+        <!-- User's own reflection -->
+        <div class="sec-title">✍️ My reflection</div>
+        <div class="user-note-wrap">
+          <textarea id="userNote" placeholder="Write your reflection for today. Once you tap Submit it cannot be changed." rows="4"></textarea>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+            <button id="noteSubmitBtn" onclick="submitNote()" style="background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-family:var(--font);font-weight:700;font-size:13px;cursor:pointer;">Submit</button>
+            <span class="note-saved" id="noteSaved"></span>
+          </div>
+        </div>
+        <div class="controls"><button class="btn info" onclick="openInfo()">? About the numbers</button></div>
       </div>
 
     </div>
@@ -429,161 +439,115 @@ svg#tree{display:block;width:100%;height:100%;}
 
   <!-- LEARN -->
   <div class="view" id="view-learn">
-    <div style="font-size:13px;font-weight:500;opacity:.6;margin:12px 4px 8px;">Tap any card to explore 👇</div>
-
-    <div class="acc-card open" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🌍</span><span class="acc-title">What is a carbon footprint?</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air from everything we do — car rides, electricity, food, and shopping.</p>
-        <p>CO₂ acts like a blanket around Earth. Too much traps heat, making summers hotter, storms stronger, and sea levels rise — including in Hong Kong!</p>
-        <div class="fact-row"><span class="fe">🌡️</span><span class="ft">Earth is now</span><span class="fv">+1.1°C hotter</span></div>
-        <div class="fact-row"><span class="fe">🌊</span><span class="ft">Sea level rising</span><span class="fv">~3mm per year</span></div>
-        <div class="fact-row"><span class="fe">🌪️</span><span class="ft">Typhoons getting</span><span class="fv">stronger & wetter</span></div>
-      </div>
+    <div class="card">
+      <h3>🌍 What is a carbon footprint?</h3>
+      <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air from car rides, electricity, food, and shopping.</p>
+      <p>CO₂ acts like a blanket around Earth — too much traps heat, making Hong Kong summers hotter and typhoons stronger.</p>
+      <div class="convo"><span class="ce">🌡️</span><span class="ct">Earth is now hotter by</span><span class="cv">+1.1°C</span></div>
+      <div class="convo"><span class="ce">🌊</span><span class="ct">Sea level rising</span><span class="cv">~3mm per year</span></div>
+      <div class="convo"><span class="ce">🌪️</span><span class="ct">Typhoons getting</span><span class="cv">stronger & wetter</span></div>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">📏</span><span class="acc-title">How we measure CO₂</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>CO₂ is measured by <b>weight</b> — in grams (g) and kilograms (kg).</p>
-        <span class="tag">1,000 g = 1 kg</span><span class="tag">1,000 kg = 1 tonne</span>
-        <p style="margin-top:8px">One tree soaks up roughly <b>20 kg of CO₂ a year</b>. A cow produces about <b>70 kg of methane a year</b> — which is 25× more powerful than CO₂!</p>
-        <div class="fact-row"><span class="fe">🌳</span><span class="ft">1 tree absorbs</span><span class="fv">~20 kg CO₂/year</span></div>
-        <div class="fact-row"><span class="fe">🏙️</span><span class="ft">Hong Kong emits</span><span class="fv">~40 million tonnes/year</span></div>
-        <div class="fact-row"><span class="fe">🧍</span><span class="ft">HK person average</span><span class="fv">~5.5 tonnes/year</span></div>
-      </div>
+    <div class="card">
+      <h3>📏 How we measure CO₂</h3>
+      <p>CO₂ is measured by weight in <b>grams (g)</b> and <b>kilograms (kg)</b>.</p>
+      <span class="pill">1,000 g = 1 kg</span><span class="pill">1,000 kg = 1 tonne</span>
+      <div class="convo" style="margin-top:10px"><span class="ce">🌳</span><span class="ct">1 tree absorbs per year</span><span class="cv">~20 kg CO₂</span></div>
+      <div class="convo"><span class="ce">🏙️</span><span class="ct">Hong Kong emits per year</span><span class="cv">~40 million tonnes</span></div>
+      <div class="convo"><span class="ce">🧍</span><span class="ct">Average HK person per year</span><span class="cv">~5.5 tonnes</span></div>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">⚖️</span><span class="acc-title">Transport comparisons</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <div class="fact-row"><span class="fe">🚗</span><span class="ft">Private car / taxi</span><span class="fv">~150 g per km</span></div>
-        <div class="fact-row"><span class="fe">🚌</span><span class="ft">Bus (shared)</span><span class="fv">~40 g per km each</span></div>
-        <div class="fact-row"><span class="fe">🚇</span><span class="ft">MTR (very efficient)</span><span class="fv">~10 g per km each</span></div>
-        <div class="fact-row"><span class="fe">🚲</span><span class="ft">Bike or walking</span><span class="fv">~0 g</span></div>
-        <div class="fact-row"><span class="fe">✈️</span><span class="ft">HK → Tokyo flight</span><span class="fv">~400 kg per person!</span></div>
-        <p>Taking the MTR instead of a taxi for one week saves roughly the same CO₂ as planting 2 trees! 🌳🌳</p>
-      </div>
+    <div class="card">
+      <h3>⚖️ Transport comparisons</h3>
+      <div class="convo"><span class="ce">🚗</span><span class="ct">Private car or taxi</span><span class="cv">~150 g per km</span></div>
+      <div class="convo"><span class="ce">🚌</span><span class="ct">Bus (shared)</span><span class="cv">~40 g per km</span></div>
+      <div class="convo"><span class="ce">🚇</span><span class="ct">MTR (very efficient)</span><span class="cv">~10 g per km</span></div>
+      <div class="convo"><span class="ce">🚲</span><span class="ct">Bike or walking</span><span class="cv">~0 g</span></div>
+      <div class="convo"><span class="ce">✈️</span><span class="ct">HK → Tokyo flight</span><span class="cv">~400 kg per person!</span></div>
+      <p style="margin-top:8px">Taking the MTR instead of a taxi for one week saves the same CO₂ as planting 2 trees! 🌳🌳</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🍽️</span><span class="acc-title">Food and the planet</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>What we eat matters just as much as how we travel. Meat — especially beef — needs enormous amounts of land, water, and energy to produce.</p>
-        <div class="fact-row"><span class="fe">🥩</span><span class="ft">Beef (per kg)</span><span class="fv">~60 kg CO₂</span></div>
-        <div class="fact-row"><span class="fe">🐔</span><span class="ft">Chicken (per kg)</span><span class="fv">~6 kg CO₂</span></div>
-        <div class="fact-row"><span class="fe">🥦</span><span class="ft">Vegetables (per kg)</span><span class="fv">~2 kg CO₂</span></div>
-        <div class="fact-row"><span class="fe">🍱</span><span class="ft">Wasted food</span><span class="fv">8% of global emissions!</span></div>
-        <p>Eating one veggie meal a week instead of beef for a whole year saves as much CO₂ as driving 500 km!</p>
-      </div>
+    <div class="card">
+      <h3>🍽️ Food and the planet</h3>
+      <p>What we eat matters just as much as how we travel. Beef needs enormous amounts of land, water and energy.</p>
+      <div class="convo"><span class="ce">🥩</span><span class="ct">Beef (per kg produced)</span><span class="cv">~60 kg CO₂</span></div>
+      <div class="convo"><span class="ce">🐔</span><span class="ct">Chicken (per kg)</span><span class="cv">~6 kg CO₂</span></div>
+      <div class="convo"><span class="ce">🥦</span><span class="ct">Vegetables (per kg)</span><span class="cv">~2 kg CO₂</span></div>
+      <div class="convo"><span class="ce">🗑️</span><span class="ct">Wasted food globally</span><span class="cv">8% of all emissions!</span></div>
+      <p style="margin-top:8px">One veggie meal a week instead of beef for a year saves as much CO₂ as driving 500 km!</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">👗</span><span class="acc-title">Fast fashion facts</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>The fashion industry produces <b>10% of global CO₂ emissions</b> — more than all international flights combined!</p>
-        <span class="tag warn-tag">1 cotton T-shirt = 2,700 litres of water</span>
-        <span class="tag warn-tag">1 pair of jeans = ~33 kg CO₂</span>
-        <span class="tag">♻️ Secondhand = 82% less CO₂</span>
-        <span class="tag">🧵 Repair instead of replace</span>
-        <p style="margin-top:8px">Many clothes are worn only 7 times before being thrown away. Wearing clothes longer is one of the easiest ways to help!</p>
-      </div>
+    <div class="card">
+      <h3>👗 Fast fashion facts</h3>
+      <p>The fashion industry makes <b>10% of global CO₂ emissions</b> — more than all international flights combined!</p>
+      <div class="convo"><span class="ce">👕</span><span class="ct">1 cotton T-shirt uses water</span><span class="cv">2,700 litres!</span></div>
+      <div class="convo"><span class="ce">👖</span><span class="ct">1 pair of jeans CO₂</span><span class="cv">~33 kg CO₂</span></div>
+      <div class="convo"><span class="ce">♻️</span><span class="ct">Buying secondhand saves</span><span class="cv">82% less CO₂</span></div>
+      <p style="margin-top:8px">Most cheap clothes are worn only 7 times before being thrown away. Wearing clothes longer is one of the easiest ways to help!</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🌊</span><span class="acc-title">Oceans and plastic</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>Oceans absorb <b>25% of all CO₂</b> humans produce — but plastic pollution is threatening the tiny ocean plants (phytoplankton) that do this work.</p>
-        <div class="fact-row"><span class="fe">🐢</span><span class="ft">Plastic in ocean</span><span class="fv">~8 million tonnes/year</span></div>
-        <div class="fact-row"><span class="fe">🧴</span><span class="ft">A plastic bottle lasts</span><span class="fv">~450 years</span></div>
-        <div class="fact-row"><span class="fe">🐟</span><span class="ft">Fish that have eaten plastic</span><span class="fv">>50% studied</span></div>
-        <p>Hong Kong's beaches collect some of the most plastic per km² in Asia. Bringing a reusable bottle is one of the easiest swaps you can make.</p>
-      </div>
+    <div class="card">
+      <h3>🌊 Oceans and plastic</h3>
+      <p>Oceans absorb <b>25% of all CO₂</b> humans produce — but plastic is threatening the tiny plants that do this work.</p>
+      <div class="convo"><span class="ce">🐢</span><span class="ct">Plastic enters ocean per year</span><span class="cv">~8 million tonnes</span></div>
+      <div class="convo"><span class="ce">🧴</span><span class="ct">A plastic bottle lasts</span><span class="cv">~450 years</span></div>
+      <div class="convo"><span class="ce">🐟</span><span class="ct">Fish found with plastic inside</span><span class="cv">over 50% studied</span></div>
+      <p style="margin-top:8px">Hong Kong's beaches collect some of the most plastic per km² in Asia. A reusable bottle is one of the easiest swaps!</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">⚡</span><span class="acc-title">Energy at home</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>In Hong Kong, most electricity comes from burning fossil fuels like gas and coal. Every time you leave a light or AC on, carbon goes into the air.</p>
-        <div class="fact-row"><span class="fe">❄️</span><span class="ft">AC for 1 hour</span><span class="fv">~1 kg CO₂</span></div>
-        <div class="fact-row"><span class="fe">💡</span><span class="ft">LED bulb (vs old bulb)</span><span class="fv">75% less energy</span></div>
-        <div class="fact-row"><span class="fe">📱</span><span class="ft">Charging a phone</span><span class="fv">~8 g CO₂</span></div>
-        <div class="fact-row"><span class="fe">🚿</span><span class="ft">Hot shower (5 min)</span><span class="fv">~700 g CO₂</span></div>
-        <p>Setting AC to 25°C instead of 20°C can cut its energy use by nearly <b>half</b>!</p>
-      </div>
+    <div class="card">
+      <h3>⚡ Energy at home</h3>
+      <p>Most of Hong Kong's electricity comes from burning gas and coal. Every light or AC you leave on adds carbon to the air.</p>
+      <div class="convo"><span class="ce">❄️</span><span class="ct">AC running for 1 hour</span><span class="cv">~1 kg CO₂</span></div>
+      <div class="convo"><span class="ce">💡</span><span class="ct">LED vs old light bulb</span><span class="cv">75% less energy</span></div>
+      <div class="convo"><span class="ce">📱</span><span class="ct">Charging a phone</span><span class="cv">~8 g CO₂</span></div>
+      <div class="convo"><span class="ce">🚿</span><span class="ct">Hot shower (5 min)</span><span class="cv">~700 g CO₂</span></div>
+      <p style="margin-top:8px">Setting AC to 25°C instead of 20°C cuts energy use by nearly half!</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🐧</span><span class="acc-title">Animals in danger</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>Climate change is disrupting habitats faster than many animals can adapt. Some are already disappearing.</p>
-        <div class="fact-row"><span class="fe">🐻‍❄️</span><span class="ft">Polar bears</span><span class="fv">Losing sea ice home</span></div>
-        <div class="fact-row"><span class="fe">🐠</span><span class="ft">Coral reefs</span><span class="fv">50% lost since 1950</span></div>
-        <div class="fact-row"><span class="fe">🦋</span><span class="ft">Butterflies</span><span class="fv">Moving to cooler areas</span></div>
-        <div class="fact-row"><span class="fe">🐸</span><span class="ft">Frogs</span><span class="fv">Most threatened vertebrate</span></div>
-        <p>Hong Kong is home to 236 butterfly species and many migratory birds — all sensitive to temperature changes.</p>
-      </div>
+    <div class="card">
+      <h3>🐧 Animals in danger</h3>
+      <p>Climate change is disrupting habitats faster than many animals can adapt. Some are already disappearing.</p>
+      <div class="convo"><span class="ce">🐻‍❄️</span><span class="ct">Polar bears</span><span class="cv">Losing sea ice home</span></div>
+      <div class="convo"><span class="ce">🐠</span><span class="ct">Coral reefs</span><span class="cv">50% lost since 1950</span></div>
+      <div class="convo"><span class="ce">🦋</span><span class="ct">Butterflies</span><span class="cv">Moving to cooler areas</span></div>
+      <div class="convo"><span class="ce">🐸</span><span class="ct">Frogs</span><span class="cv">Most threatened vertebrate</span></div>
+      <p style="margin-top:8px">Hong Kong is home to 236 butterfly species and many migratory birds — all sensitive to temperature changes.</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🌱</span><span class="acc-title">Nature's helpers</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>Some natural systems soak up huge amounts of CO₂ — they're called <b>carbon sinks</b>.</p>
-        <div class="fact-row"><span class="fe">🌳</span><span class="ft">Forests worldwide</span><span class="fv">absorb 2.6 billion tonnes/year</span></div>
-        <div class="fact-row"><span class="fe">🌊</span><span class="ft">Oceans</span><span class="fv">absorb 25% of our CO₂</span></div>
-        <div class="fact-row"><span class="fe">🌾</span><span class="ft">Soil and grasslands</span><span class="fv">store carbon underground</span></div>
-        <div class="fact-row"><span class="fe">🌿</span><span class="ft">Mangroves</span><span class="fv">store 10x more than forests</span></div>
-        <p>Hong Kong has mangrove forests in Tai Po and Sai Kung. They protect coastlines AND store carbon!</p>
-      </div>
+    <div class="card">
+      <h3>🌱 Nature's carbon sinks</h3>
+      <p>Some natural systems absorb huge amounts of CO₂ — they're called <b>carbon sinks</b>. We must protect them!</p>
+      <div class="convo"><span class="ce">🌳</span><span class="ct">Forests worldwide absorb</span><span class="cv">2.6 billion tonnes/year</span></div>
+      <div class="convo"><span class="ce">🌊</span><span class="ct">Oceans absorb</span><span class="cv">25% of our CO₂</span></div>
+      <div class="convo"><span class="ce">🌿</span><span class="ct">Mangroves store</span><span class="cv">10x more than forests</span></div>
+      <p style="margin-top:8px">Hong Kong has mangrove forests in Tai Po and Sai Kung. They protect coastlines AND store carbon!</p>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)">
-      <div class="acc-header"><span class="acc-icon">🔎</span><span class="acc-title">Be a number detective</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body">
-        <p>Every number in this app is a <b>rough estimate</b>. Real scientists always ask: where did this number come from?</p>
-        <div class="vbox" style="margin-top:8px">Challenge: search "how much CO₂ does a beef burger produce?" and compare with this app. Who is right — and how do you know?</div>
-        <p>A good scientist checks at least <b>3 different sources</b> before trusting a number. Try it!</p>
-      </div>
+    <div class="card">
+      <h3>🔎 Be a number detective</h3>
+      <p>Every number in this app is a <b>rough estimate</b>. Real scientists always check: where did this number come from?</p>
+      <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare with this app. Who is right — and how do you know? Check at least 3 sources!</div>
     </div>
-
-    <div class="acc-card" onclick="toggleAcc(this)" id="quizCard">
-      <div class="acc-header"><span class="acc-icon">🧠</span><span class="acc-title">Quick quiz — test yourself!</span><span class="acc-arrow">▶</span></div>
-      <div class="acc-body" id="quizBody">
-        <div class="quiz-q">
-          <p>Which transport produces the LEAST CO₂ per km?</p>
-          <div class="quiz-opts">
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">🚗 Private car</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">🚌 Bus</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,true)">🚇 MTR</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">✈️ Plane</button>
-          </div>
-          <div class="quiz-result" id="quizResult1"></div>
-        </div>
-        <div class="quiz-q" style="margin-top:16px;">
-          <p>How long does a plastic bottle last in nature?</p>
-          <div class="quiz-opts">
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">5 years</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">50 years</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,true)">~450 years</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">1,000 years</button>
-          </div>
-          <div class="quiz-result" id="quizResult2"></div>
-        </div>
-        <div class="quiz-q" style="margin-top:16px;">
-          <p>Which food has the BIGGEST carbon footprint?</p>
-          <div class="quiz-opts">
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">🥦 Broccoli</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,true)">🥩 Beef</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">🐔 Chicken</button>
-            <button class="quiz-opt" onclick="quizAnswer(this,false)">🍚 Rice</button>
-          </div>
-          <div class="quiz-result" id="quizResult3"></div>
-        </div>
+    <div class="card">
+      <h3>🧠 Quick quiz — test yourself!</h3>
+      <p style="font-weight:600;margin-bottom:8px">Which transport produces the LEAST CO₂ per km?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
+        <button class="quiz-opt" onclick="qa(this,false,'q1')">🚗 Private car</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q1')">🚌 Bus</button>
+        <button class="quiz-opt" onclick="qa(this,true,'q1')">🚇 MTR</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q1')">✈️ Plane</button>
       </div>
+      <div id="qr1" style="font-size:13px;font-weight:700;min-height:18px;margin-bottom:14px"></div>
+      <p style="font-weight:600;margin-bottom:8px">How long does a plastic bottle last in nature?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
+        <button class="quiz-opt" onclick="qa(this,false,'q2')">5 years</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q2')">50 years</button>
+        <button class="quiz-opt" onclick="qa(this,true,'q2')">~450 years</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q2')">1,000 years</button>
+      </div>
+      <div id="qr2" style="font-size:13px;font-weight:700;min-height:18px;margin-bottom:14px"></div>
+      <p style="font-weight:600;margin-bottom:8px">Which food has the BIGGEST carbon footprint?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
+        <button class="quiz-opt" onclick="qa(this,false,'q3')">🥦 Broccoli</button>
+        <button class="quiz-opt" onclick="qa(this,true,'q3')">🥩 Beef</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q3')">🐔 Chicken</button>
+        <button class="quiz-opt" onclick="qa(this,false,'q3')">🍚 Rice</button>
+      </div>
+      <div id="qr3" style="font-size:13px;font-weight:700;min-height:18px"></div>
     </div>
-
   </div>
-
   <!-- FEED -->
   <div class="view" id="view-feed">
     <div style="margin-top:10px;" id="feedBody"><div class="empty">Loading… 🌱</div></div>
@@ -716,7 +680,7 @@ function todayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMo
 let state=Store.get("et:"+todayKey())||{score:0,actions:[],bonusGiven:false};
 function saveState(){Store.set("et:"+todayKey(),state);}
 function getAllTime(){return Store.get("et:alltime")||0;}
-function addAllTime(n){Store.set("et:alltime",Math.max(0,getAllTime()+n));}
+function addAllTime(n){Store.set("et:alltime",getAllTime()+n);}
 function myName(){return Store.get("et:username");}
 
 /* ---- Intro: new vs returning ---- */
@@ -787,8 +751,7 @@ function initApp(){
   document.getElementById("homeGreeting").textContent=`Hi ${myName()}! 👋`;
   render();renderChallenges();
   if(window.DB){checkForWarning();startHomeLb();}
-  const note=Store.get("et:note:"+todayKey())||"";
-  document.getElementById("userNote").value=note;
+  loadNote();
 }
 
 // Skip intro if already registered
@@ -847,21 +810,28 @@ function renderChallenges(){
 }
 
 /* ---- Log action ---- */
-let pendingAction=null,pendingPhotoData=null;
+let pendingAction=null,pendingPhotoData=null,pendingEv=null;
 function logAction(a,ev){
+  // Store pending action — score NOT added yet, wait for Skip or Photo confirm
+  pendingAction=a; pendingPhotoData=null;
+  if(ev) pendingEv=ev; else pendingEv=null;
+  document.getElementById("sheetTitle").textContent=`${a.emoji} ${a.name}`;
+  document.getElementById("previewWrap").style.display="none";
+  document.getElementById("snapBtn").textContent="📷 Take photo";
+  document.getElementById("snapBtn").onclick=triggerCamera;
+  document.getElementById("sheetBg").classList.add("show");
+}
+
+function confirmScore(){
+  // Called AFTER user chooses Skip or Post — NOW we add the score
+  if(!pendingAction) return;
+  const a=pendingAction;
   const ps=currentStage(),pf=forestCount();
-  state.score+=a.pts;state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
-  addAllTime(a.pts);saveState();render();renderChallenges();
-  if(ev)floatReward(a,ev);pushScore();
-  if(currentStage()>ps||forestCount()>pf)drawEcosystem(currentStage());
-  if(myName()){
-    pendingAction=a;pendingPhotoData=null;
-    document.getElementById("sheetTitle").textContent=`${a.emoji} ${a.name}`;
-    document.getElementById("previewWrap").style.display="none";
-    document.getElementById("snapBtn").textContent="📷 Take photo";
-    document.getElementById("snapBtn").onclick=triggerCamera;
-    document.getElementById("sheetBg").classList.add("show");
-  }
+  state.score+=a.pts; state.actions.unshift({emoji:a.emoji,name:a.name,pts:a.pts});
+  addAllTime(a.pts); saveState(); render(); renderChallenges();
+  if(pendingEv) floatReward(a,pendingEv);
+  pushScore();
+  if(currentStage()>ps||forestCount()>pf) drawEcosystem(currentStage());
 }
 
 /* ---- Photo ---- */
@@ -885,8 +855,20 @@ function onPhotoChosen(ev){
   };reader.readAsDataURL(file);ev.target.value="";
 }
 window.onPhotoChosen=onPhotoChosen;
-async function postWithPhoto(){closeSheet();if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}}pendingAction=null;pendingPhotoData=null;}
-async function skipPhoto(){closeSheet();if(pendingAction&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:pendingAction.emoji,activityName:pendingAction.name,pts:pendingAction.pts,photo:null,timestamp:Date.now()});}catch(e){}}pendingAction=null;pendingPhotoData=null;}
+async function postWithPhoto(){
+  confirmScore();
+  const a=pendingAction;
+  closeSheet();
+  if(a&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:a.emoji,activityName:a.name,pts:a.pts,photo:pendingPhotoData||null,timestamp:Date.now()});}catch(e){}}
+  pendingAction=null;pendingPhotoData=null;
+}
+async function skipPhoto(){
+  confirmScore();
+  const a=pendingAction;
+  closeSheet();
+  if(a&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:a.emoji,activityName:a.name,pts:a.pts,photo:null,timestamp:Date.now()});}catch(e){}}
+  pendingAction=null;pendingPhotoData=null;
+}
 function closeSheet(){document.getElementById("sheetBg").classList.remove("show");document.getElementById("snapBtn").onclick=triggerCamera;}
 document.getElementById("sheetBg").addEventListener("click",function(e){if(e.target===this)skipPhoto();});
 
@@ -916,13 +898,32 @@ function updateAIComment(){
   if(el) el.textContent=generateAIComment();
 }
 
-/* ---- User note ---- */
-let noteTimer;
-document.getElementById("userNote").addEventListener("input",function(){
-  const val=this.value;Store.set("et:note:"+todayKey(),val);
-  clearTimeout(noteTimer);const saved=document.getElementById("noteSaved");saved.classList.add("show");
-  noteTimer=setTimeout(()=>saved.classList.remove("show"),1500);
-});
+/* ---- User note (write-once per day) ---- */
+function submitNote(){
+  const ta=document.getElementById("userNote");
+  const text=ta.value.trim();
+  if(!text){alert("Please write something first!");return;}
+  Store.set("et:note:"+todayKey(),text);
+  Store.set("et:note-locked:"+todayKey(),true);
+  ta.disabled=true;ta.style.opacity=".75";
+  document.getElementById("noteSubmitBtn").style.display="none";
+  const saved=document.getElementById("noteSaved");
+  saved.textContent="🔒 Saved for today";saved.classList.add("show");
+}
+window.submitNote=submitNote;
+function loadNote(){
+  const locked=Store.get("et:note-locked:"+todayKey());
+  const text=Store.get("et:note:"+todayKey())||"";
+  const ta=document.getElementById("userNote");
+  const btn=document.getElementById("noteSubmitBtn");
+  const saved=document.getElementById("noteSaved");
+  if(ta) ta.value=text;
+  if(locked){
+    if(ta){ta.disabled=true;ta.style.opacity=".75";}
+    if(btn) btn.style.display="none";
+    if(saved){saved.textContent="🔒 Saved for today";saved.classList.add("show");}
+  }
+}
 
 /* ---- Modals ---- */
 function openInfo(){document.getElementById("modalBg").classList.add("show");}
@@ -1230,6 +1231,21 @@ async function postComment(postId){
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
+
+/* Quiz */
+const _qa={};
+function qa(btn,correct,qid){
+  if(_qa[qid])return; _qa[qid]=true;
+  btn.parentElement.querySelectorAll('.quiz-opt').forEach(o=>{
+    o.disabled=true;
+    if(o===btn) o.classList.add(correct?'correct':'wrong');
+    else if(o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+  });
+  const r=document.getElementById('qr'+qid.slice(1));
+  if(r) r.textContent=correct?'✅ Correct!':'❌ Not quite — the highlighted answer is correct.';
+}
+window.qa=qa;
+
 /* ---- Learn accordion ---- */
 function toggleAcc(card){card.classList.toggle('open');}
 window.toggleAcc=toggleAcc;
