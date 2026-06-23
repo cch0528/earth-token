@@ -85,6 +85,13 @@ body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100v
 .wrow-msg{font-size:13px;font-weight:500;}
 
 .empty{text-align:center;padding:22px;opacity:.45;font-size:13.5px;}
+.comment-admin-section{padding:8px 13px 10px;border-top:1px solid #EEF4EF;}
+.toggle-comments-btn{border:none;background:#F2F6F3;border-radius:8px;padding:6px 12px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;color:#173A2C;opacity:.75;}
+.admin-comments{margin-top:8px;}
+.admin-comment-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #EEF4EF;}
+.admin-comment-row:last-child{border-bottom:none;}
+.acr-user{font-size:12px;font-weight:700;color:#173A2C;min-width:60px;}
+.acr-text{flex:1;font-size:12.5px;font-weight:500;opacity:.85;}
 .status{font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;margin-top:7px;display:inline-block;}
 .status.ok{background:#DDF4E4;color:#1a6b32;}.status.err{background:#FFE3DE;color:#c0392b;}
 
@@ -162,7 +169,7 @@ body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100v
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, addDoc, deleteDoc, collection, query, orderBy, limit, onSnapshot, writeBatch }
+import { getFirestore, doc, setDoc, addDoc, deleteDoc, collection, query, orderBy, limit, where, onSnapshot, writeBatch }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-token-62b31.firebaseapp.com",
@@ -184,6 +191,11 @@ window.ADMIN_DB={
     const chunks=[];for(let i=0;i<ids.length;i+=499)chunks.push(ids.slice(i,i+499));
     for(const chunk of chunks){const b=writeBatch(db);chunk.forEach(id=>b.delete(doc(db,"feed",id)));await b.commit();}
   },
+  subscribeComments(postId,cb){
+    return onSnapshot(query(collection(db,"feedComments"),where("postId","==",postId),limit(30)),
+      s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));
+  },
+  async deleteComment(id){await deleteDoc(doc(db,"feedComments",id));},
   async sendWarning(username,message){await addDoc(collection(db,"warnings"),{username:username.toLowerCase(),message,timestamp:Date.now(),read:false});},
   subscribeWarnings(cb){return onSnapshot(query(collection(db,"warnings"),orderBy("timestamp","desc"),limit(60)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
 };
@@ -304,13 +316,50 @@ function renderFeed(){
           <div class="fcard-user">${item.username||"?"} · ${item.emoji} ${item.activityName}</div>
           <div class="fcard-act ${ptsCls}">${sign}${item.pts} pts · ${timeAgo(item.timestamp)}</div>
         </div>
-        <button class="btn-del" onclick="deleteSingleFeed('${item.id}')">🗑</button>
+        <button class="btn-del" onclick="deleteSingleFeed('${item.id}')">🗑 Post</button>
+      </div>
+      <div class="comment-admin-section">
+        <button class="toggle-comments-btn" onclick="toggleAdminComments('${item.id}',this)">💬 View comments</button>
+        <div class="admin-comments" id="ac-${item.id}" style="display:none">
+          <div class="admin-comment-list" id="acl-${item.id}"><div style="font-size:12px;opacity:.5;padding:6px">Loading…</div></div>
+        </div>
       </div>
     </div>`;
   }).join("");
   updateFeedBulkBar();
   document.getElementById("feedSelectAll").checked=selectedFeed.size===allFeedRows.length&&allFeedRows.length>0;
 }
+
+let commentUnsubs={};
+function toggleAdminComments(postId,btn){
+  const section=document.getElementById("ac-"+postId);
+  const open=section.style.display==="none";
+  section.style.display=open?"block":"none";
+  btn.textContent=open?"💬 Hide comments":"💬 View comments";
+  if(open) loadAdminComments(postId);
+  else if(commentUnsubs[postId]){commentUnsubs[postId]();delete commentUnsubs[postId];}
+}
+function loadAdminComments(postId){
+  if(commentUnsubs[postId]){commentUnsubs[postId]();delete commentUnsubs[postId];}
+  const list=document.getElementById("acl-"+postId);
+  if(!list||!window.ADMIN_DB) return;
+  commentUnsubs[postId]=window.ADMIN_DB.subscribeComments(postId,comments=>{
+    if(!comments.length){list.innerHTML='<div style="font-size:12px;opacity:.5;padding:6px">No comments on this post.</div>';return;}
+    list.innerHTML=comments.map(c=>`
+      <div class="admin-comment-row">
+        <div class="acr-user">${c.username||"?"}</div>
+        <div class="acr-text">${c.text}</div>
+        <button class="btn-del" style="font-size:11px;padding:4px 8px;white-space:nowrap" onclick="deleteComment('${c.id}')">🗑 Delete</button>
+      </div>`).join("");
+  });
+}
+async function deleteComment(commentId){
+  if(!confirm("Delete this comment? Cannot be undone.")) return;
+  try{await window.ADMIN_DB.deleteComment(commentId);}
+  catch(e){alert("Error: "+e.message);}
+}
+window.toggleAdminComments=toggleAdminComments;
+window.deleteComment=deleteComment;
 
 function toggleFeedSel(id,cb){
   if(cb.checked)selectedFeed.add(id);else selectedFeed.delete(id);
@@ -405,6 +454,7 @@ function showTab(t,btn){
 }
 
 window.deleteSingleUser=deleteSingleUser;window.bulkDeleteUsers=bulkDeleteUsers;
+window.loadAdminComments=loadAdminComments;
 window.deleteSingleFeed=deleteSingleFeed;window.bulkDeleteFeed=bulkDeleteFeed;
 window.toggleUserSel=toggleUserSel;window.toggleFeedSel=toggleFeedSel;
 window.toggleSelectAllUsers=toggleSelectAllUsers;window.toggleSelectAllFeed=toggleSelectAllFeed;
