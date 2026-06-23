@@ -53,24 +53,99 @@ body{font-family:var(--font);color:var(--ink);}
 
 
 /* ====== ONBOARDING TUTORIAL ====== */
-#tutorial{position:fixed;inset:0;z-index:95;background:#0A1628;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding:0 0 40px;}
+#tutorial{position:fixed;inset:0;z-index:95;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding-bottom:44px;}
 #tutorial.show{display:flex;}
 .tut-slides{width:100%;flex:1;overflow:hidden;position:relative;}
-.tut-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center;opacity:0;transform:translateX(60px);transition:all .35s ease;pointer-events:none;}
+
+/* Each slide = full screen colored scene */
+.tut-slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:0;text-align:center;
+  opacity:0;transform:translateX(80px);
+  transition:opacity .3s ease, transform .35s ease;
+  pointer-events:none;overflow:hidden;
+}
 .tut-slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
-.tut-slide.exit{opacity:0;transform:translateX(-60px);}
-.tut-emoji{font-size:80px;margin-bottom:20px;animation:tutBounce 2s ease-in-out infinite;}
-@keyframes tutBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.tut-title{font-size:24px;font-weight:700;color:#fff;margin-bottom:12px;line-height:1.2;}
-.tut-text{font-size:15px;font-weight:500;color:rgba(255,255,255,.75);line-height:1.6;max-width:320px;}
-.tut-tip{background:rgba(255,255,255,.1);border-radius:14px;padding:12px 16px;margin-top:14px;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.9);max-width:320px;}
-.tut-dots{display:flex;gap:8px;margin-bottom:18px;}
-.tut-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s;}
-.tut-dot.active{background:#3FA34D;width:22px;border-radius:4px;}
-.tut-btns{display:flex;gap:10px;width:100%;max-width:360px;padding:0 20px;}
-.tut-next{flex:1;background:#3FA34D;color:#fff;border:none;border-radius:14px;padding:15px;font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;}
+.tut-slide.exit{opacity:0;transform:translateX(-80px);}
+
+/* Coloured hero top section */
+.tut-hero{
+  width:100%;flex:0 0 58%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+/* Slide-specific gradients */
+.ts0 .tut-hero{background:linear-gradient(160deg,#0A4D8C,#0D8C6E);}
+.ts1 .tut-hero{background:linear-gradient(160deg,#1B5E20,#33B249);}
+.ts2 .tut-hero{background:linear-gradient(160deg,#1A3D1A,#2E7D32);}
+.ts3 .tut-hero{background:linear-gradient(160deg,#BF360C,#F4511E);}
+.ts4 .tut-hero{background:linear-gradient(160deg,#4A0072,#8E24AA);}
+.ts5 .tut-hero{background:linear-gradient(160deg,#E65100,#FFB300);}
+
+/* Floating blobs inside hero */
+.tut-blob{position:absolute;border-radius:50%;opacity:.18;pointer-events:none;}
+.tut-blob.b1{width:140px;height:140px;top:-40px;left:-50px;background:#fff;animation:blobFloat1 6s ease-in-out infinite;}
+.tut-blob.b2{width:90px;height:90px;bottom:-20px;right:-20px;background:#fff;animation:blobFloat2 5s ease-in-out infinite;}
+.tut-blob.b3{width:60px;height:60px;top:30%;right:10%;background:#fff;animation:blobFloat1 7s ease-in-out 1s infinite;}
+.tut-blob.b4{width:44px;height:44px;bottom:15%;left:8%;background:#fff;animation:blobFloat2 4s ease-in-out 2s infinite;}
+.tut-blob.b5{width:28px;height:28px;top:20%;left:20%;background:#fff;animation:blobFloat1 5.5s ease-in-out .5s infinite;}
+@keyframes blobFloat1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(10px,-15px) scale(1.08);}}
+@keyframes blobFloat2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-8px,12px) scale(.92);}}
+
+/* Emoji badge */
+.tut-badge{
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.2);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;margin-bottom:8px;position:relative;z-index:1;
+  box-shadow:0 0 0 12px rgba(255,255,255,.1), 0 8px 32px rgba(0,0,0,.2);
+  animation:badgePulse 2.5s ease-in-out infinite;
+}
+@keyframes badgePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+
+/* White content card at bottom */
+.tut-card{
+  width:100%;flex:1;
+  background:#fff;
+  border-radius:28px 28px 0 0;
+  padding:22px 26px 8px;
+  display:flex;flex-direction:column;align-items:center;
+  box-shadow:0 -4px 24px rgba(0,0,0,.1);
+  position:relative;z-index:2;
+}
+.tut-card-handle{width:36px;height:4px;background:#E0E0E0;border-radius:2px;margin-bottom:16px;}
+.tut-title{font-size:22px;font-weight:700;color:#173A2C;margin-bottom:8px;line-height:1.2;}
+.tut-text{font-size:14px;font-weight:500;color:rgba(23,58,44,.7);line-height:1.65;max-width:310px;}
+.tut-tip{
+  background:#F0FBF0;border-radius:14px;padding:11px 14px;margin-top:12px;
+  font-size:13px;font-weight:600;color:#2E7D32;
+  border-left:4px solid #3FA34D;text-align:left;width:100%;max-width:310px;
+  line-height:1.5;
+}
+
+/* Dots */
+.tut-dots{display:flex;gap:7px;padding:10px 0 6px;}
+.tut-dot{width:8px;height:8px;border-radius:50%;background:#D0D0D0;transition:all .25s;}
+.tut-dot.active{background:#3FA34D;width:24px;border-radius:4px;}
+
+/* Buttons */
+.tut-btns{display:flex;gap:10px;width:100%;max-width:380px;padding:0 20px;}
+.tut-next{
+  flex:1;color:#fff;border:none;border-radius:16px;padding:16px;
+  font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;
+  transition:transform .1s;
+  background:linear-gradient(135deg,#3FA34D,#2E7D32);
+  box-shadow:0 4px 16px rgba(63,163,77,.4);
+}
+.ts3 ~ .tut-btns .tut-next,
+.tut-slide.active.ts3 ~ * .tut-next{background:linear-gradient(135deg,#F4511E,#BF360C);}
 .tut-next:active{transform:scale(.97);}
-.tut-skip{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.6);border-radius:14px;padding:15px 18px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;}
+.tut-skip{
+  background:#F5F5F5;border:none;color:#777;
+  border-radius:16px;padding:16px 18px;
+  font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;
+}
 
 /* ====== INTRO ====== */
 #intro{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#0A1628 0%,#0D2A1A 40%,#133A22 100%);display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding-bottom:40px;padding-top:env(safe-area-inset-top,0px);}
@@ -689,56 +764,95 @@ svg#tree{display:block;width:100%;height:100%;}
 <div id="tutorial">
   <div class="tut-slides" id="tutSlides">
 
-    <div class="tut-slide active" id="ts0">
-      <div class="tut-emoji">🌍</div>
-      <div class="tut-title">Welcome to Earth Token!</div>
-      <div class="tut-text">This app helps you track your daily habits and see how they affect the Earth. Every good action earns points and grows your virtual forest!</div>
+    <div class="tut-slide ts0 active" id="ts0">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b4"></div><div class="tut-blob b5"></div>
+        <div class="tut-badge">🌍</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Welcome to Earth Token! 🎉</div>
+        <div class="tut-text">Help the Earth by tracking your daily habits. Every good action earns points and grows your very own forest!</div>
+      </div>
     </div>
 
-    <div class="tut-slide" id="ts1">
-      <div class="tut-emoji">🌱</div>
-      <div class="tut-title">Log your daily actions</div>
-      <div class="tut-text">Go to the <b style="color:#3FA34D">Track</b> tab and tap activities you did today — things that help or hurt the Earth.</div>
-      <div class="tut-tip">⚠️ Each action can only be logged ONCE per day — and there's a 5-second wait between actions. Be honest!</div>
+    <div class="tut-slide ts1" id="ts1">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b4"></div>
+        <div class="tut-badge">🌱</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Log your actions</div>
+        <div class="tut-text">Go to the <b>Track</b> tab and tap what you did today — walking to school, eating veggies, recycling and more!</div>
+        <div class="tut-tip">⚠️ Each action logs ONCE per day, with a 5-second wait. Be honest — the tree knows! 😄</div>
+      </div>
     </div>
 
-    <div class="tut-slide" id="ts2">
-      <div class="tut-emoji">🌳</div>
-      <div class="tut-title">Grow your tree</div>
-      <div class="tut-text">Your tree grows based on your <b style="color:#FFD25A">lifetime points</b> — it never resets! Keep logging good actions every day and watch it grow from a tiny seed to a Mighty Tree 🎉</div>
-      <div class="tut-tip">🌲 Your forest: 1 tree → Mighty Tree → Extra trees grow when you keep going!</div>
+    <div class="tut-slide ts2" id="ts2">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b5"></div>
+        <div class="tut-badge">🌳</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Grow your forest!</div>
+        <div class="tut-text">Your tree grows with your <b>lifetime points</b> — it never resets! From a tiny Seed all the way to a Mighty Tree with fruits and animals 🦋🐸</div>
+        <div class="tut-tip">🌲 Keep going past Mighty Tree to grow extra trees and a whole forest!</div>
+      </div>
     </div>
 
-    <div class="tut-slide" id="ts3">
-      <div class="tut-emoji">🎯</div>
-      <div class="tut-title">Daily challenges</div>
-      <div class="tut-text">Check the <b style="color:#3FA34D">Home</b> tab every morning for 3 special challenges. They're the same for everyone in your class — and they change every day!</div>
-      <div class="tut-tip">✅ Complete all 3 challenges to earn a bonus +100 points! 🎉</div>
+    <div class="tut-slide ts3" id="ts3">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b4"></div>
+        <div class="tut-badge">🎯</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Daily challenges</div>
+        <div class="tut-text">Every morning the <b>Home</b> tab shows 3 special challenges — the same for your whole class! Can you be the first to complete all 3?</div>
+        <div class="tut-tip">✅ Finish all 3 challenges in one day → Bonus +100 points! 🎉</div>
+      </div>
     </div>
 
-    <div class="tut-slide" id="ts4">
-      <div class="tut-emoji">📸</div>
-      <div class="tut-title">Share on the feed</div>
-      <div class="tut-text">After logging an action, take a photo to show your class what you did! Photos appear on the <b style="color:#3FA34D">Feed</b> tab for everyone to see and comment on.</div>
-      <div class="tut-tip">📷 Only posts with photos appear on the feed — no photo, no post!</div>
+    <div class="tut-slide ts4" id="ts4">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b5"></div>
+        <div class="tut-badge">📸</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Show the class!</div>
+        <div class="tut-text">After logging an action, take a photo as proof! It shows up on the <b>Feed</b> tab for your whole class to see, like and comment on 💬</div>
+        <div class="tut-tip">📷 Only photo posts appear on the feed. No photo? No post!</div>
+      </div>
     </div>
 
-    <div class="tut-slide" id="ts5">
-      <div class="tut-emoji">🏆</div>
-      <div class="tut-title">Compete with your class!</div>
-      <div class="tut-text">Check the <b style="color:#3FA34D">Top</b> tab to see the live class leaderboard. Your score builds up every day — the more good habits, the higher you climb!</div>
-      <div class="tut-tip">🔥 Build a daily streak to stay ahead of your classmates!</div>
+    <div class="tut-slide ts5" id="ts5">
+      <div class="tut-hero">
+        <div class="tut-blob b1"></div><div class="tut-blob b2"></div>
+        <div class="tut-blob b3"></div><div class="tut-blob b4"></div>
+        <div class="tut-badge">🏆</div>
+      </div>
+      <div class="tut-card">
+        <div class="tut-card-handle"></div>
+        <div class="tut-title">Beat the class!</div>
+        <div class="tut-text">The <b>Top</b> tab shows the live class leaderboard. Every good habit adds to your score. Build a 🔥 streak and climb to the top!</div>
+        <div class="tut-tip">🥇 Can you become the class Earth Hero? Let the challenge begin!</div>
+      </div>
     </div>
 
   </div>
 
   <div class="tut-dots" id="tutDots">
-    <div class="tut-dot active"></div>
-    <div class="tut-dot"></div>
-    <div class="tut-dot"></div>
-    <div class="tut-dot"></div>
-    <div class="tut-dot"></div>
-    <div class="tut-dot"></div>
+    <div class="tut-dot active"></div><div class="tut-dot"></div>
+    <div class="tut-dot"></div><div class="tut-dot"></div>
+    <div class="tut-dot"></div><div class="tut-dot"></div>
   </div>
 
   <div class="tut-btns">
@@ -1501,14 +1615,16 @@ function tutorialNext(){
   updateTutorial();
 }
 
+const TUT_COLORS=["linear-gradient(135deg,#0D8C6E,#0A4D8C)","linear-gradient(135deg,#33B249,#1B5E20)","linear-gradient(135deg,#2E7D32,#1A3D1A)","linear-gradient(135deg,#F4511E,#BF360C)","linear-gradient(135deg,#8E24AA,#4A0072)","linear-gradient(135deg,#FFB300,#E65100)"];
 function updateTutorial(){
-  // Update dots
   document.querySelectorAll(".tut-dot").forEach((d,i)=>d.classList.toggle("active",i===_tutStep));
-  // Update button
-  const btn = document.getElementById("tutNext");
-  const skip = document.getElementById("tutSkip");
-  if(btn) btn.textContent = _tutStep === TUT_TOTAL-1 ? "Let's go! 🌱" : "Next →";
-  if(skip) skip.style.display = _tutStep === TUT_TOTAL-1 ? "none" : "block";
+  const btn=document.getElementById("tutNext");
+  const skip=document.getElementById("tutSkip");
+  if(btn){
+    btn.textContent=_tutStep===TUT_TOTAL-1?"Let's go! 🌱":"Next →";
+    btn.style.background=TUT_COLORS[_tutStep]||TUT_COLORS[0];
+  }
+  if(skip) skip.style.display=_tutStep===TUT_TOTAL-1?"none":"block";
 }
 
 window.tutorialNext = tutorialNext;
