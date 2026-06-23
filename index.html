@@ -1249,8 +1249,12 @@ window.toggleComments=toggleComments;window.postComment=postComment;
 
 /* ---- Logout ---- */
 function logout(){
-  if(!confirm("Sign out? Your score and progress stay saved. You'll need to enter your username again.")) return;
-  try{localStorage.removeItem("et:username");}catch(e){}
+  if(!confirm("Sign out? This clears all local data on this device. Your score stays on the leaderboard.")) return;
+  try{
+    // Clear all Earth Token keys from localStorage
+    const keys=Object.keys(localStorage).filter(k=>k.startsWith("et:"));
+    keys.forEach(k=>localStorage.removeItem(k));
+  }catch(e){}
   location.reload();
 }
 window.logout=logout;
