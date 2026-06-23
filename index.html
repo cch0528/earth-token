@@ -936,7 +936,6 @@ function launchApp(isNew){
     initApp();
     if(isNew) setTimeout(showTutorial,600);
   },500);
-},500);
 }
 function initApp(){
   document.getElementById("appSub").textContent=`Hi ${myName()}! Do good for the Earth.`;
@@ -947,11 +946,11 @@ function initApp(){
   renderQuiz();
 }
 
-// Skip intro if already registered
+// Skip intro if already registered (returning user)
 if(myName()){
   document.getElementById("intro").style.display="none";
   document.getElementById("app").style.display="block";
-  setTimeout(()=>{initApp();setTimeout(showOnboardingIfNew,400);},100);
+  setTimeout(initApp,100);
 }
 
 /* ---- Buttons ---- */
@@ -1508,7 +1507,7 @@ function updateTutorial(){
   // Update button
   const btn = document.getElementById("tutNext");
   const skip = document.getElementById("tutSkip");
-  if(btn) btn.textContent = _tutStep === TUT_TOTAL-1 ? "Let\'s go! 🌱" : "Next →";
+  if(btn) btn.textContent = _tutStep === TUT_TOTAL-1 ? "Let's go! 🌱" : "Next →";
   if(skip) skip.style.display = _tutStep === TUT_TOTAL-1 ? "none" : "block";
 }
 
@@ -1746,15 +1745,8 @@ function obFinish(){
   document.getElementById("onboarding").classList.remove("show");
 }
 
-function showOnboardingIfNew(){
-  if(!Store.get("et:ob-done")){
-    obStep=0;obRender();
-    document.getElementById("onboarding").classList.add("show");
-  }
-}
-window.obAdvance=obAdvance;window.obFinish=obFinish;
 
-window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}if(myName())showOnboardingIfNew();};
+window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();}};
 if(window.DB_READY&&myName()){listenForWarnings();startHomeLb();}
 </script>
 </body>
