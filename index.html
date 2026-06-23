@@ -51,6 +51,27 @@ body{font-family:var(--font);color:var(--ink);}
 .ob-skip{background:transparent;border:none;color:rgba(255,255,255,.4);
   font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;padding:6px;}
 
+
+/* ====== ONBOARDING TUTORIAL ====== */
+#tutorial{position:fixed;inset:0;z-index:95;background:#0A1628;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding:0 0 40px;}
+#tutorial.show{display:flex;}
+.tut-slides{width:100%;flex:1;overflow:hidden;position:relative;}
+.tut-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center;opacity:0;transform:translateX(60px);transition:all .35s ease;pointer-events:none;}
+.tut-slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
+.tut-slide.exit{opacity:0;transform:translateX(-60px);}
+.tut-emoji{font-size:80px;margin-bottom:20px;animation:tutBounce 2s ease-in-out infinite;}
+@keyframes tutBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.tut-title{font-size:24px;font-weight:700;color:#fff;margin-bottom:12px;line-height:1.2;}
+.tut-text{font-size:15px;font-weight:500;color:rgba(255,255,255,.75);line-height:1.6;max-width:320px;}
+.tut-tip{background:rgba(255,255,255,.1);border-radius:14px;padding:12px 16px;margin-top:14px;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.9);max-width:320px;}
+.tut-dots{display:flex;gap:8px;margin-bottom:18px;}
+.tut-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s;}
+.tut-dot.active{background:#3FA34D;width:22px;border-radius:4px;}
+.tut-btns{display:flex;gap:10px;width:100%;max-width:360px;padding:0 20px;}
+.tut-next{flex:1;background:#3FA34D;color:#fff;border:none;border-radius:14px;padding:15px;font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;}
+.tut-next:active{transform:scale(.97);}
+.tut-skip{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.6);border-radius:14px;padding:15px 18px;font-family:var(--font);font-weight:600;font-size:14px;cursor:pointer;}
+
 /* ====== INTRO ====== */
 #intro{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#0A1628 0%,#0D2A1A 40%,#133A22 100%);display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding-bottom:40px;padding-top:env(safe-area-inset-top,0px);}
 .intro-stars{position:absolute;inset:0;pointer-events:none;}
@@ -664,6 +685,68 @@ svg#tree{display:block;width:100%;height:100%;}
   </div>
 </div>
 
+<!-- ONBOARDING TUTORIAL -->
+<div id="tutorial">
+  <div class="tut-slides" id="tutSlides">
+
+    <div class="tut-slide active" id="ts0">
+      <div class="tut-emoji">🌍</div>
+      <div class="tut-title">Welcome to Earth Token!</div>
+      <div class="tut-text">This app helps you track your daily habits and see how they affect the Earth. Every good action earns points and grows your virtual forest!</div>
+    </div>
+
+    <div class="tut-slide" id="ts1">
+      <div class="tut-emoji">🌱</div>
+      <div class="tut-title">Log your daily actions</div>
+      <div class="tut-text">Go to the <b style="color:#3FA34D">Track</b> tab and tap activities you did today — things that help or hurt the Earth.</div>
+      <div class="tut-tip">⚠️ Each action can only be logged ONCE per day — and there's a 5-second wait between actions. Be honest!</div>
+    </div>
+
+    <div class="tut-slide" id="ts2">
+      <div class="tut-emoji">🌳</div>
+      <div class="tut-title">Grow your tree</div>
+      <div class="tut-text">Your tree grows based on your <b style="color:#FFD25A">lifetime points</b> — it never resets! Keep logging good actions every day and watch it grow from a tiny seed to a Mighty Tree 🎉</div>
+      <div class="tut-tip">🌲 Your forest: 1 tree → Mighty Tree → Extra trees grow when you keep going!</div>
+    </div>
+
+    <div class="tut-slide" id="ts3">
+      <div class="tut-emoji">🎯</div>
+      <div class="tut-title">Daily challenges</div>
+      <div class="tut-text">Check the <b style="color:#3FA34D">Home</b> tab every morning for 3 special challenges. They're the same for everyone in your class — and they change every day!</div>
+      <div class="tut-tip">✅ Complete all 3 challenges to earn a bonus +100 points! 🎉</div>
+    </div>
+
+    <div class="tut-slide" id="ts4">
+      <div class="tut-emoji">📸</div>
+      <div class="tut-title">Share on the feed</div>
+      <div class="tut-text">After logging an action, take a photo to show your class what you did! Photos appear on the <b style="color:#3FA34D">Feed</b> tab for everyone to see and comment on.</div>
+      <div class="tut-tip">📷 Only posts with photos appear on the feed — no photo, no post!</div>
+    </div>
+
+    <div class="tut-slide" id="ts5">
+      <div class="tut-emoji">🏆</div>
+      <div class="tut-title">Compete with your class!</div>
+      <div class="tut-text">Check the <b style="color:#3FA34D">Top</b> tab to see the live class leaderboard. Your score builds up every day — the more good habits, the higher you climb!</div>
+      <div class="tut-tip">🔥 Build a daily streak to stay ahead of your classmates!</div>
+    </div>
+
+  </div>
+
+  <div class="tut-dots" id="tutDots">
+    <div class="tut-dot active"></div>
+    <div class="tut-dot"></div>
+    <div class="tut-dot"></div>
+    <div class="tut-dot"></div>
+    <div class="tut-dot"></div>
+    <div class="tut-dot"></div>
+  </div>
+
+  <div class="tut-btns">
+    <button class="tut-skip" id="tutSkip" onclick="closeTutorial()">Skip</button>
+    <button class="tut-next" id="tutNext" onclick="tutorialNext()">Next →</button>
+  </div>
+</div>
+
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -826,7 +909,7 @@ async function registerUser(){
       Store.set("et:username",result);Store.set("et:pin",pin);
       barFill.style.width="100%";label.textContent="Welcome back! 👋";
       await new Promise(r=>setTimeout(r,600));
-      launchApp();
+      launchApp(false);
     } else {
       const ok=await window.DB.claimName(raw,pin);
       if(!ok){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="😬 That name is taken — try a different one!";return;}
@@ -834,7 +917,7 @@ async function registerUser(){
       await window.DB.pushScore(raw,getAllTime());
       barFill.style.width="100%";label.textContent="You're in! 🌱";
       await new Promise(r=>setTimeout(r,700));
-      launchApp();
+      launchApp(true);
     }
   }catch(e){
     console.error("Register error:",e);
@@ -845,15 +928,15 @@ async function registerUser(){
 }
 window.registerUser=registerUser;
 
-function launchApp(){
+function launchApp(isNew){
   document.getElementById("intro").classList.add("fade-out");
   setTimeout(()=>{
     document.getElementById("intro").style.display="none";
     document.getElementById("app").style.display="block";
     initApp();
-    // Show onboarding for brand new registrations
-    setTimeout(showOnboardingIfNew, 400);
+    if(isNew) setTimeout(showTutorial,600);
   },500);
+},500);
 }
 function initApp(){
   document.getElementById("appSub").textContent=`Hi ${myName()}! Do good for the Earth.`;
@@ -1392,6 +1475,46 @@ async function postComment(postId){
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
+
+/* ---- Onboarding tutorial ---- */
+const TUT_TOTAL = 6;
+let _tutStep = 0;
+
+function showTutorial(){
+  if(Store.get("et:intro-seen")) return;
+  _tutStep = 0;
+  updateTutorial();
+  document.getElementById("tutorial").classList.add("show");
+}
+
+function closeTutorial(){
+  Store.set("et:intro-seen", true);
+  document.getElementById("tutorial").classList.remove("show");
+}
+
+function tutorialNext(){
+  if(_tutStep >= TUT_TOTAL - 1){ closeTutorial(); return; }
+  const current = document.getElementById("ts"+_tutStep);
+  if(current){ current.classList.remove("active"); current.classList.add("exit"); setTimeout(()=>current.classList.remove("exit"),400); }
+  _tutStep++;
+  const next = document.getElementById("ts"+_tutStep);
+  if(next){ setTimeout(()=>next.classList.add("active"),50); }
+  updateTutorial();
+}
+
+function updateTutorial(){
+  // Update dots
+  document.querySelectorAll(".tut-dot").forEach((d,i)=>d.classList.toggle("active",i===_tutStep));
+  // Update button
+  const btn = document.getElementById("tutNext");
+  const skip = document.getElementById("tutSkip");
+  if(btn) btn.textContent = _tutStep === TUT_TOTAL-1 ? "Let\'s go! 🌱" : "Next →";
+  if(skip) skip.style.display = _tutStep === TUT_TOTAL-1 ? "none" : "block";
+}
+
+window.tutorialNext = tutorialNext;
+window.closeTutorial = closeTutorial;
+
 
 /* ---- Logout ---- */
 function logout(){
