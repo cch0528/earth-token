@@ -1223,12 +1223,13 @@ function renderFeed(){
   if(!window.DB){body.innerHTML='<div class="empty">Connecting…</div>';setTimeout(renderFeed,800);return;}
   if(feedUnsub){feedUnsub();feedUnsub=null;}
   feedUnsub=window.DB.subscribeFeed(items=>{
-    updateFeedBadge(items);
-    if(!items.length){body.innerHTML='<div class="empty">No posts yet — be the first! 🌱</div>';return;}
-    body.innerHTML='<div class="feed-grid">'+items.map(item=>{
+    const photoItems=items.filter(i=>i.photo);
+    updateFeedBadge(photoItems);
+    if(!photoItems.length){body.innerHTML='<div class="empty">No photos yet — be the first to snap one! 📸</div>';return;}
+    body.innerHTML='<div class="feed-grid">'+photoItems.map(item=>{
       const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
       const initial=(item.username||"?")[0].toUpperCase();
-      const photoHtml=item.photo?`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`:`<div class="feed-no-photo">${item.emoji}</div>`;
+      const photoHtml=`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`;
       return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div><button class="comment-btn" onclick="toggleComments('${item.id}')">💬 Comments</button><div class="comment-section" id="cs-${item.id}"><div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div><div class="comment-input-row"><input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/><button onclick="postComment('${item.id}')">Send</button></div></div></div></div>`;
     }).join("")+'</div>';
   });
