@@ -759,9 +759,9 @@ async function registerUser(){
       await new Promise(r=>setTimeout(r,600));
       launchApp();
     } else {
-      const ok=await window.DB.claimName(name,pin);
+      const ok=await window.DB.claimName(raw,pin);
       if(!ok){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="😬 That name is taken — try a different one!";return;}
-      Store.set("et:username",raw);
+      Store.set("et:username",raw); Store.set("et:pin",pin);
       await window.DB.pushScore(raw,getAllTime());
       barFill.style.width="100%";label.textContent="You're in! 🌱";
       await new Promise(r=>setTimeout(r,700));
