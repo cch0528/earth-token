@@ -767,7 +767,7 @@ async function registerUser(){
       await new Promise(r=>setTimeout(r,700));
       launchApp();
     }
-  }catch(e){err.textContent="Something went wrong. Check your internet.";btn.disabled=false;barWrap.style.display="none";label.style.display="none";}
+  }catch(e){console.error("Register error:",e);err.textContent="Error: "+(e?.message||String(e));btn.disabled=false;barWrap.style.display="none";label.style.display="none";}
 }
 window.registerUser=registerUser;
 
