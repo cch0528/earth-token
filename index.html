@@ -1702,7 +1702,7 @@ function drawCalendar(){
   document.getElementById("calGrid").innerHTML=html;
 }
 
-async function pushScore(){if(window.DB&&myName()){try{await window.DB.pushScore(myName(),getAllTime());}catch(e){}}}
+async function pushScore(){if(window.DB&&myName()){try{await window.DB.pushScore(myName(),getAllTime());}catch(e){console.error('pushScore failed:',e);}}}
 
 /* ---- Home leaderboard ---- */
 function startHomeLb(){
@@ -2185,7 +2185,7 @@ function qa(btn){
     Store.set("et:quiz:"+dk,state);
     // Award points
     if(pts>0){
-      addAllTime(pts); window.state.score+=pts; saveState(); render(); pushScore();
+      addAllTime(pts); state.score+=pts; saveState(); render(); pushScore();
       showToast(`\U0001f9e0 Quiz done! +${pts} pts earned!`);
     }
     setTimeout(()=>{
