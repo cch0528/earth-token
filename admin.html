@@ -54,6 +54,7 @@ body{font-family:var(--font);background:#F0F7F2;color:var(--ink);min-height:100v
 .pts-neg{color:var(--bad);font-weight:700;}
 .btn-del{background:#FFF0EE;border:none;border-radius:9px;padding:7px 12px;font-family:var(--font);font-weight:700;font-size:12.5px;color:var(--bad);cursor:pointer;white-space:nowrap;}
 .btn-warn{background:#FFF6E5;border:none;border-radius:9px;padding:7px 12px;font-family:var(--font);font-weight:700;font-size:12.5px;color:#B7820A;cursor:pointer;white-space:nowrap;}
+.btn-hide{background:#F5F5F5;border:none;border-radius:8px;padding:6px 8px;font-size:15px;cursor:pointer;}
 .btn-del:active,.btn-warn:active{transform:scale(.97);}
 
 /* Feed cards */
@@ -196,6 +197,7 @@ window.ADMIN_DB={
       s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));
   },
   async deleteComment(id){await deleteDoc(doc(db,"feedComments",id));},
+  async toggleHide(id,hidden){await setDoc(doc(db,"scores",id),{hidden:!hidden},{merge:true});},
   async sendWarning(username,message){await addDoc(collection(db,"warnings"),{username:username.toLowerCase(),message,timestamp:Date.now(),read:false});},
   subscribeWarnings(cb){return onSnapshot(query(collection(db,"warnings"),orderBy("timestamp","desc"),limit(60)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
 };
@@ -244,9 +246,10 @@ function renderUsers(){
     return `<div class="row ${selectedUsers.has(r.id)?"selected":""}" id="urow-${r.id}">
       <input type="checkbox" class="row-cb" ${checked} onchange="toggleUserSel('${r.id}',this)"/>
       <div class="row-main">
-        <div class="row-name">${r.name}</div>
+        <div class="row-name">${r.name}${r.hidden?' <span style="font-size:11px;background:#FFE0E0;color:#C00;border-radius:6px;padding:2px 6px;font-weight:700;">hidden</span>':''}</div>
         <div class="row-sub ${ptsCls}">${sign}${r.points} lifetime pts</div>
       </div>
+      <button class="btn-hide" title="${r.hidden?'Show on leaderboard':'Hide from leaderboard'}" onclick="toggleHide('${r.id}',${!!r.hidden})">${r.hidden?'🙈':'👁️'}</button>
       <button class="btn-warn" onclick="openWarnFor('${r.name}')">⚠️ Warn</button>
       <button class="btn-del" onclick="deleteSingleUser('${r.id}','${r.name}')">🗑</button>
     </div>`;
@@ -454,6 +457,13 @@ function showTab(t,btn){
 }
 
 window.deleteSingleUser=deleteSingleUser;window.bulkDeleteUsers=bulkDeleteUsers;
+
+async function toggleHide(id,currentlyHidden){
+  try{
+    await window.ADMIN_DB.toggleHide(id,currentlyHidden);
+  }catch(e){alert("Error: "+e.message);}
+}
+window.toggleHide=toggleHide;
 window.loadAdminComments=loadAdminComments;
 window.deleteSingleFeed=deleteSingleFeed;window.bulkDeleteFeed=bulkDeleteFeed;
 window.toggleUserSel=toggleUserSel;window.toggleFeedSel=toggleFeedSel;
