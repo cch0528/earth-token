@@ -458,6 +458,29 @@ svg#tree{display:block;width:100%;height:100%;}
 @keyframes swimLeft{0%{transform:translateX(0)scaleX(1);}49%{transform:translateX(-18px)scaleX(1);}50%{transform:translateX(-18px)scaleX(-1);}100%{transform:translateX(0)scaleX(-1);}}
 @keyframes beeDrift{0%{transform:translate(0,0);}25%{transform:translate(8px,-6px);}50%{transform:translate(16px,2px);}75%{transform:translate(6px,8px);}100%{transform:translate(0,0);}}
 @keyframes raindrop{from{transform:translateY(-10px);opacity:1;}to{transform:translateY(16px);opacity:0;}}
+
+/* Live notification bar */
+#notifBar{
+  position:fixed;top:60px;left:50%;transform:translateX(-50%) scale(.9);
+  background:rgba(23,58,44,.88);color:#fff;
+  font-family:var(--font);font-size:12.5px;font-weight:600;
+  padding:7px 14px;border-radius:20px;
+  z-index:45;white-space:nowrap;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;max-width:280px;text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+  opacity:0;
+}
+#notifBar.show{top:72px;opacity:1;transform:translateX(-50%) scale(1);}
+
+/* Like button */
+.feed-actions{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.like-btn{border:none;background:#FFF0F3;border-radius:10px;padding:6px 12px;
+  font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;
+  color:#E03060;display:flex;align-items:center;gap:5px;transition:transform .1s;}
+.like-btn.liked{background:#FFD6E0;}
+.like-btn:active{transform:scale(.94);}
+.like-count{font-size:12.5px;}
 </style>
 </head>
 <body>
@@ -720,6 +743,7 @@ svg#tree{display:block;width:100%;height:100%;}
   </div>
 </div>
 </div>
+<div id='notifBar'></div>
 <div class='cooldown-toast' id='cooldownToast'></div>
 
 <!-- Photo sheet -->
@@ -864,7 +888,7 @@ svg#tree{display:block;width:100%;height:100%;}
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, query, orderBy, limit, where, onSnapshot, getDocs }
+import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, arrayUnion, arrayRemove, collection, query, orderBy, limit, where, onSnapshot, getDocs }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const CFG={apiKey:"AIzaSyDlyxgrUmz0_NLDphRrzvOVcYl9PViAzAc",authDomain:"earth-token-62b31.firebaseapp.com",
   projectId:"earth-token-62b31",storageBucket:"earth-token-62b31.firebasestorage.app",
@@ -886,9 +910,11 @@ try{
       return d.name;
     },
     async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
-    subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim+10)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()})).filter(r=>!r.hidden).slice(0,lim)));},
     async postFeed(item){return await addDoc(collection(db,"feed"),item);},
     subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    async likePost(postId,username){await updateDoc(doc(db,"feed",postId),{likes:arrayUnion(username)});},
+    async unlikePost(postId,username){await updateDoc(doc(db,"feed",postId),{likes:arrayRemove(username)});},
     subscribeFeedCommentCount(postId,cb){
       return onSnapshot(query(collection(db,"feedComments"),where("postId","==",postId),limit(50)),
         s=>cb(s.docs.length));
@@ -1564,15 +1590,37 @@ function renderFeed(){
   const body=document.getElementById("feedBody");
   if(!window.DB){body.innerHTML='<div class="empty">Connecting…</div>';setTimeout(renderFeed,800);return;}
   if(feedUnsub){feedUnsub();feedUnsub=null;}
+  let _prevLikes={};
   feedUnsub=window.DB.subscribeFeed(items=>{
     const photoItems=items.filter(i=>i.photo);
     updateFeedBadge(photoItems);
+    // Live notifications for likes on own posts
+    photoItems.forEach(item=>{
+      if(item.username===myName()) return; // own posts don't notify self
+      const likes=item.likes||[];
+      const prev=_prevLikes[item.id]||0;
+      if(likes.length>prev&&prev>0){
+        const newLiker=likes[likes.length-1];
+        if(newLiker!==myName()) showNotif("❤️ "+newLiker+" liked a post!");
+      }
+      _prevLikes[item.id]=likes.length;
+    });
+    // Own post likes
+    photoItems.filter(i=>i.username===myName()).forEach(item=>{
+      const likes=item.likes||[];
+      const prev=_prevLikes["own_"+item.id]||0;
+      if(likes.length>prev&&prev>0) showNotif("❤️ Someone liked your photo!");
+      _prevLikes["own_"+item.id]=likes.length;
+    });
     if(!photoItems.length){body.innerHTML='<div class="empty">No photos yet — be the first to snap one! 📸</div>';return;}
     body.innerHTML='<div class="feed-grid">'+photoItems.map(item=>{
       const ptsCls=item.pts>0?"good":"bad",sign=item.pts>0?"+":"";
       const initial=(item.username||"?")[0].toUpperCase();
       const photoHtml=`<img class="feed-photo" src="${item.photo}" alt="photo" loading="lazy"/>`;
-      return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div><button class="comment-btn" onclick="toggleComments('${item.id}')">💬 Comments</button><div class="comment-section" id="cs-${item.id}"><div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div><div class="comment-input-row"><input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/><button onclick="postComment('${item.id}')">Send</button></div></div></div></div>`;
+      const likes=item.likes||[];
+      const liked=likes.includes(myName());
+      const likeCount=likes.length;
+      return `<div class="feed-card">${photoHtml}<div class="feed-body"><div class="feed-top"><div class="feed-avatar">${initial}</div><span class="feed-user">${item.username||"Someone"}</span><span class="feed-time">${timeAgo(item.timestamp)}</span></div><div class="feed-act"><span class="fa-emoji">${item.emoji}</span><span class="fa-name">${item.activityName}</span><span class="fa-pts ${ptsCls}">${sign}${item.pts}</span></div><div class="feed-actions"><button class="like-btn ${liked?"liked":""}" id="lb-${item.id}" onclick="toggleLike('${item.id}',${liked})">${liked?"❤️":"🤍"}<span class="like-count">${likeCount>0?likeCount:""}</span></button><button class="comment-btn" onclick="toggleComments('${item.id}')">💬 Comments</button></div><div class="comment-section" id="cs-${item.id}"><div class="comment-list" id="cl-${item.id}"><div class="ci-empty">Loading…</div></div><div class="comment-input-row"><input id="ci-${item.id}" maxlength="100" placeholder="Add a kind comment…"/><button onclick="postComment('${item.id}')">Send</button></div></div></div></div>`;
     }).join("")+'</div>';
   });
 }
@@ -1584,10 +1632,39 @@ async function loadComments(postId){
 async function postComment(postId){
   const input=document.getElementById("ci-"+postId);const text=(input.value||"").trim();if(!text||!window.DB)return;
   input.value="";input.disabled=true;
-  try{await window.DB.addComment({postId,username:myName()||"?",text,timestamp:Date.now()});await loadComments(postId);}catch(e){console.error(e);}
+  try{
+    await window.DB.addComment({postId,username:myName()||"?",text,timestamp:Date.now()});
+    await loadComments(postId);
+    showNotif("💬 Comment posted!");
+  }catch(e){console.error(e);}
   input.disabled=false;
 }
 window.toggleComments=toggleComments;window.postComment=postComment;
+
+/* ---- Live notification bar ---- */
+function showNotif(msg){
+  const el=document.getElementById("notifBar");
+  if(!el)return;
+  el.textContent=msg;el.classList.add("show");
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove("show"),3200);
+}
+
+/* ---- Like button ---- */
+async function toggleLike(postId,currentlyLiked){
+  if(!myName()||!window.DB)return;
+  const btn=document.getElementById("lb-"+postId);
+  if(btn){btn.disabled=true;}
+  try{
+    if(currentlyLiked){
+      await window.DB.unlikePost(postId,myName());
+    } else {
+      await window.DB.likePost(postId,myName());
+    }
+  }catch(e){console.error(e);}
+  if(btn){btn.disabled=false;}
+}
+window.toggleLike=toggleLike;
 
 /* ---- Onboarding tutorial ---- */
 const TUT_TOTAL = 6;
