@@ -93,6 +93,35 @@ body{font-family:var(--font);color:var(--ink);}
 .notif-time{font-size:11.5px;color:#999;margin-top:2px;font-weight:500;}
 .notif-empty{text-align:center;padding:36px 20px;opacity:.45;font-size:14px;font-weight:500;}
 
+
+/* ====== QUIZ ====== */
+.quiz-hero-card{background:linear-gradient(135deg,#1B4D3E,#2E7D32);border-radius:20px;padding:18px;margin-bottom:14px;}
+.quiz-hero-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.quiz-hero-title{font-size:18px;font-weight:700;color:#fff;}
+.quiz-hero-sub{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;margin-top:2px;}
+.quiz-trophy{font-size:32px;}
+.quiz-progress-bar-wrap{background:rgba(255,255,255,.2);border-radius:6px;height:6px;margin-bottom:6px;overflow:hidden;}
+.quiz-progress-bar{height:100%;background:#69F0AE;border-radius:6px;transition:width .4s ease;}
+.quiz-progress-label{font-size:11.5px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:12px;}
+.quiz-q{background:rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:10px;transition:opacity .2s;}
+.quiz-q.quiz-q-done{opacity:.85;}
+.quiz-q-text{font-size:13.5px;font-weight:600;color:#fff;margin-bottom:10px;line-height:1.4;display:flex;gap:8px;align-items:flex-start;}
+.quiz-q-num{background:rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:1px 8px;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;}
+.quiz-opt{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);border-radius:10px;padding:8px 6px;font-family:var(--font);font-size:12.5px;font-weight:600;color:#fff;cursor:pointer;text-align:center;transition:all .15s;line-height:1.3;}
+.quiz-opt:active:not([disabled]){transform:scale(.96);}
+.quiz-opt:hover:not([disabled]){background:rgba(255,255,255,.25);}
+.quiz-opt.correct{background:#00C853!important;border-color:#00E676!important;color:#fff!important;}
+.quiz-opt.wrong{background:#FF5252!important;border-color:#FF1744!important;color:#fff!important;}
+.quiz-opt.disabled-opt{opacity:.45;cursor:default;}
+.quiz-result-text{font-size:12px;font-weight:600;color:rgba(255,255,255,.85);min-height:16px;}
+.quiz-done-card{text-align:center;padding:10px 0 4px;}
+.quiz-done-emoji{font-size:48px;margin-bottom:8px;}
+.quiz-done-score{font-size:36px;font-weight:700;color:#fff;margin-bottom:4px;}
+.quiz-done-msg{font-size:16px;font-weight:600;color:#69F0AE;margin-bottom:8px;}
+.quiz-pts-earned{background:#FFD600;color:#1B4D3E;font-weight:800;font-size:15px;border-radius:12px;padding:7px 16px;display:inline-block;margin-bottom:8px;}
+.quiz-done-sub{font-size:12px;color:rgba(255,255,255,.6);font-weight:500;}
+
 /* ====== ONBOARDING TUTORIAL ====== */
 #tutorial{position:fixed;inset:0;z-index:95;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding-bottom:44px;background:#fff;}
 #tutorial.show{display:flex;}
@@ -694,6 +723,17 @@ svg#tree{display:block;width:100%;height:100%;}
 
   <!-- LEARN -->
   <div class="view" id="view-learn">
+    <!-- QUIZ CARD — top of Learn tab -->
+    <div class="quiz-hero-card">
+      <div class="quiz-hero-header">
+        <div>
+          <div class="quiz-hero-title">🧠 Daily Quiz</div>
+          <div class="quiz-hero-sub">5 questions · earn up to 75 pts · resets daily</div>
+        </div>
+        <div class="quiz-trophy" id="quizTrophy">🎯</div>
+      </div>
+      <div id="quizContainer"></div>
+    </div>
     <div class="card">
       <h3>🌍 What is a carbon footprint?</h3>
       <p>A <b>carbon footprint</b> is how much greenhouse gas (mostly CO₂) we put into the air from car rides, electricity, food, and shopping.</p>
@@ -775,11 +815,7 @@ svg#tree{display:block;width:100%;height:100%;}
       <p>Every number in this app is a <b>rough estimate</b>. Real scientists always check: where did this number come from?</p>
       <div class="vbox">Challenge: search "how much CO₂ does a beef burger produce?" and compare with this app. Who is right — and how do you know? Check at least 3 sources!</div>
     </div>
-    <div class="card">
-      <h3>🧠 Quick quiz — test yourself!</h3>
-      <p style="font-size:12px;opacity:.6;font-weight:500;margin-bottom:10px">New questions every time you visit! 🎲</p>
-      <div id="quizContainer"></div>
-    </div>
+
   </div>
   <!-- FEED -->
   <div class="view" id="view-feed">
@@ -1992,30 +2028,62 @@ function updateFeedBadge(items){
 
 /* ---- Dynamic quiz (random 3 from pool each visit) ---- */
 const QUIZ_POOL=[
-  {q:"Which transport produces the LEAST CO₂ per km?",
+  {q:"Which transport produces the LEAST CO₂ per km in Hong Kong?",
    opts:[{t:"🚗 Private car",c:false},{t:"🚌 Bus",c:false},{t:"🚇 MTR",c:true},{t:"✈️ Plane",c:false}]},
-  {q:"How long does a plastic bottle last in nature?",
+  {q:"How long does a plastic bottle take to decompose in nature?",
    opts:[{t:"5 years",c:false},{t:"50 years",c:false},{t:"~450 years",c:true},{t:"1,000 years",c:false}]},
-  {q:"Which food has the BIGGEST carbon footprint?",
+  {q:"Which food has the BIGGEST carbon footprint per kg?",
    opts:[{t:"🥦 Broccoli",c:false},{t:"🥩 Beef",c:true},{t:"🐔 Chicken",c:false},{t:"🍚 Rice",c:false}]},
   {q:"How much CO₂ does one tree absorb per year?",
    opts:[{t:"~2 kg",c:false},{t:"~20 kg",c:true},{t:"~200 kg",c:false},{t:"~2,000 kg",c:false}]},
-  {q:"What % of global CO₂ emissions comes from fashion?",
+  {q:"What % of global CO₂ emissions comes from the fashion industry?",
    opts:[{t:"1%",c:false},{t:"5%",c:false},{t:"10%",c:true},{t:"25%",c:false}]},
-  {q:"What % of all CO₂ do oceans absorb?",
+  {q:"What % of all CO₂ in the atmosphere do oceans absorb?",
    opts:[{t:"5%",c:false},{t:"10%",c:false},{t:"25%",c:true},{t:"50%",c:false}]},
-  {q:"How much hotter is Earth now vs 1850?",
+  {q:"How much hotter is Earth now compared to 1850?",
    opts:[{t:"+0.2°C",c:false},{t:"+1.1°C",c:true},{t:"+3°C",c:false},{t:"+5°C",c:false}]},
   {q:"Setting AC to 25°C instead of 20°C saves about…",
    opts:[{t:"5% energy",c:false},{t:"20% energy",c:false},{t:"~half the energy",c:true},{t:"No difference",c:false}]},
   {q:"How many butterfly species live in Hong Kong?",
    opts:[{t:"36",c:false},{t:"96",c:false},{t:"236",c:true},{t:"536",c:false}]},
-  {q:"How much water to make 1 cotton T-shirt?",
+  {q:"How much water is needed to make ONE cotton T-shirt?",
    opts:[{t:"270 litres",c:false},{t:"2,700 litres",c:true},{t:"27,000 litres",c:false},{t:"27 litres",c:false}]},
-  {q:"Which carbon sink stores 10x more CO₂ than forests?",
-   opts:[{t:"Oceans",c:false},{t:"Glaciers",c:false},{t:"Mangroves",c:true},{t:"Soil",c:false}]},
+  {q:"Which carbon sink stores up to 10x more CO₂ than tropical forests?",
+   opts:[{t:"Glaciers",c:false},{t:"Desert sand",c:false},{t:"Mangroves",c:true},{t:"Coral reefs",c:false}]},
   {q:"A hot shower for 5 minutes produces about how much CO₂?",
    opts:[{t:"~70 g",c:false},{t:"~700 g",c:true},{t:"~7 kg",c:false},{t:"~70 kg",c:false}]},
+  {q:"About how many trees are cut down every year globally?",
+   opts:[{t:"1.5 billion",c:false},{t:"5 billion",c:false},{t:"15 billion",c:true},{t:"50 billion",c:false}]},
+  {q:"What uses the MOST electricity in a typical Hong Kong home?",
+   opts:[{t:"Fridge",c:false},{t:"Phone charger",c:false},{t:"Air conditioning",c:true},{t:"TV",c:false}]},
+  {q:"What % of all plastic ever made has been recycled?",
+   opts:[{t:"9%",c:true},{t:"25%",c:false},{t:"50%",c:false},{t:"70%",c:false}]},
+  {q:"How long does a styrofoam cup take to fully break down?",
+   opts:[{t:"10 years",c:false},{t:"50 years",c:false},{t:"500 years",c:true},{t:"Never",c:false}]},
+  {q:"What fraction of all food produced in the world is wasted?",
+   opts:[{t:"1 in 10",c:false},{t:"1 in 3",c:true},{t:"1 in 20",c:false},{t:"Almost none",c:false}]},
+  {q:"LED bulbs use about how much less energy than old incandescent bulbs?",
+   opts:[{t:"25% less",c:false},{t:"50% less",c:false},{t:"75% less",c:true},{t:"10% less",c:false}]},
+  {q:"Which gas produced by cows is more powerful than CO₂ as a greenhouse gas?",
+   opts:[{t:"Oxygen",c:false},{t:"Nitrogen",c:false},{t:"Methane",c:true},{t:"Helium",c:false}]},
+  {q:"What % of Earth's surface is covered by ocean?",
+   opts:[{t:"51%",c:false},{t:"61%",c:false},{t:"71%",c:true},{t:"81%",c:false}]},
+  {q:"Walking 1 km instead of driving saves roughly how much CO₂?",
+   opts:[{t:"~13 g",c:false},{t:"~130 g",c:true},{t:"~1,300 g",c:false},{t:"~13 kg",c:false}]},
+  {q:"How many tonnes of waste does Hong Kong produce every single day?",
+   opts:[{t:"~1,500",c:false},{t:"~5,000",c:false},{t:"~15,000",c:true},{t:"~50,000",c:false}]},
+  {q:"A one-way flight from Hong Kong to London produces roughly how much CO₂ per passenger?",
+   opts:[{t:"~300 kg",c:false},{t:"~1,500 kg",c:true},{t:"~10,000 kg",c:false},{t:"~50 kg",c:false}]},
+  {q:"How much of Earth is covered by tropical rainforest?",
+   opts:[{t:"2%",c:false},{t:"6%",c:true},{t:"20%",c:false},{t:"35%",c:false}]},
+  {q:"How many species of birds are found in Hong Kong?",
+   opts:[{t:"~100",c:false},{t:"~260",c:false},{t:"~560",c:true},{t:"~900",c:false}]},
+  {q:"The Great Pacific Garbage Patch is roughly how big?",
+   opts:[{t:"Size of HK",c:false},{t:"Size of Texas",c:false},{t:"Twice the size of Texas",c:true},{t:"Size of Australia",c:false}]},
+  {q:"Producing 1 kg of beef uses roughly how much water?",
+   opts:[{t:"200 litres",c:false},{t:"1,500 litres",c:false},{t:"15,000 litres",c:true},{t:"150,000 litres",c:false}]},
+  {q:"How many Hong Kong Wetland Park hectares are protected wetland?",
+   opts:[{t:"6 hectares",c:false},{t:"60 hectares",c:false},{t:"1,500 hectares",c:true},{t:"15,000 hectares",c:false}]},
 ];
 
 function shuffle(arr){return [...arr].sort(()=>Math.random()-.5);}
@@ -2023,32 +2091,118 @@ function shuffle(arr){return [...arr].sort(()=>Math.random()-.5);}
 function renderQuiz(){
   const container=document.getElementById("quizContainer");
   if(!container) return;
-  const qs=shuffle(QUIZ_POOL).slice(0,3);
-  container.innerHTML=qs.map((q,i)=>{
+  const dk=todayKey();
+  const saved=Store.get("et:quiz:"+dk);
+  if(saved&&saved.done){
+    renderQuizResult(container,saved,true);
+    return;
+  }
+  // Pick 5 random questions for today (seeded by date for consistency)
+  let pool=[...QUIZ_POOL];
+  // Seed shuffle using date string so everyone gets same questions
+  const seed=dk.split("-").reduce((a,b)=>a+parseInt(b),0);
+  for(let i=pool.length-1;i>0;i--){
+    const j=Math.floor(((seed*9301+49297)%(i+1)));
+    [pool[i],pool[j]]=[pool[j],pool[i]];
+  }
+  const qs=pool.slice(0,5);
+  const state0={qs,answers:Array(5).fill(null),done:false,pts:0};
+  Store.set("et:quiz:"+dk,state0);
+  renderQuizQuestions(container,state0);
+}
+
+function renderQuizQuestions(container,state){
+  const dk=todayKey();
+  const correctSoFar=state.answers.filter(a=>a===true).length;
+  const answeredSoFar=state.answers.filter(a=>a!==null).length;
+  container.innerHTML=`
+    <div class="quiz-progress-bar-wrap">
+      <div class="quiz-progress-bar" style="width:${answeredSoFar/5*100}%"></div>
+    </div>
+    <div class="quiz-progress-label">${answeredSoFar}/5 answered &bull; ${correctSoFar} correct</div>
+  `+state.qs.map((q,i)=>{
+    const answered=state.answers[i]!==null;
     const opts=shuffle(q.opts);
-    return `<div class="quiz-q"${i>0?' style="margin-top:16px"':''}>
-      <p style="font-weight:600;margin-bottom:8px">${q.q}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
-        ${opts.map(o=>`<button class="quiz-opt" data-correct="${o.c}" onclick="qa(this)">${o.t}</button>`).join('')}
+    return `<div class="quiz-q ${answered?"quiz-q-done":""}" id="qq${i}">
+      <p class="quiz-q-text"><span class="quiz-q-num">${i+1}</span> ${q.q}</p>
+      <div class="quiz-opts">
+        ${opts.map(o=>{
+          let cls="quiz-opt";
+          if(answered){
+            if(o.c) cls+=" correct";
+            else cls+=" disabled-opt";
+          }
+          return `<button class="${cls}" data-correct="${o.c}" data-qi="${i}" onclick="qa(this)" ${answered?"disabled":""}>${o.t}</button>`;
+        }).join("")}
       </div>
-      <div class="quiz-result-text" style="font-size:13px;font-weight:700;min-height:18px"></div>
+      <div class="quiz-result-text" id="qr${i}">${answered?(state.answers[i]?"✅ Correct! +10 pts":"❌ Wrong — the correct answer is highlighted"):"" }</div>
     </div>`;
-  }).join('');
+  }).join("");
+}
+
+function renderQuizResult(container,state,alreadyDone){
+  const correct=state.answers.filter(a=>a===true).length;
+  const perfect=correct===5;
+  const pts=state.pts||0;
+  const msg=perfect?"🎉 Perfect score! Amazing!":correct>=4?"🌟 Almost perfect!":correct>=3?"👍 Good job!":correct>=2?"💪 Keep practising!":"🌱 Keep learning!";
+  container.innerHTML=`
+    <div class="quiz-done-card">
+      <div class="quiz-done-emoji">${perfect?"🏆":correct>=3?"🌟":"📚"}</div>
+      <div class="quiz-done-score">${correct} / 5</div>
+      <div class="quiz-done-msg">${msg}</div>
+      ${pts>0?`<div class="quiz-pts-earned">+${pts} pts earned!</div>`:""}
+      <div class="quiz-done-sub">Come back tomorrow for new questions 🌍</div>
+    </div>`;
 }
 
 function qa(btn){
-  const qDiv=btn.closest('.quiz-q');
-  if(qDiv.dataset.answered) return;
-  qDiv.dataset.answered='1';
-  const correct=btn.dataset.correct==='true';
-  qDiv.querySelectorAll('.quiz-opt').forEach(o=>{
-    o.disabled=true;
-    if(o===btn) o.classList.add(correct?'correct':'wrong');
-    else if(o.dataset.correct==='true') o.classList.add('correct');
-  });
-  const r=qDiv.querySelector('.quiz-result-text');
-  if(r) r.textContent=correct?'✅ Correct! Well done!':'❌ Not quite — the green answer is correct.';
+  const qi=parseInt(btn.dataset.qi);
+  const correct=btn.dataset.correct==="true";
+  const dk=todayKey();
+  const state=Store.get("et:quiz:"+dk);
+  if(!state||state.answers[qi]!==null) return;
+  // Record answer
+  state.answers[qi]=correct;
+  // Visual feedback
+  const qDiv=document.getElementById("qq"+qi);
+  if(qDiv){
+    qDiv.querySelectorAll(".quiz-opt").forEach(o=>{
+      o.disabled=true;
+      if(o.dataset.correct==="true") o.classList.add("correct");
+      else if(o===btn&&!correct) o.classList.add("wrong");
+      else o.classList.add("disabled-opt");
+    });
+    const rEl=document.getElementById("qr"+qi);
+    if(rEl) rEl.textContent=correct?"✅ Correct! +10 pts":"❌ Wrong — the correct answer is highlighted";
+    qDiv.classList.add("quiz-q-done");
+  }
+  // Check if all 5 answered
+  if(state.answers.every(a=>a!==null)){
+    const correctCount=state.answers.filter(a=>a===true).length;
+    const pts=correctCount*10+(correctCount===5?25:0);
+    state.done=true; state.pts=pts;
+    Store.set("et:quiz:"+dk,state);
+    // Award points
+    if(pts>0){
+      addAllTime(pts); window.state.score+=pts; saveState(); render(); pushScore();
+      showToast(`\U0001f9e0 Quiz done! +${pts} pts earned!`);
+    }
+    setTimeout(()=>{
+      const container=document.getElementById("quizContainer");
+      if(container) renderQuizResult(container,state,false);
+    },900);
+  } else {
+    // Update progress bar
+    const answered=state.answers.filter(a=>a!==null).length;
+    const correctSoFar=state.answers.filter(a=>a===true).length;
+    Store.set("et:quiz:"+dk,state);
+    const bar=document.querySelector(".quiz-progress-bar");
+    if(bar) bar.style.width=(answered/5*100)+"%";
+    const lbl=document.querySelector(".quiz-progress-label");
+    if(lbl) lbl.textContent=`${answered}/5 answered \u2022 ${correctSoFar} correct`;
+  }
 }
+window.qa=qa;
 window.qa=qa; window.renderQuiz=renderQuiz;
 
 /* ---- Learn accordion ---- */
