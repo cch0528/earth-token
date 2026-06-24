@@ -1794,7 +1794,8 @@ async function postComment(postId){
   if(!text)return;
   inp.value="";inp.disabled=true;
   try{
-    await window.DB.postComment(postId,me,text);
+    await window.DB.addComment({postId,username:me,text,timestamp:Date.now()});
+    await loadComments(postId); // refresh comment list immediately
     const owner=_feedPostOwners[postId];
     if(owner&&owner.toLowerCase()!==me.toLowerCase()){
       const preview=text.length>28?text.slice(0,28)+"...":text;
