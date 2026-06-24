@@ -1000,6 +1000,10 @@ try{
       await setDoc(r,{name:n,points:0,pin:pin,updated:Date.now()});
       return true;
     },
+    async getScore(n){
+      const s=await getDoc(doc(db,"scores",n.toLowerCase()));
+      return s.exists()?(s.data().points||0):0;
+    },
     async verifyPin(n,pin){
       const s=await getDoc(doc(db,"scores",n.toLowerCase()));
       if(!s.exists())return null;
@@ -1168,6 +1172,7 @@ async function registerUser(){
       if(result===null){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Username not found. Check your spelling.";return;}
       if(result===false){barFill.style.width="0%";setTimeout(()=>{barWrap.style.display="none";label.style.display="none";},400);btn.disabled=false;err.textContent="Wrong PIN. Try again.";return;}
       Store.set("et:username",result);Store.set("et:pin",pin);
+      try{const fb=await window.DB.getScore(result);if(fb>getAllTime())Store.set("et:alltime",fb);}catch(e){}
       barFill.style.width="100%";label.textContent="Welcome back! 👋";
       await new Promise(r=>setTimeout(r,600));
       launchApp(false);
@@ -1207,11 +1212,16 @@ function initApp(){
   renderQuiz();
 }
 
-// Skip intro if already registered (returning user)
+// Skip intro if already registered — restore score from Firebase first
 if(myName()){
   document.getElementById("intro").style.display="none";
   document.getElementById("app").style.display="block";
-  setTimeout(initApp,100);
+  setTimeout(async()=>{
+    if(window.DB_READY&&window.DB){
+      try{const fb=await window.DB.getScore(myName());if(fb>getAllTime())Store.set("et:alltime",fb);}catch(e){}
+    }
+    initApp();
+  },150);
 }
 
 /* ---- Buttons ---- */
@@ -2282,7 +2292,7 @@ function obFinish(){
 }
 
 
-window.onDBReady=function(){if(myName()){checkForWarning();startHomeLb();subscribeToNotifs();}};
+window.onDBReady=async function(){if(myName()){try{const fb=await window.DB.getScore(myName());if(fb>getAllTime())Store.set("et:alltime",fb);}catch(e){}checkForWarning();startHomeLb();subscribeToNotifs();}};
 if(window.DB_READY&&myName()){listenForWarnings();startHomeLb();}
 </script>
 </body>
