@@ -1010,7 +1010,7 @@ try{
     async pushScore(n,p){await setDoc(doc(db,"scores",n.toLowerCase()),{name:n,points:p,updated:Date.now()},{merge:true});},
     subscribeScores(cb,lim=20){return onSnapshot(query(collection(db,"scores"),orderBy("points","desc"),limit(lim+10)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()})).filter(r=>!r.hidden).slice(0,lim)));},
     async postFeed(item){return await addDoc(collection(db,"feed"),item);},
-    subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(40)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
+    subscribeFeed(cb){return onSnapshot(query(collection(db,"feed"),orderBy("timestamp","desc"),limit(200)),s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))));},
     async likePost(postId,username){await updateDoc(doc(db,"feed",postId),{likes:arrayUnion(username)});},
     async unlikePost(postId,username){await updateDoc(doc(db,"feed",postId),{likes:arrayRemove(username)});},
     subscribeFeedCommentCount(postId,cb){
@@ -1344,9 +1344,8 @@ async function postWithPhoto(){
 }
 async function skipPhoto(){
   confirmScore();
-  const a=pendingAction;
   closeSheet();
-  if(a&&window.DB&&myName()){try{await window.DB.postFeed({username:myName(),emoji:a.emoji,activityName:a.name,pts:a.pts,photo:null,timestamp:Date.now()});}catch(e){}}
+  // No feed post — feed only shows photo actions
   pendingAction=null;pendingPhotoData=null;
 }
 function closeSheet(){document.getElementById("sheetBg").classList.remove("show");document.getElementById("snapBtn").onclick=triggerCamera;}
